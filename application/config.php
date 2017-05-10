@@ -13,7 +13,7 @@ return [
     // +----------------------------------------------------------------------
     // | 应用设置
     // +----------------------------------------------------------------------
-
+    'worning_define'          => define('WEB_PATH','http://www.wntp.com'),
     // 应用命名空间
     'app_namespace'          => 'app',
     // 应用调试模式
@@ -137,11 +137,11 @@ return [
         // 标签库标签结束标记
         'taglib_end'   => '}',
     ],
-
+    
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        '__PUBLIC__' => rtrim(str_replace('\\','/',ROOT_PATH),'/').'/public',
-        '__STATIC__' => rtrim(str_replace('\\','/',ROOT_PATH),'/').'/public/static',
+        '__PUBLIC__' => rtrim(WEB_PATH,'/').'/public',
+        '__STATIC__' => rtrim(WEB_PATH,'/').'/public/static',
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => str_replace('\\','/',THINK_PATH) . 'tpl' . DS . 'dispatch_jump.tpl',
