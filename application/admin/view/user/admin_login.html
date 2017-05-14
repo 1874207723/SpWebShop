@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="__ADMIN__/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__ADMIN__/assets/css/font-awesome.min.css" />
+		
+		<link rel="stylesheet" href="__ADMIN__/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="__ADMIN__/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="__ADMIN__/assets/css/ace-skins.min.css" />
+        <link rel="stylesheet" href="__ADMIN__/css/style.css"/>
+	
+		<script src="__ADMIN__/assets/js/ace-extra.min.js"></script>
+		<script src="__ADMIN__/js/jquery-1.9.1.min.js"></script>        
+        <script src="__ADMIN__/assets/layer/layer.js" type="text/javascript"></script>
+        <style type="text/css">
+			*{font-family: 微软雅黑;}
+			li{list-style: none;}
+			a{text-decoration: none;}
+        </style>
+<title>Q-Buy后台登陆</title>
+</head>
+
+<body class="login-layout Reg_log_style">
+<div class="logintop">    
+    <span>欢迎后台管理界面平台</span>    
+    <ul>
+    <li><a href="#">返回首页</a></li>
+    <li><a href="#">帮助</a></li>
+    <li><a href="#">关于</a></li>
+    </ul>    
+    </div>
+    <div class="loginbody">
+<div class="login-container">
+	<div class="center">
+	     <img src="{$systems['logo_img']}" width="350" />
+							</div>
+
+							<div class="space-6"></div>
+
+							<div class="positio	n-relative">
+								<div id="login-box" class="login-box widget-box no-border visible">
+									<div class="widget-body">
+										<div class="widget-main">
+											<h4 class="header blue lighter bigger">
+												<i class="icon-coffee green"></i>
+												Q-Buy后台登陆
+											</h4>
+
+											<div class="login_icon"><img src="__ADMIN__/images/login.png" /></div>
+
+											<form class="" onsubmit="return false">
+												<fieldset>
+													<ul>
+													   <li class="frame_style form_error"><label class="user_icon"></label><input name="username" type="text"  id="username"/></li>
+													   <li class="frame_style form_error"><label class="password_icon"></label><input name="password" type="password"   id="userpwd"/></li>
+   
+  													</ul>
+													<div class="space"></div>
+
+													<div class="clearfix">
+														<label class="inline">
+															<input type="checkbox" class="ace">
+															<span class="lbl">保存密码</span>
+														</label>
+
+														<button type="button" class="width-30 btn btn-sm btn-primary" id="login_btn" style="margin-left: 115px;">
+															<i class="icon-key"></i>
+															登陆
+														</button>
+													</div>
+
+													<div class="space-4"></div>
+												</fieldset>
+											</form>
+
+											<div class="social-or-login center">
+												<span class="bigger-110">通知</span>
+											</div>
+
+											<div class="social-login center">
+											本网站系统不再对IE8以下浏览器支持，请见谅。<br />
+											不提供忘记密码功能 如忘记密码 请联系公司管理员
+											</div>
+										</div><!-- /widget-main -->
+
+										<div class="toolbar clearfix">
+											
+
+											
+										</div>
+									</div><!-- /widget-body -->
+								</div><!-- /login-box -->
+							</div><!-- /position-relative -->
+						</div>
+                        </div>
+                        <div class="loginbm">版权所有  2017  <a href="">北京快购商务有限公司</a> </div><strong></strong>
+</body>
+</html>
+<script>
+$('#login_btn').on('click', function(){
+	     var num=0;
+		 var str="";
+
+     $("input[type$='text'],input[type$='password']").each(function(n){
+          if($(this).val()=="")
+          {
+              
+		   layer.alert(str+=""+$(this).attr("name")+"不能为空！\r\n",{
+            title: 'Q-Buy提示',				
+			icon:0,								
+      		}); 
+		    num++;
+            return false;            
+          } 
+		 });
+		
+		var username = $("#username").val();
+		var password = $('#userpwd').val();	  
+		$.post('{:url("base/verlogin")}',{'username':username,'password':password},function (data) {
+			if (data) {
+				location.href = '{:url("index/index")}';
+			}else {
+				num++
+				layer.alert(str+="账号密码输入错误",{
+	                 skin: 'layui-layer-lan',
+	                title: 'Q-Buy提示',				
+					icon:2,	
+				});	
+				$('#userpwd').val('');	
+				return false;
+			}　
+		});
+		if(num>0){  return false;}	 
+	});
+	
+
+
+  $(document).ready(function(){
+	 $("input[type='text'],input[type='password']").blur(function(){
+        var $el = $(this);
+        var $parent = $el.parent();
+        $parent.attr('class','frame_style').removeClass(' form_error');
+        if($el.val()==''){
+            $parent.attr('class','frame_style').addClass(' form_error');
+        }
+    });
+	$("input[type='text'],input[type='password']").focus(function(){		
+		var $el = $(this);
+        var $parent = $el.parent();
+        $parent.attr('class','frame_style').removeClass(' form_errors');
+        if($el.val()==''){
+            $parent.attr('class','frame_style').addClass(' form_errors');
+        } else{
+			 $parent.attr('class','frame_style').removeClass(' form_errors');
+		}
+		});
+	  })
+
+</script>

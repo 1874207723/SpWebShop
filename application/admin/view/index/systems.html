@@ -1,0 +1,161 @@
+{include file="public/header"}
+
+<div class="margin clearfix">
+ <div class="stystems_style">
+  <div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+	  <li class="active">
+		<a data-toggle="tab" href="#home"><i class="green fa fa-home bigger-110"></i>&nbsp;基本设置</a></li>
+      <li class="">
+		<a data-toggle="tab" href="#profile">消息通知<span class="badge badge-danger">4</span></a></li>
+      <li class="">
+		<a data-toggle="tab" data-toggle="dropdown" class="dropdown-toggle" href="#dropdown">底部菜单</a>
+      </li>
+        <li class="">
+		<a data-toggle="tab" data-toggle="dropdown" class="dropdown-toggle" href="#other">其他设置</a>
+      </li>
+	</ul>
+  
+    <div class="tab-content">
+		<div id="home" class="tab-pane active">
+      <form onsubmit="return false;" id="form1" >
+         <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i> 网站名称： </label>
+          <div class="col-sm-9">
+
+            <input type="text" id="website-title" name="name"  value="{$result['name']}" class="col-xs-10 ">
+
+          </div>
+          </div>
+           <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i> 网站logo：</label>
+          <div class="col-sm-5">
+
+          <input type="file" id="id-input-file-2" name="logo_img" value="{$result['logo_img']}" />
+
+          </div>
+          </div>
+           <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i> 网站ico：</label>
+          <div class="col-sm-9">
+
+          <input type="text" id="website-title"  value="{$result['ico_img']}" class="col-xs-10 " name="ico_img">
+
+          </div>
+          </div>
+          <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i> 技术支持：</label>
+          <div class="col-sm-9">
+
+          <input type="text" id="website-title" value="{$result['jishu']}" class="col-xs-10 " name="jishu">
+
+          </div>
+          </div>
+	      <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i> 备案号： </label>
+          <div class="col-sm-9">
+
+          <input type="text" id="website-title"  value="{$result['beian']}" class="col-xs-10" name="beian">
+
+          </div>
+          </div>
+         
+          <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i> 邮编： </label>
+          <div class="col-sm-9">
+
+          <input type="text" id="website-title" placeholder="" value="{$result['youbian']}" class="col-xs-10 " name="youbian">
+
+          </div>
+          </div>
+          <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i> 公司名称： </label>
+          <div class="col-sm-9">
+
+          <input type="text" id="website-title" placeholder="" value="{$result['company']}" class="col-xs-10 " name="company">
+
+          </div>
+          </div>
+           <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i> 公司地址: </label>
+          <div class="col-sm-9">
+
+          <input type="text" id="website-title" value="{$result['addr']}" class="col-xs-10" name="addr">
+
+          </div>
+          </div>
+           <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i>网站描述：   </label>
+          <div class="col-sm-9">
+
+          <textarea class="textarea" name="shop_desc">{$result['shop_desc']}</textarea>
+
+          </div>
+          </div>
+          <div class="Button_operation"> 
+				<button class="btn btn-primary radius" type="submit" id="web_submit"><i class="fa fa-save "></i>&nbsp;保存</button>
+				
+				<button class="btn btn-default radius" type="button" id="quxiao">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+               
+			</div>
+    </form>
+        </div>
+        <div id="profile" class="tab-pane ">
+        
+        </div>
+        <div id="dropdown" class="tab-pane">
+          
+		</div>
+		<div id="other" class="tab-pane">
+		   <div class="form-group"><label class="col-sm-1 control-label no-padding-right" for="form-field-1"><i>*</i>屏蔽词： </label>
+          <div class="col-sm-9"><textarea class="textarea"></textarea></div>          
+          </div>
+          <div class="Button_operation"> 
+				<button class="btn btn-primary radius" type="submit"><i class="fa fa-save "></i>&nbsp;保存</button>
+				
+				<button class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+          <button id="button23">11111111111111</button>     
+			</div>
+	    </div>
+		</div>
+		</div>
+ </div>
+
+</div>
+</body>
+</html> 
+<script>
+
+  $('#quxiao').on('click',function () {
+       window.top.location="{:url('index/index')}";
+  });
+
+  $('#web_submit').on('click',function () {
+
+    var formData = new FormData($( "#form1" )[0]);  
+    $.ajax({  
+          url: "{:url('up_systems')}" ,  
+          type: 'POST',  
+          data: formData,  
+          async: true,  
+          cache: false,  
+          contentType: false,  
+          processData: false,  
+          success: function (data) {  
+              if (data == 1 || data == 0) {
+                 alert("修改成功");
+                  
+              } else {
+                  location.reload();
+                  alert(data);
+              }
+          }
+     });  
+
+  });
+
+
+  $('#id-input-file-2').ace_file_input({
+  					no_file:'选择上传图标 ...',
+  					btn_choose:'选择',
+  					btn_change:'更改',
+  					droppable:false,
+  					onchange:null,
+  					thumbnail:false, //| true | large
+  					whitelist:'gif|png|jpg|jpeg'
+  					//blacklist:'exe|php'
+  					//onchange:''
+  					//
+  				});
+</script>

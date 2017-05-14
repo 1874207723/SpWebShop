@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Q-Buy 注册</title>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/style.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/shopping-mall-index.css" />
+<script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__STATIC__/js/zhonglin.js"></script>
+<link  type='text/css' href='__STATIC__/css/global.css' rel='stylesheet'/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/public_201703.css"> 
+</head>
+
+
+<body style="background: url(__STATIC__/images/regbackground.jpg) no-repeat">
+
+	<!--top 开始-->
+    <div class="top">
+    	<div class="top-con w1200">
+        	<p class="t-con-l f-l">您好，欢迎来到 <font size="5"><a href="{:url('index/index/index')}" style="color:#F09E0B ">Q-Buy</a></font></p>
+        </div>
+    </div>
+    
+
+    
+    <!--内容开始-->
+    <div class="password-con registered">
+    	<form method="post" action="" onsubmit="return false;">
+	    	<div class="psw">
+	        	<p class="psw-p1">用户名</p>
+	            <input type="text" placeholder="请输入用户名 长度在2在12位之间" name="username" />
+	            <span class=""></span>
+	        </div>
+	    	<div class="psw">
+	        	<p class="psw-p1">输入密码</p>
+	            <input type="password" placeholder="请输入密码" name="pwd" />
+	            <span class=""></span><!-- 密码由6-16的字母、数字、符号组成 -->
+	        </div>
+	    	<div class="psw">
+	        	<p class="psw-p1">确认密码</p>
+	            <input type="password" placeholder="请再次确认密码" name="repwd" />
+	            <span class=""></span><!-- 密码不一致，请重新输入 -->
+	        </div>
+	    	<div class="psw psw2">
+	        	<p class="psw-p1">手机号</p>
+	            <input type="text" placeholder="请输入手机号" />
+	            <button id="sendyzm">获取短信验证码</button>
+
+	        </div>
+	    	<div class="psw psw3">
+	        	<p class="psw-p1">手机验证码</p>
+	            <input type="text" placeholder="请输入手机验证码" name="phone" />
+	        </div>
+	    	<div class="psw psw3">
+	        	<p class="psw-p1">验证码</p>
+	            <input type="text" placeholder="请输入验证码" />
+	        </div>
+	        <div class="yanzhentu">
+	        	<div class="yz-tu f-l">
+	            	<img src="__STATIC__/images/psw-yanzhengtu.gif" style=" width: 114px;height: 30px;" />
+	            </div>
+	            <p class="f-l" style="margin-top: -16px">看不清？<a href="#">换张图</a></p>
+	            <div style="clear:both; "></div>
+	        </div>
+	        <div class="agreement">
+	        	<input type="checkbox" name="hobby"></input>
+	            <p>我有阅读并同意<a href="{:url()}" style="color: #F09E0B">《Q-Buy商城服务协议》</a></p>
+	        </div>
+	        <button class="psw-btn" id="submitreg" >立即注册</button>
+    	</form>
+        <p class="sign-in">已有账号？请<a href="{:url('login')}"> 登录</a></p>
+        <br />
+        <br />
+        <br />
+    </div>
+
+    <script type="text/javascript">
+    	$(function () {
+    			$('#submitreg').attr('disabled','true');
+    			$('#submitreg').css('cursor','no-drop');
+    			$('#submitreg').css('background','#ccc');
+    	})
+    	var status1;
+    	var status2;
+    	var status3;
+    	var status4;
+    	var status5;
+    	//判断用户名
+    	$("input[name='username']").blur(function () {
+    		if ($(this).val() == '小明' || $(this).val().length<2 || $(this).val().length>12 ) {
+    			status1 = null;
+    			$(this).siblings('span').removeClass('dui');
+    			$(this).siblings('span').addClass('cuo');
+    			$(this).siblings('span').html('<font color="#f78">该用户名已存在或者长度不符合！</font>');
+    		} else {
+    			status1 = true;
+    			$(this).siblings('span').removeClass('cuo');
+    			$(this).siblings('span').addClass('dui');
+    			$(this).siblings('span').html('');
+    		}
+    		checkstatus ()
+    	});
+
+
+        
+
+    	//判断密码
+    	$("input[name='pwd']").blur(function () {
+    		var pwdval = $(this).val();
+    		var result = pwdval.match(/^[a-zA-Z0-9]{6,18}$/);
+
+    		if (result == null) {
+    			status2 = null;
+    			$(this).siblings('span').removeClass('dui');
+    			$(this).siblings('span').addClass('cuo');
+    			$(this).siblings('span').html('<font color="#f78">请输入8-18位的密码</font>');
+    		} else {
+    			status2 = true;
+    			$(this).siblings('span').removeClass('cuo');
+    			$(this).siblings('span').addClass('dui');
+    			$(this).siblings('span').html('');
+    		}
+    		checkstatus ()
+    	});
+
+    	//判断两次密码
+    	$("input[name='repwd']").blur(function () {
+    		var pwd = $("input[name='pwd']").val();
+    		var repwd = $("input[name='repwd']").val();
+
+    		console.log(repwd);
+    		if (pwd !== repwd || repwd == '') {
+    			status3 = null;
+    			$(this).siblings('span').removeClass('dui');
+    			$(this).siblings('span').addClass('cuo');
+    			$(this).siblings('span').html('<font color="#f78">两次密码不一致</font>');
+    		} else {
+    			status3 = true;
+    			$(this).siblings('span').removeClass('cuo');
+    			$(this).siblings('span').addClass('dui');
+    			$(this).siblings('span').html('');
+    		}
+    		checkstatus ()
+    	});
+
+
+    	//判断协议
+    	$("input[name='hobby']").click(function () {
+			var check = $("input[name='hobby']").is(':checked');
+			if (check == true) {
+				status4 = true;
+			} else {
+				status4 = null;
+			}
+			checkstatus ()
+    	});
+
+    	//检查是不是都填写了
+    	function checkstatus () {
+    		
+    		if (status1 && status2 && status3 && status4) {
+    			$('#submitreg').attr('disabled',false);
+    			$('#submitreg').css('background','#F09E0B');
+	    		$('#submitreg').css('cursor','pointer');
+    		} else {
+    			$('#submitreg').attr('disabled','true');
+    			$('#submitreg').css('background','#ccc');
+    			$('#submitreg').css('cursor','no-drop');
+    		}
+    	}
+
+    	//手机验证码倒计时
+	    $('#sendyzm').on('click',function () {
+	    	var time;
+	    	var num = 60;
+	    	
+	    	$('#sendyzm').attr('disabled',true);
+	    	$('#sendyzm').css('background','#ccc');
+	    	autojia();
+	    	time = setInterval(autojia,1000);
+	    	function autojia() {
+				if (num <= 0) {
+
+					$('#sendyzm').attr('disabled',false);
+	    			$('#sendyzm').css('background','#F09E0B');
+	    			$('#sendyzm').html('重新发送');
+	    			clearInterval(time);
+	    			return;
+				}
+				$('#sendyzm').html(num+'秒后再次发送');
+				num--;
+			}
+	    });
+
+    	$('#submitreg').on('click',function () {
+            alert('恭喜注册成功');
+    	});
+
+    	//按钮点击事件
+    </script>
+
+
+   {include file="public/footer"}

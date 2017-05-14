@@ -16,7 +16,7 @@
  *               ┃　　  ┃
  *　　　　　　　　　┃　　  ┃ + + + +
  *　　　　　　　　　┃　　　┃　Code is far away from     bug with the animal protecting
- *　　　　　　　　　┃　　　┃ + 　　　　         神兽保佑,代码无bug
+ *　　　　　　　　　┃　　　┃ + 　　　　         神兽保佑 , 代码无bug
  *　　　　　　　　　┃　　　┃
  *　　　　　　　　　┃　　　┃　　+
  *　　　　　　　　　┃　 　 ┗━━━┓ + +
@@ -28,56 +28,90 @@
  */
 
 namespace app\index\controller;
-
-use think\Controller;
 use think\Request;
-use think\Image;
-class Index extends Controller
+use think\Db;
+class Index extends Base
 {
+	 
     public function index()
     {
-        dump(url());
-        dump('http://www.wntp.com/');
-    	dump(DS);
-    	dump(THINK_PATH);//框架系统目录
-    	dump(ROOT_PATH);//框架应用根目录
-    	dump(APP_PATH);//应用目录（默认为
-    	dump(CONF_PATH);//应用目录（默认为
-    	dump(VENDOR_PATH);//第三方类库目录（默认为
-    	dump(EXTEND_PATH);//扩展类库目录（默认为
-    	dump(11);//框架系统目录
-    	dump(CONF_PATH);//框架系统目录\
-
-    	echo '<hr />';
-    	$request = Request::instance();request()->bind('user','wangning');
-        echo 'url---' . $request->url() . '<br/>';
-        echo 'url---' . request()->url() . '<br/>';
-        echo 'url---' . request()->user . '<br/>';
-        echo 'url-- -' . $request->pathinfo(true) . '<br/>';
-        echo 'url---' . $request->query() . '<br/>';
-		echo '请求方法：' . $request->method() . '<br/>';
-		echo '资源类型：' . $request->type() . '<br/>';
-		echo '访问地址：' . $request->ip() . '<br/>';
-		echo '是否AJax请求：' . var_export($request->isAjax(), true) . '<br/>';
-		echo '请求参数：';
-		dump($request->param());
-		echo '请求参数：仅包含name';
-		dump($request->only(['name']));
-		echo '请求参数：排除name';
-		dump($request->except(['name']));
-        dump(input('get.'));echo '<hr />';
-        dump(input('param.'));
-		dump(input('route.'));
-
-        //$image = \think\Image::open();
-        //var_dump($image);
+    	
         return $this->fetch();
     }
 
-    public function test1 ()
-    {
-        $data = ['name' => 'thinkphp', 'status' => '1'];
-        return xml($data, 201);
-    }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    //接受到用户传过来的数据进行判断
+  	public function chat() 
+  	{
+
+		$request = Request::instance();
+		if (!empty($_POST['username'])) {
+			$username = $_POST['username'];
+			$bognum = $_POST['jobnum'];
+			$uid = $_POST['uid'];
+			/*$chatinfo = Db::query("select * from ccont where (username='$username' and touid= $bognum) or (touid=$uid and uid=$bognum) order by cid asc");*/
+			$chatinfo = Db::table('ccont')->where("(username='$username' and touid= $bognum) or (touid=$uid and uid=$bognum)")->order('cid asc')->select();
+
+			//$isread = Db::exec("update ccont set isread=1 where uid=$bognum and touid=$uid");
+			$isread = Db::table('ccont')->where("uid=$bognum and touid=$uid")->update(['isread' => 1]);
+
+			$result = $chatinfo;
+
+			//$userinfo = Db::query("select username,isonline from adminuser where jobnum=$bognum")->fetch();
+			$userinfo = Db::table('adminuser')->where("jobnum=$bognum")->find();
+
+			$result['servername'] = $userinfo['username'];
+			$result['isonline'] = $userinfo['isonline'];
+			if ($isread>0) {$result['isread'] = 1;} else {$result['isread'] = 0;}
+			echo json_encode($result);
+			
+		} elseif (!empty($request->param('insert'))) {
+			$username = $_POST['name'];
+			$bognum = $_POST['jobnum'];
+			$uid = $_POST['uid'];
+			$chat = $_POST['chat'];
+			//$chatinfo = Db::exec("insert into ccont (username,uid,chat,touid) values ('$username',$uid,'$chat',$bognum)");
+			$chatinfo =Db::table('ccont')->insert(['username' => $username,'uid' => $uid,'chat' => $chat,'touid' => $bognum]);
+
+			if ($chatinfo) {
+				echo 1;
+			}
+
+		} elseif (!empty($request->param('list'))) {
+			//$adminlist = Db::query('select * from adminuser where type=1');
+			$adminlist = Db::table('adminuser')->where('type=1')->select();
+			//$result = $adminlist->fetchAll();
+			$result = $adminlist;
+
+			foreach ($result as $key => $value) {
+				if ($value['isonline'] == 1) {
+					echo '<a href="javascript:;" class="list-group-item" id="online'.$value['jobnum'].'" onclick="showonlie('.$value['jobnum'].')"><img src="'.WEB_PATH.'/static/images/chart/useronline.png">'.$value['username'].'</a> ';
+				} else {
+					echo '<a href="javascript:;" class="list-group-item" id="online'.$value['jobnum'].'" onclick="showonlie('.$value['jobnum'].')"><img src="'.WEB_PATH.'/static/images/chart/userunline.png">'.$value['username'].'</a> ';
+				}
+			}
+			
+		} elseif (!empty($request->param('new'))) {
+			$username = $_POST['name'];
+			$uid = $_POST['uid'];
+			$adminlist = Db::query('select count(uid) as count,uid from ccont where type=1 and isread=0 and touid='.$uid .' group by uid');
+
+			//$result = $adminlist->fetchAll();
+			$result = $adminlist;
+			echo json_encode($result);
+		}
+	}
 }
  

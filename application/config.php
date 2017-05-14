@@ -140,8 +140,8 @@ return [
     
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        '__PUBLIC__' => rtrim(WEB_PATH,'/').'/public',
-        '__STATIC__' => rtrim(WEB_PATH,'/').'/public/static',
+        '__PUBLIC__' => rtrim(WEB_PATH,'/').'',  //web_path  => http://www.wntp.com
+        '__STATIC__' => rtrim(WEB_PATH,'/').'/static', //web_path  => http://www.wntp.com/static
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => str_replace('\\','/',THINK_PATH) . 'tpl' . DS . 'dispatch_jump.tpl',
