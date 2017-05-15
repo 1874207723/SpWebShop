@@ -38,7 +38,7 @@
     </div>
      <div class="border clearfix">
        <span class="l_f">
-        <a href="picture-add.html" title="添加商品" class="btn btn-warning Order_form"><i class="icon-plus"></i>添加商品</a>
+        <a href="{:url('goods/addgoods')}" title="添加商品" class="btn btn-warning Order_form"><i class="icon-plus"></i>添加商品</a>
         <a href="javascript:ovid()" class="btn btn-danger"><i class="icon-trash"></i>批量删除</a>
        </span>
        <span class="r_f">共：<b>2334</b>件商品</span>
@@ -82,7 +82,7 @@
     </table>
     </div>     
   </div>
- 
+
  </div>
 </div>
 </body>
@@ -177,17 +177,17 @@ var setting = {
 		beforeClick: function(treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
      
-      var nodes = zTree.getSelectedNodes();
-			if (treeNode.isParent) {
+      		var nodes = zTree.getSelectedNodes();
+			/*if (treeNode.isParent) {
 				zTree.expandNode(nodes);
 				return false;
-			} else {
+			} else {*/
 
         /*console.log(treeNode.file);
         console.log(demoIframe);*/
 				demoIframe.attr("src",treeNode.file + ".html");
 				return true;
-			}
+//			}
 	},
 
     onClick:function (event, treeId, treeNode) {

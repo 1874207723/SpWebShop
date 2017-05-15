@@ -33,52 +33,44 @@
 	
 	<form action="" onsubmit="return false;" method="post" class="form form-horizontal" id="form-article-add">
 		<div class="clearfix cl">
-			<input type="hidden" name="goods_id" value="{$good.goods_id}">
          	<label class="form-label col-2"></span>商品名称：</label>
 		 	<div class="formControls col-10">
-		 	<input type="text" class="input-text" value="{$good.goods_name}" placeholder="" id="" name="goods_name"></div>
+		 	<input type="text" class="input-text" value="" placeholder="" id="" name="goods_name"></div>
 		</div>
 
 		<div class=" clearfix cl">
          	<label class="form-label col-5">关键字：</label>
 	     	<div class="formControls col-10">
-	     	<input type="text" class="input-text" value="{$good.keywords}" placeholder="" id="" name="keywords"></div>
+	     	<input type="text" class="input-text" value="" placeholder="" id="" name="keywords"></div>
 		</div>
 
-	
 
 		<div class=" clearfix cl">
 			
 			<div class="Add_p_s">
             <label class="form-label col-2">商品编号：</label>
-			<div class="formControls col-2"><input type="text" class="input-text" value="{$good.goods_sn}" placeholder="" id="" name="goods_sn"></div>
+			<div class="formControls col-2"><input type="text" class="input-text" value="" placeholder="" id="" name="goods_sn"></div>
             </div>
-			<div class="Add_p_s">
-             <label class="form-label col-2">点击数：</label>	
-			 <div class="formControls col-2"><input type="text" class="input-text" value="{$good.click_count}" placeholder="" id="" name="click_count" disabled="disabled"></div>
-			</div>
+			
             <div class="Add_p_s">
              <label class="form-label col-2">库存量：</label>	
-			 <div class="formControls col-2"><input type="text" class="input-text" value="{$good.store_count}" placeholder="" id="" name="store_count"></div>
+			 <div class="formControls col-2"><input type="text" class="input-text" value="" placeholder="" id="" name="store_count"></div>
 			</div>
             
              <div class="Add_p_s">
              <label class="form-label col-2">商品重量：</label>	
-			 <div class="formControls col-2"><input type="text" class="input-text" value="{$good.weight}" placeholder="" id="" name="weight" >g</div>
+			 <div class="formControls col-2"><input type="text" class="input-text" value="" placeholder="" id="" name="weight" >g</div>
 			</div>
              
             <div class="Add_p_s">
              <label class="form-label col-2">展示价格：</label>	
-			 <div class="formControls col-2"><input type="text" class="input-text" value="{$good.shop_price}" placeholder="" id="" name="shop_price" >元</div>
+			 <div class="formControls col-2"><input type="text" class="input-text" value="" placeholder="" id="" name="shop_price" >元</div>
 			</div>
             <div class="Add_p_s">
              <label class="form-label col-2">市场价格：</label>	
-			 <div class="formControls col-2"><input type="text" class="input-text" value="{$good.market_price}" placeholder="" id="" name="market_price" >元</div>
+			 <div class="formControls col-2"><input type="text" class="input-text" value="" placeholder="" id="" name="market_price" >元</div>
 			</div>
-			<div class="Add_p_s">
-             <label class="form-label col-2">销&ensp;&ensp;量:</label>	
-			 <div class="formControls col-2"><input type="text" class="input-text" value="{$good.sales_sum}" placeholder="" id="" name="sales_sum" disabled="disabled">元</div>
-			</div>
+			
            
 			
 		</div>
@@ -95,20 +87,6 @@
 			</select>
 			
 		</div>
-	<br />
-		<div class="Add_p_s">
-             <label class="form-label col-12">板块分类: &ensp;</label>	
-			 <select id="cate_select">
-				{foreach $cate as $v}
-					<option value="{$v['id']}">{$v['name']}</option>
-				{/foreach}
-			 </select>
-			<select name="cat_id" id="catelist">
-			</select>
-			<select name="cat_id" id="catelist2">
-			</select>
-			
-		</div>
      
 
 		<div class="Add_p_s" style="margin-top: 10px;">
@@ -116,12 +94,12 @@
               
 			<div class=" col-10">
 			
-				<span id="shuxingxuanze">热门 <input type="checkbox" value="1" {if $good.is_hot==1}checked{/if} name="is_hot" /></span>&ensp;&ensp;&ensp;
-				<span id="shuxingxuanze">推荐 <input type="checkbox" value="1" {if $good.is_recommend==1}checked{/if} name="is_recommend" /></span>&ensp;&ensp;&ensp;
-				<span id="shuxingxuanze">新品 <input type="checkbox" value="1" {if $good.is_new==1}checked{/if} name="is_new" /></span>&ensp;&ensp;&ensp;
-				<span id="shuxingxuanze">上架 <input type="checkbox" value="1" {if $good.is_on_sale==1}checked{/if} name="is_on_sale" /></span>&ensp;&ensp;&ensp;
-				<span id="shuxingxuanze">实物 <input type="checkbox" value="1" {if $good.is_real==1}checked{/if} name="is_real" />&ensp;</span>&ensp;&ensp;
-				<span id="shuxingxuanze">包邮 <input type="checkbox" value="1" {if $good.is_free_shipping==1}checked{/if} name="is_free_shipping" /></span>
+				<span id="shuxingxuanze">热门 <input type="checkbox" value="1"  name="is_hot" /></span>&ensp;&ensp;&ensp;
+				<span id="shuxingxuanze">推荐 <input type="checkbox" value="1"  name="is_recommend" /></span>&ensp;&ensp;&ensp;
+				<span id="shuxingxuanze">新品 <input type="checkbox" value="1"  name="is_new" /></span>&ensp;&ensp;&ensp;
+				<span id="shuxingxuanze">上架 <input type="checkbox" value="1"  name="is_on_sale" /></span>&ensp;&ensp;&ensp;
+				<span id="shuxingxuanze">实物 <input type="checkbox" value="1"  name="is_real" />&ensp;</span>&ensp;&ensp;
+				<span id="shuxingxuanze">包邮 <input type="checkbox" value="1"  name="is_free_shipping" /></span>
 		
              </div>
 
@@ -135,9 +113,8 @@
               
 			<div class=" col-10">
 				{foreach $wuliu as $v}
-				<span >{$v['name']} <input type="checkbox" {if in_array($v['id'],$shipping)}checked{/if} name="shipping_area_ids[]" value="{$v['id']}" /></span>&ensp;&ensp;&ensp;
+				<span >{$v['name']} <input type="checkbox"  name="shipping_area_ids[]" value="{$v['id']}" /></span>&ensp;&ensp;&ensp;
 				{/foreach}
-		
              </div>
 
 			
@@ -148,7 +125,7 @@
 		<div class="clearfix cl">
 			<label class="form-label col-2">内容摘要：</label>
 			<div class="formControls col-10">
-				<textarea name="goods_remark" cols="" rows="" class="textarea" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="textarealength(this,200)">{$good.goods_remark}</textarea>
+				<textarea name="goods_remark" cols="" rows="" class="textarea" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="textarealength(this,200)"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
 			</div>
 		</div>
@@ -175,13 +152,13 @@
 			</div>
 
 			<div class="formControls col-3" style="width: 300px;">
-				<img src="{$good.original_img}" width="300" id="originalimg" />
+				<img src="" width="300" id="originalimg" />
 			</div>
 		</div>
          <div class="clearfix cl">
          <label class="form-label col-2">详细内容：</label>
 			<div class="formControls col-10">
-				<script id="editor" type="text/plain" style="width:100%;height:400px;" name="goods_content">{$good.goods_content}</script> 
+				<script id="editor" type="text/plain" style="width:100%;height:400px;" name="goods_content"></script> 
              </div>
         </div>
         
@@ -212,9 +189,8 @@
 <script type="text/javascript" src="__ADMIN__/js/H-ui.js"></script> 
 <script type="text/javascript" src="__ADMIN__/js/H-ui.admin.js"></script> 
 <script>
-getone();
-$('#cat_select').on('change',getone);
-function getone() {
+
+$('#cat_select').on('change',function () {
 	var catid = $('#cat_select option:selected').val();
 	//console.log(catid);
 	$.post('{:url("goods/getbrandbycat")}',{'id':catid},function (data) {
@@ -224,62 +200,28 @@ function getone() {
 			var str = '<option value='+data[i].id+'>'+data[i].name+'</option>';
 			$('#brandlist').append(str);
 		}
-		gettwo();
 	},'json');
 
-};
+});
 
-
-$('#cate_select').on('change',gettwo);
-function gettwo() {
-	var cateid = $('#cate_select option:selected').val();
-	//console.log(catid);
-	$.post('{:url("goods/getcatebyid")}',{'id':cateid},function (data) {
-		$('#catelist2').empty();
-		$('#catelist').empty();
-		for(var i in data){
-			
-			var str = '<option value='+data[i].id+'>'+data[i].name+'</option>';
-			$('#catelist').append(str);
-		}
-		getthree();
-	},'json');
-
-};
-
-$('#catelist').on('change',getthree);
-function getthree() {
-	var cateid = $('#catelist option:selected').val();
-	//console.log(catid);
-	$.post('{:url("goods/getcatebyid")}',{'id':cateid},function (data) {
-		$('#catelist2').empty();
-		if (!data.length) {$('#catelist2').removeAttr('name');return;}
-		for(var i in data){
-			var str = '<option value='+data[i].id+'>'+data[i].name+'</option>';
-			$('#catelist2').append(str);
-		}
-		$('#catelist2').attr('name','cat_id');
-	},'json');
-
-}
 
 function article_save_submit ()
 {
 	var formData = new FormData($( "#form-article-add" )[0]);  
     $.ajax({  
-          url: "{:url('goods/dealeditgoods')}" ,  
+          url: "{:url('goods/dealaddgoods')}" ,  
           type: 'POST',  
           data: formData,  
           async: true,  
           cache: false,  
           contentType: false,  
           processData: false,  
-          success: function (data) {  
-              if (data == '1') {
-              	layer.alert('修改商品成功');
-              } else {
-              	layer.alert('修改商品失败');
-              }
+          success: function (data) {
+          	if (data == '1') {
+          		layer.alert('添加商品成功呦~',{icon: 1,time:1000});
+          	} else {
+          		layer.alert(data,{icon: 2,time:1000});
+          	}
           }
      });  
 }
@@ -321,7 +263,7 @@ $(function(){
 		swf: 'lib/webuploader/0.1.5/Uploader.swf',
 	
 		// 文件接收服务端。
-		server: ':url("goods/uploader")',
+		server: ':url("goods/addtempimg")',
 	
 		// 选择文件的按钮。可选。
 		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -411,7 +353,6 @@ $(function(){
     });
 
 });
-var goodsid = $('input[type="hidden"]').val();
 
 (function( $ ){
     // 当domReady的时候开始初始化
@@ -508,15 +449,15 @@ var goodsid = $('input[type="hidden"]').val();
                     window['expressinstallcallback'] = function( state ) {
                         switch(state) {
                             case 'Download.Cancelled':
-                                alert('您取消了更新！')
+                                layer.alert('您取消了更新！')
                                 break;
 
                             case 'Download.Failed':
-                                alert('安装失败')
+                                layer.alert('安装失败')
                                 break;
 
                             default:
-                                alert('安装已成功，请刷新！');
+                                layer.alert('安装已成功，请刷新！');
                                 break;
                         }
                         delete window['expressinstallcallback'];
@@ -559,14 +500,14 @@ var goodsid = $('input[type="hidden"]').val();
                 label: '点击选择图片'
             },
             formData: {
-                goodsid: goodsid
+                goodsid: 1
             },
             dnd: '#dndArea',
             paste: '#uploader',
             swf: 'lib/webuploader/0.1.5/Uploader.swf',
             chunked: false,
             chunkSize: 512 * 1024,
-            server: '{:url("goods/uploader")}',
+            server: '{:url("goods/addtempimg")}',
             // runtimeOrder: 'flash',
 
             // accept: {
@@ -889,8 +830,8 @@ var goodsid = $('input[type="hidden"]').val();
                 case 'finish':
                     stats = uploader.getStats();
                     if ( stats.successNum ) {
-                        layer.alert( '上传成功' );
-                        $.post('{:url("goods/getoriginal")}',{'id':goodsid},function (data) {
+                        layer.alert( '上传成功' ,{icon: 1,time:1000});
+                        $.post('{:url("goods/addtempimg")}',{'temp':'temp'},function (data) {
                         	$('#originalimg').attr('src',data.img);
                         },'json');
                     } else {
@@ -964,7 +905,7 @@ var goodsid = $('input[type="hidden"]').val();
         });
 
         uploader.onError = function( code ) {
-            layer.alert( 'Eroor: ' + code );
+            alert( 'Eroor: ' + code );
         };
 
         $upload.on('click', function() {
@@ -986,7 +927,7 @@ var goodsid = $('input[type="hidden"]').val();
         } );
 
         $info.on( 'click', '.ignore', function() {
-            layer.alert( 'todo' );
+            alert( 'todo' );
         } );
 
         $upload.addClass( 'state-' + state );

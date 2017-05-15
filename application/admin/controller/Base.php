@@ -40,7 +40,7 @@ class Base extends Controller
 
 		if(!$this->checkLogin() && !in_array(request()->action(),$this->allowMthod))
 		{
-			$this->error('请登录','admin_login');
+			$this->error('请登录','index/admin_login');
 		}
 		$this->bindData();
 	}

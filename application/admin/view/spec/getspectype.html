@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+ <link href="__ADMIN__/assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="__ADMIN__/css/style.css"/>       
+        <link rel="stylesheet" href="__ADMIN__/assets/css/ace.min.css" />
+        <link rel="stylesheet" href="__ADMIN__/assets/css/font-awesome.min.css" />
+        <link href="__ADMIN__/Widget/icheck/icheck.css" rel="stylesheet" type="text/css" />
+	
+	       <script src="__ADMIN__/js/jquery-1.9.1.min.js"></script>
+        <script src="__ADMIN__/assets/js/bootstrap.min.js"></script>
+      <style type="text/css">
+        #addtable td,th{
+          font-size: 14px;
+          padding:5px 8px;
+          border: 1px solid #666;
+        }
+        #addtable input{border: 1px solid #000; }
+        #addtable {
+          margin: 0px auto;
+          width: 600px;
+          border: 1px solid #888;
+        }
+      </style>
+<title>添加产品分类</title>
+</head>
+<body>
+<div class="type_style" >
+ <div class="type_title" > 产品类型信息</div>
+  <div class="type_content" style="margin-left: 100px;">
+  <div class="Operate_btn">
+  <a href="javascript:;" class="btn  btn-success" id="addsan"><i class="icon-edit align-top bigger-125"></i>新增子类型</a>
+  <a href="javascript:;" class="btn  btn-danger" id="deltype"><i class="icon-ok align-top bigger-125"></i>删除该类型</a>
+  <a href="javascript:;" class="btn  btn-warning" id="delsan"><i class="icon-trash   align-top bigger-125"></i>删掉子类型</a>
+  </div><input type="hidden" name="" value="{$id}">
+  <form action="" method="post" onsubmit="return false;" class="form form-horizontal" id="form-user-add">
+    <div class="Operate_cont clearfix">
+      <label class="form-label" style="width: 130px;"><span class="c-red" >*</span>商品类型名称：</label>
+      <div class="formControls ">
+        <input type="text" class="input-text"  placeholder="" value="{$typename}" id="user-name" name="name">
+      </div>
+    
+    </div>
+   
+      <div class="Operate_cont clearfix" >
+        <table border="1" id="addtable">
+          <tr>
+            <th>属性名称</th>
+            <th>录入方式 : 0手工 1列表 2多行文本</th>
+            <th>可选值列表 0留空</th>
+            <th>属性排序</th>
+          </tr>
+          {foreach $res as $v}
+            <tr>
+              <td><input type="text" name="attr_name[]" value="{$v.attr_name}"/></td>
+              <td><input type="text" name="attr_input_type[]" value="{$v.attr_input_type}"/></td>
+              <td><input type="text" name="attr_values[]" value="{$v.attr_values}"/></td>
+              <td><input type="text" name="order[]" value="50" value="{$v.order}"/></td>
+            </tr>
+          {/foreach}
+        </table>
+      </div>
+  
+    <div class="" style=" text-align:center;margin-top: 40px;">
+      <input class="btn btn-primary radius" type="botton" value="修 改" id="submitadd">
+    </div>
+    
+  </form>
+  </div>
+</div> 
+</div>
+<script type="text/javascript" src="__ADMIN__/Widget/icheck/jquery.icheck.min.js"></script> 
+<script type="text/javascript" src="__ADMIN__/Widget/Validform/5.3.2/Validform.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/assets/layer/layer.js"></script>
+<script type="text/javascript" src="__ADMIN__/js/H-ui.js"></script> 
+<script type="text/javascript" src="__ADMIN__/js/H-ui.admin.js"></script>
+<script type="text/javascript">
+var id = $('input[type="hidden"]').val();
+
+$('#addsan').on('click',function () {
+    var str = '<tr>';
+    str += '<td><input type="text" name="attr_name[]" /></td>';
+    str += '<td><input type="text" name="attr_input_type[]" value="0"/></td>';
+    str += '<td><input type="text" name="attr_values[]" /></td>';
+    str += '<td><input type="text" name="order[]" value="50"/></td></tr>';
+    $('#addtable').append(str);
+  
+});
+
+$('#delsan').on('click',function () {
+    if ($('#addtable tr').length == 2) {layer.alert('不能再删了~');return;}
+    $('#addtable tr')[$('#addtable tr').length-1].remove();
+});
+
+$('#deltype').on('click',function () {
+
+    console.log(id);
+    layer.confirm('确认删除么？',function(index){
+      $.get('{:url("spec/delspectype")}',{'id':id},function (data) {
+        layer.alert('类型表成功删除,对应属性表删除'+data.res2+'条数据',function () {
+            parent.location.reload();
+        });
+      },'json');
+    });
+    
+});
+
+
+
+
+
+$('#submitadd').on('click',function () {
+    var formData = new FormData($('#form-user-add')[0]);
+    $.ajax({  
+        url: "dealedittype?id="+id ,  
+        type: 'POST',  
+        data: formData,  
+        async: true,  
+        cache: false,  
+        contentType: false,  
+        processData: false,  
+        success: function (data) {  
+            if (data == 1) {
+              layer.alert('修改属性成功',{'icon':1},function () {
+                  parent.location.reload();
+              });
+            }
+        }
+   });  
+
+});
+
+
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-user-add").Validform({
+		tiptype:2,
+		callback:function(form){
+			form[0].submit();
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+		}
+	});
+});
+</script>
+</body>
+</html>
