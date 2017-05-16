@@ -8,7 +8,12 @@
 <script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
 <script type="text/javascript" src="__STATIC__/js/zhonglin.js"></script>
 <link  type='text/css' href='__STATIC__/css/global.css' rel='stylesheet'/>
-<link rel="stylesheet" type="text/css" href="__STATIC__/css/public_201703.css"> 
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/public_201703.css">
+<style type="text/css" media="screen">
+   .sidebar_float{
+                display: none;
+            }
+</style>
 </head>
 
 
@@ -20,9 +25,9 @@
         	<p class="t-con-l f-l">您好，欢迎来到 <font size="5"><a href="{:url('index/index/index')}" style="color:#F09E0B ">Q-Buy</a></font></p>
         </div>
     </div>
-    
 
-    
+
+
     <!--内容开始-->
     <div class="password-con registered">
     	<form method="post" action="" onsubmit="return false;">
@@ -43,9 +48,9 @@
 	        </div>
 	    	<div class="psw psw2">
 	        	<p class="psw-p1">手机号</p>
-	            <input type="text" placeholder="请输入手机号" />
+	            <input type="text" placeholder="请输入手机号" name="mobile"/>
 	            <button id="sendyzm">获取短信验证码</button>
-
+                <span class=""></span><!-- 手机号格式不正确 -->
 	        </div>
 	    	<div class="psw psw3">
 	        	<p class="psw-p1">手机验证码</p>
@@ -53,20 +58,21 @@
 	        </div>
 	    	<div class="psw psw3">
 	        	<p class="psw-p1">验证码</p>
-	            <input type="text" placeholder="请输入验证码" />
+	            <input type="text" placeholder="请输入验证码" name="captcha" />
+                <span class=""></span><!-- 验证码不正确，请重新输入 -->
 	        </div>
 	        <div class="yanzhentu">
 	        	<div class="yz-tu f-l">
-	            	<img src="__STATIC__/images/psw-yanzhengtu.gif" style=" width: 114px;height: 30px;" />
+	            	<img src="{:captcha_src()}" alt="captcha" id="code" />
 	            </div>
-	            <p class="f-l" style="margin-top: -16px">看不清？<a href="#">换张图</a></p>
+	            <p class="f-l" style="margin-left:10px;margin-top: -16px">看不清？<a href="javascript:;" onClick="huanyizhang()">换张图</a></p>
 	            <div style="clear:both; "></div>
 	        </div>
 	        <div class="agreement">
 	        	<input type="checkbox" name="hobby"></input>
 	            <p>我有阅读并同意<a href="{:url()}" style="color: #F09E0B">《Q-Buy商城服务协议》</a></p>
 	        </div>
-	        <button class="psw-btn" id="submitreg" >立即注册</button>
+	        <button class="psw-btn" id="submitreg">立即注册</button>
     	</form>
         <p class="sign-in">已有账号？请<a href="{:url('login')}"> 登录</a></p>
         <br />
@@ -75,34 +81,67 @@
     </div>
 
     <script type="text/javascript">
+        //点击更换验证码
+        function huanyizhang ()
+        {
+            var code =  $('#code').attr('src');
+            $('#code').attr('src',code+'?a='+Math.random());
+        }
+
+        //手机验证码倒计时
+        $('#sendyzm').on('click',function () {
+            var time;
+            var num = 60;
+
+            $('#sendyzm').attr('disabled',true);
+            $('#sendyzm').css('background','#ccc');
+            autojia();
+            time = setInterval(autojia,1000);
+            function autojia() {
+                if (num <= 0) {
+
+                    $('#sendyzm').attr('disabled',false);
+                    $('#sendyzm').css('background','#F09E0B');
+                    $('#sendyzm').html('重新发送');
+                    clearInterval(time);
+                    return;
+                }
+                $('#sendyzm').html(num+'秒后再次发送');
+                num--;
+            }
+        });
+
+        //设置立即注册按钮初始状态为不能点击。
     	$(function () {
     			$('#submitreg').attr('disabled','true');
     			$('#submitreg').css('cursor','no-drop');
     			$('#submitreg').css('background','#ccc');
     	})
+
+        //声明变量，用于checkstatus()解锁立即注册按钮。
     	var status1;
     	var status2;
     	var status3;
     	var status4;
     	var status5;
+        var status6;
+
     	//判断用户名
     	$("input[name='username']").blur(function () {
     		if ($(this).val() == '小明' || $(this).val().length<2 || $(this).val().length>12 ) {
-    			status1 = null;
-    			$(this).siblings('span').removeClass('dui');
-    			$(this).siblings('span').addClass('cuo');
-    			$(this).siblings('span').html('<font color="#f78">该用户名已存在或者长度不符合！</font>');
+                status1 = null;
+                $(this).siblings('span').removeClass('dui');
+                $(this).siblings('span').addClass('cuo');
+                $(this).siblings('span').html('<font color="#f78">该用户名长度不符合！</font>');
     		} else {
-    			status1 = true;
-    			$(this).siblings('span').removeClass('cuo');
-    			$(this).siblings('span').addClass('dui');
-    			$(this).siblings('span').html('');
-    		}
-    		checkstatus ()
+                status1 = true;
+                $(this).siblings('span').removeClass('cuo');
+                $(this).siblings('span').addClass('dui');
+                $(this).siblings('span').html('' );
+
+            }
+    		checkstatus();
     	});
-
-
-        
 
     	//判断密码
     	$("input[name='pwd']").blur(function () {
@@ -120,7 +159,7 @@
     			$(this).siblings('span').addClass('dui');
     			$(this).siblings('span').html('');
     		}
-    		checkstatus ()
+    		checkstatus()
     	});
 
     	//判断两次密码
@@ -128,7 +167,6 @@
     		var pwd = $("input[name='pwd']").val();
     		var repwd = $("input[name='repwd']").val();
 
-    		console.log(repwd);
     		if (pwd !== repwd || repwd == '') {
     			status3 = null;
     			$(this).siblings('span').removeClass('dui');
@@ -143,10 +181,10 @@
     		checkstatus ()
     	});
 
-
     	//判断协议
     	$("input[name='hobby']").click(function () {
 			var check = $("input[name='hobby']").is(':checked');
+
 			if (check == true) {
 				status4 = true;
 			} else {
@@ -155,9 +193,36 @@
 			checkstatus ()
     	});
 
+          //ajax 验证码检验
+        // $("input[name='captcha']").on( "blur", function() {
+        //     $.ajax({
+        //         "type" : "post",
+        //         "url" : "{:url('checkCaptcha')}",
+        //         "data" : {"captcha" : $(this).val()},
+        //         "dataType" : "json",
+        //         "success" : success,
+        //         "async" : true
+        //     });
+        //     function success (data) {
+        //         if (data.checkCaptcha == 'true') {
+        //             status5 = true;
+        //             $("input[name='captcha']").siblings('span').removeClass('cuo');
+        //             $("input[name='captcha']").siblings('span').addClass('dui');
+        //             $("input[name='captcha']").siblings('span').html('');
+        //         } else {
+        //             status5 = null;
+        //             $("input[name='captcha']").siblings('span').removeClass('dui');
+        //             $("input[name='captcha']").siblings('span').addClass('cuo');
+        //             $("input[name='captcha']").siblings('span').html('<font color="#f78">验证码不正确</font>');
+        //         }
+        //         checkstatus();
+        //     }
+        // })
+
     	//检查是不是都填写了
     	function checkstatus () {
-    		
+            console.log(status1 + status2 + status3 + status4);
+
     		if (status1 && status2 && status3 && status4) {
     			$('#submitreg').attr('disabled',false);
     			$('#submitreg').css('background','#F09E0B');
@@ -169,35 +234,34 @@
     		}
     	}
 
-    	//手机验证码倒计时
-	    $('#sendyzm').on('click',function () {
-	    	var time;
-	    	var num = 60;
-	    	
-	    	$('#sendyzm').attr('disabled',true);
-	    	$('#sendyzm').css('background','#ccc');
-	    	autojia();
-	    	time = setInterval(autojia,1000);
-	    	function autojia() {
-				if (num <= 0) {
-
-					$('#sendyzm').attr('disabled',false);
-	    			$('#sendyzm').css('background','#F09E0B');
-	    			$('#sendyzm').html('重新发送');
-	    			clearInterval(time);
-	    			return;
-				}
-				$('#sendyzm').html(num+'秒后再次发送');
-				num--;
-			}
-	    });
-
+        //注册按钮点击事件
     	$('#submitreg').on('click',function () {
-            alert('恭喜注册成功');
+            var oInput = $("input[name='username']").val();
+            var oPwd = $("input[name='pwd']").val();
+            var oMobile = $("input[name='mobile']").val();
+            var oCaptcha = $("input[name='captcha']").val();
+
+            $.ajax({
+                "type" : "post",
+                "url" : "{:url('registerIn')}",
+                "data" : {"username":oInput, "password":oPwd, "mobile":oMobile, "captcha":oCaptcha},
+                "dataType" : "json",
+                "success" : success,
+                "async" : true
+            });
+
+            function success(data)
+            {
+                var check = JSON.parse(data);
+                console.log(check.checkCaptcha);
+                if (check.checkCaptcha) {
+                    window.location.href="{:url('index/index')}";
+                } else {
+                    $("input[name='captcha']").siblings('span').removeClass('dui');
+                    $("input[name='captcha']").siblings('span').addClass('cuo');
+                    $("input[name='captcha']").siblings('span').html('<font color="#f78">验证码不正确</font>');
+                }
+            }
     	});
-
-    	//按钮点击事件
     </script>
-
-
    {include file="public/footer"}

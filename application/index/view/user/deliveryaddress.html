@@ -1,0 +1,252 @@
+{include file="public/link1" title='管理收货地址'}
+
+    <!--内容开始-->
+    <div class="personal w1200">
+    	<div class="personal-left f-l">
+        	<div class="personal-l-tit" style="background-color:#c60000">
+            	<h3>个人中心</h3>
+            </div>
+            <ul>
+            	<li class="current-li per-li1"><a href="#">消息中心<span>></span></a></li>
+            	<li class="per-li2"><a href="#">个人资料<span>></span></a></li>
+            	<li class="per-li3"><a href="#">我的订单<span>></span></a></li>
+            	<li class="per-li4"><a href="#">我的预约<span>></span></a></li>
+            	<li class="per-li5"><a href="#">购物车<span>></span></a></li>
+            	<li class="per-li6"><a href="{:url('user/deliveryaddress')}">管理收货地址<span>></span></a></li>
+            	<li class="per-li7"><a href="#">店铺收藏<span>></span></a></li>
+            	<li class="per-li8"><a href="#">购买记录<span>></span></a></li>
+            	<li class="per-li9"><a href="#">浏览记录<span>></span></a></li>
+            	<li class="per-li10"><a href="#">会员积分<span>></span></a></li>
+            </ul>
+        </div>
+    	<div class="management f-r">
+            <form id="form" method="post" onSubmit="return false">
+            <div class="tanchuang-con">
+                <div class="tc-title">
+                    <h3>我的收货地址</h3>
+                </div>
+                <font class="xinxi">请认真填写以下信息！</font>
+
+                <ul class="tc-con2">
+                    <li class="tc-li1">
+                        <p class="l-p">所在地区<span>*</span></p>
+                        <div class="xl-dz">
+                            <div class="dz-left f-l">
+                                <select id="place1" name="province">
+                                    {foreach $region as $value}
+                                        <option index="{$value.id}">{$value.name}</option>
+                                    {/foreach}
+                                </select>
+                                <select id="place2" name="city">
+
+                                </select>
+                                <select id="place3" name="district">
+
+                                </select>
+                                <select id="place4" name="twon">
+
+                                </select>
+                            </div>
+
+                            <div style="clear:both;"></div>
+                        </div>
+
+                        <div style="clear:both;"></div>
+                    </li>
+                    <li class="tc-li1">
+                        <p class="l-p">详细地址<span>*</span></p>
+                        <textarea class="textarea1" name="address" placeholder="请如实填写您的详细信息，如街道名称、门牌号、楼层号和房间号。"></textarea>
+                        <div style="clear:both;"></div>
+                    </li>
+                    <li class="tc-li1">
+                        <p class="l-p">邮政编码<span>*</span></p>
+                        <input name="zipcode" class="zipCode" type="text" />
+                        <div style="clear:both;"></div>
+                    </li>
+                    <li class="tc-li1">
+                        <p class="l-p">收货人姓名<span>*</span></p>
+                        <input name="consignee" class="receiver" type="text" />
+                        <div style="clear:both;"></div>
+                    </li>
+                    <li class="tc-li1">
+                        <p class="l-p">联系电话<span>*</span></p>
+                        <input name="mobile" class="contactNumber" type="text" />
+                        <div style="clear:both;"></div>
+                    </li>
+                </ul>
+                <div id="msg" style="margin-left:115px;"></div>
+                <input type="hidden" name="user_id" value="{$user_id}" />
+                <button id="save" class="btn-pst2">保存</button>
+            </div>
+            </form>
+            <div class="man-info">
+                <div class="man-if-con">
+                	<div class="man-tit">
+                        <p class="p1">收货人</p>
+                        <p class="p2">所在地区</p>
+                        <p class="p3">详细地址</p>
+                        <p class="p4">邮编</p>
+                        <p class="p5">电话/手机</p>
+                        <p class="p6">操作</p>
+                    </div>
+                    <ul class="man-ul1">
+                        {foreach $address as $value2}
+                    	<li id="{$value2.address_id}">
+                        	<p class="p1">{$value2.consignee}</p>
+                        	<p class="p2">{$value2.province}{$value2.city}{$value2.district}{$value2.twon}</p>
+                        	<p class="p3">{$value2.address}</p>
+                        	<p class="p4">{$value2.zipcode}</p>
+                        	<p class="p5">{$value2.mobile}</p>
+                        	<p class="p6">
+                            	<!-- <a href="#">修改</a> | -->
+                            	<a href="javascript:;" onClick="deleteAddr({$value2.address_id})">删除</a>
+                            </p>
+                            {if $value2.is_default}
+                            <p class="p7" style="color:black;">默认地址</p>
+                            {else}
+                            <p class="p7"><a href="javascript:;" onClick="defaultAddr({$value2.address_id})">设为默认</a></p>
+                            {/if}
+                            <div style="clear:both;"></div>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+{include file="public/footer"}
+<script>
+    change1();
+    change2();
+    change3();
+    $('#place1').on('change', change1);
+    $('#place2').on('change', change2);
+    $('#place3').on('change', change3);
+    $('#save').on('click', delivery)
+
+    function deleteAddr(data)
+    {
+        $.ajax({
+            'type' : 'post',
+            'url' : "{:url('deleteAddr')}",
+            'data' : {'address_id':data},
+            'dataType' : 'json',
+            'async' : true,
+            'success' : success
+        })
+        function success(isDelete)
+        {
+            $('#'+data).remove();
+        }
+    }
+
+    function defaultAddr(data)
+    {
+        $.ajax({
+            'type' : 'post',
+            'url' : "{:url('defaultAddr')}",
+            'data' : {'address_id':data},
+            'dataType' : 'json',
+            'async' : true,
+            'success' : success
+        })
+        function success(isUpdate)
+        {
+             window.location.href="{:url()}";
+        }
+    }
+
+    function change1 () {
+
+        var parentId =  $('#place1 option:selected').attr('index');
+        $.ajax({
+            'type' : 'post',
+            'url' : "{:url('searchpalce2')}",
+            'data' : {'parentId':parentId},
+            'dataType' : 'json',
+            'async' : false,
+            'success' : success
+        })
+
+        function success(data)
+        {
+            $('#place2').empty();
+            for (var number in data) {
+                $('#place2').append('<option index=' + data[number].id + '>' + data[number].name + '</option>');
+            }
+        }
+        change2();
+        change3();
+    }
+    function change2 () {
+        var parentId =  $('#place2 option:selected').attr('index');
+
+        $.ajax({
+            'type' : 'post',
+            'url' : "{:url('searchpalce2')}",
+            'data' : {'parentId':parentId},
+            'dataType' : 'json',
+            'async' : false,
+            'success' : success
+        })
+
+        function success(data)
+        {
+            $('#place3').empty();
+            for (var number in data) {
+                $('#place3').append('<option index=' + data[number].id + '>' + data[number].name + '</option>');
+            }
+        }
+        change3();
+    }
+
+     function change3 () {
+        var parentId =  $('#place3 option:selected').attr('index');
+
+        $.ajax({
+            'type' : 'post',
+            'url' : "{:url('searchpalce2')}",
+            'data' : {'parentId':parentId},
+            'dataType' : 'json',
+            'async' : false,
+            'success' : success
+        })
+
+        function success(data)
+        {
+            $('#place4').empty();
+            for (var number in data) {
+                $('#place4').append('<option index=' + data[number].id + '>' + data[number].name + '</option>');
+            }
+        }
+    }
+
+    //数据入表，遍历地址。
+    function delivery()
+    {
+        if ($(".textarea1").val() && $(".zipCode").val() && $(".receiver").val() && $(".contactNumber").val()) {
+            var form = new FormData($('#form')[0]);
+            $.ajax({
+                'type' : 'post',
+                'url' : "{:url('handleDelivery')}",
+                'data' : form,
+                'dataType' : 'json',
+                'async' : true,
+                'success' : success,
+                'processData' : false,
+                'contentType' : false
+            })
+
+            function success(data)
+            {
+                if(data.isInsert) {
+                    window.location.href="{:url()}";
+                }
+            }
+            $('#msg').html('');
+        } else {
+            $('#msg').html('所有选项都必须填写').css('color', 'red');
+        }
+    }
+</script>

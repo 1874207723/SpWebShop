@@ -41,13 +41,12 @@ class Base extends Controller
 		{
 			$this->redirect('user/login');
 		}
+
 	}
 
 	//检查是否登陆 返回uid存在的结果
 	public function checklogin() {
-
-		return session('?uid');
-	
+		return session('?userInfo');	
 	}
 }
  

@@ -32,28 +32,19 @@ use think\Request;
 use think\Db;
 class Index extends Base
 {
-	 
+
     public function index()
     {
     	
         return $this->fetch();
     }
 
-  
-
-
-
-
-
-
-
-
 
 
 
 
     //接受到用户传过来的数据进行判断
-  	public function chat() 
+  	public function chat()
   	{
 
 		$request = Request::instance();
@@ -76,7 +67,7 @@ class Index extends Base
 			$result['isonline'] = $userinfo['isonline'];
 			if ($isread>0) {$result['isread'] = 1;} else {$result['isread'] = 0;}
 			echo json_encode($result);
-			
+
 		} elseif (!empty($request->param('insert'))) {
 			$username = $_POST['name'];
 			$bognum = $_POST['jobnum'];
@@ -102,7 +93,7 @@ class Index extends Base
 					echo '<a href="javascript:;" class="list-group-item" id="online'.$value['jobnum'].'" onclick="showonlie('.$value['jobnum'].')"><img src="'.WEB_PATH.'/static/images/chart/userunline.png">'.$value['username'].'</a> ';
 				}
 			}
-			
+
 		} elseif (!empty($request->param('new'))) {
 			$username = $_POST['name'];
 			$uid = $_POST['uid'];
@@ -114,4 +105,4 @@ class Index extends Base
 		}
 	}
 }
- 
+

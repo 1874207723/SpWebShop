@@ -1,0 +1,136 @@
+
+{include file="public/link1" title='个人中心'}
+
+    <!--内容开始-->
+    <div class="personal w1200">
+    	<div class="personal-left f-l" style="margin-top:20px;">
+        	<div class="personal-l-tit" style="background-color:#c60000">
+            	<h3>个人中心</h3>
+            </div>
+            <ul>
+            	<li class="current-li per-li1"><a href="#">消息中心<span>></span></a></li>
+            	<li class="per-li2"><a href="#">个人资料<span>></span></a></li>
+            	<li class="per-li3"><a href="#">我的订单<span>></span></a></li>
+            	<li class="per-li4"><a href="#">我的预约<span>></span></a></li>
+            	<li class="per-li5"><a href="#">购物车<span>></span></a></li>
+            	<li class="per-li6"><a href="{:url('user/deliveryaddress')}">管理收货地址<span>></span></a></li>
+            	<li class="per-li7"><a href="#">店铺收藏<span>></span></a></li>
+            	<li class="per-li8"><a href="#">购买记录<span>></span></a></li>
+            	<li class="per-li9"><a href="#">浏览记录<span>></span></a></li>
+            	<li class="per-li10"><a href="#">会员积分<span>></span></a></li>
+            </ul>
+        </div>
+    	<div class="personal-r f-r" style="margin-top:20px;">
+        	<div class="personal-right">
+                <div class="personal-r-tit">
+                    <h3>个人资料</h3>
+                </div>
+                <form id="form" method="post" onSubmit="return false">
+                <div class="data-con">
+                	<div class="dt1">
+                    	<p class="f-l">当前头像：</p>
+                        <div class="touxiang f-l">
+                        	<div class="tu f-l" style="border-radius:100px;">
+                            	<a href="#" style="border-radius:100px;">
+                                	<img src="{$image}" style="border-radius:100px;"/>
+                                    <input type="file" name="file" id="" class="img1" />
+                                </a>
+                            </div>
+                            <a href="JavaScript:;" class="sc f-l" shangchuang="">上传头像</a>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="dt1">
+                    	<p class="dt-p f-l">用户名：</p>
+                        <input type="text" value="{$username}" name="username" />
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="dt1 dt2">
+                    	<p class="dt-p f-l">性别：</p>
+                        <input type="radio" name="sex" value="1" {if $sex == 1}checked{/if} style="height:20px;width:20px;margin-top:10px;margin-right:5px;" /><span>男</span>
+                        <input type="radio" name="sex" value="2" {if $sex == 2}checked{/if} style="height:20px;width:20px;margin-top:10px;margin-right:5px;" /><span>女</span>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="dt1">
+                    	<p class="dt-p f-l">年龄：</p>
+                        <input type="text" value="{$age}" name="age" />
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="dt1 dt3">
+                    	<p class="dt-p f-l">手机号：</p>
+                        <input type="text" value="{$mobile}" name="mobile" />
+                        <button id="sendyzm" style="background-color:#c60000">获取短信验证码</button>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="dt1">
+                    	<p class="dt-p f-l">验证码：</p>
+                        <input type="text" value="" name="checkMsg" />
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="dt1 dt3">
+                    	<p class="dt-p f-l">新密码：</p>
+                        <input type="password" value="" name="password" />
+                        <button style="background-color:#c60000">不修改，此项不填</button>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="check" style="color:red;"></div>
+                    <button class="btn-pst" style="background-color:#c60000">保存</button>
+                </div>
+                </form>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
+{include file="public/footer"}
+<script>
+    //手机验证码倒计时
+        $('#sendyzm').on('click',function () {
+            var time;
+            var num = 60;
+
+            $('#sendyzm').attr('disabled',true);
+            $('#sendyzm').css('background','#ccc');
+            autojia();
+            time = setInterval(autojia,1000);
+            function autojia() {
+                if (num <= 0) {
+
+                    $('#sendyzm').attr('disabled',false);
+                    $('#sendyzm').css('background','#F09E0B');
+                    $('#sendyzm').html('重新发送');
+                    clearInterval(time);
+                    return;
+                }
+                $('#sendyzm').html(num+'秒后再次发送');
+                num--;
+            }
+        });
+
+    $("button[class='btn-pst']").on('click', function() {
+        console.log(new FormData($('#form')[0]));
+        $.ajax({
+            'type' : 'post',
+            'url' : "{:url('handleFormdata')}",
+            'data' : new FormData($('#form')[0]),
+            'processData' : false,
+            'contentType' : false,
+            'dataType' : 'json',
+            'cache' : false,
+            'success' : success,
+            'async' : true
+        })
+
+        function success(data)
+        {
+            console.log(data.checkPwd);
+           if (data.checkPwd === true) {
+                window.location.href="{:url('personaldata')}";
+           } else {
+                $('.check').html("新密码长度必须大于6小于10")
+           }
+        }
+    })
+</script>
+
