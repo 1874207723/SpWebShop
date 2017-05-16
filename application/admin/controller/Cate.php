@@ -65,6 +65,31 @@ class Cate extends Base
 	}
 
 
+	public function catelist ()
+	{
+		return $this->fetch();
+	}
+
+	public function getCateList ()
+	{
+		$cateid = input('get.id');
+		$cateinfo = Db::name('goods_cate')->where('id='.$cateid)->whereOr('parent_id='.$cateid)->select();
+		return json($cateinfo);
+	}
+
+	public function editcate ()
+	{
+		$cateid = input('get.');
+		$cate = Db::name('goods_cate')->where('id='.$cateid)->find();
+		$res = Db::name('goods_cate')->where('parent_id='.$cate['id'])->find();
+		if (!empty($res)) {
+			$res = 1;
+		} else {
+			$res = 0;
+		}
+		$this->fetch(['res' => $res,'cate',$cate]);
+		return $this->fetch();
+	}
 
 }
  

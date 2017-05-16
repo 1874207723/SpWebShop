@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>添加分类</title>
+<title>添加品牌</title>
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
@@ -32,15 +32,15 @@
 <div class=" clearfix">
  <div id="add_brand" class="clearfix">
  <div class="left_add">
-   <div class="title_name">修改分类</div>
+   <div class="title_name">添加品牌</div>
   <form action="" onsubmit="return false" method="post" id="form-article-add">
    <ul class="add_conent">
    
-    <li class=" clearfix"><label class="label_name"><i>*</i>分类名称：</label> <input name="name" value="{$cate['name']}" type="text" class="add_text"/></li><input type="hidden" name="id" value="{$cate.id}" id="hiddenid">
-    <li class=" clearfix"><label class="label_name"><i>*</i>分类排序：</label> <input name="sort_order" type="text" value="{$cate['sort_order']}" class="add_text" style="width:80px"/></li>
-    <li class=" clearfix"><label class="label_name">分类图片：</label>
+    <li class=" clearfix"><label class="label_name"><i>*</i>品牌名称：</label> <input name="name" value="{$brand.name}" type="text" class="add_text"/></li><input type="hidden" name="id" value="{$brand.id}" id="hiddenid">
+    <li class=" clearfix"><label class="label_name"><i>*</i>品牌排序：</label> <input name="sort" type="text" value="{$brand.sort}" class="add_text" style="width:80px"/></li>
+    <li class=" clearfix"><label class="label_name">品牌图片：</label>
            <div class="demo l_f">
-	           <div class="logobox"><div class="resizebox"><img src="{$cate['image']}" width="100px" alt="" height="100px"/></div></div>	
+	           <div class="logobox"><div class="resizebox"><img src="{$brand.logo}" width="100px" alt="" height="100px"/></div></div>	
                <div class="logoupload">
                   <div class="btnbox"><a id="uploadBtnHolder" class="uploadbtn" href="javascript:;">上传替换</a></div>
                   <div style="clear:both;height:0;overflow:hidden;"></div>
@@ -52,14 +52,10 @@
                       	
            </div> <div class="prompt"><p>图片大小<b>120px*60px</b>图片大小小于5MB,</p><p>支持.jpg;.gif;.png;.jpeg格式的图片</p></div>  
     </li>
-    {if $cate.level == 1 || $cate.level == 3 && $res == 1}
-         <li class=" clearfix"><label class="label_name"><i>*</i>当前的类不是三级类 或者可以清空自己类下面的子类</label></li>
-	{else}
-		
-	{/if}
-		<li class=" clearfix"><label class="label_name"><i>*</i>是否更改成第一级别</label> <input name="url" value="{$cate['url']}" type="text" class="add_text" style="width:120px"/></li>
+         <li class=" clearfix"><label class="label_name"><i>*</i>所属地区：</label> <input name="url" value="{$brand.url}" type="text" class="add_text" style="width:120px"/></li>
         
-		 <li class=" clearfix"><label class="label_name"><i>*</i>分类名称:</label><input name="cat_name" value="{$cate['cat_name']}" type="text" class="add_text" style="width:250px"/></li>
+		 <li class=" clearfix"><label class="label_name"><i>*</i>分类名称:</label><input name="cat_name" value="{$brand.cat_name}" type="text" class="add_text" style="width:250px"/></li>
+
 		<li class=" clearfix"><label class="label_name"><i>*</i>选择分类:</label>&ensp;
 			<select name="cat_id" id="cate_select">
 				{foreach $cate as $v}
@@ -69,12 +65,11 @@
 			
 		</li>
 
-   		
-         
-	    <li class=" clearfix"><label class="label_name"><i>*</i>是否推荐热门：</label> 
-	    <label><input name="is_hot" type="radio" class="ace" {if $cate['is_hot']}checked="checked{/if}" value="1"><span class="lbl">推荐</span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-	    <label><input type="radio" class="ace" name="is_hot" {if !$cate['is_hot']}checked="checked{/if} value="0"><span class="lbl">不推荐</span></label>
-	    </li>
+         <li class=" clearfix"><label class="label_name">品牌描述：</label> <textarea name="brand_desc" cols="" rows="" class="textarea" onkeyup="checkLength(this);">{$brand.brand_desc}</textarea><span class="wordage">剩余字数：<span id="sy" style="color:Red;">200</span>字</span></li>
+         <li class=" clearfix"><label class="label_name"><i>*</i>是否推荐：</label> 
+         <label><input name="is_hot" type="radio" class="ace" {if $brand.is_hot}checked="checked{/if}" value="1"><span class="lbl">推荐</span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+         <label><input type="radio" class="ace" name="is_hot" {if !$brand.is_hot}checked="checked{/if} value="0"><span class="lbl">不推荐</span></label>
+         </li>
  
    </ul></form>
  </div>
@@ -102,11 +97,11 @@ $('#savebrand').on('click',function () {
 	          processData: false,  
 	          success: function (data) {  
 	              if (data == 1) {
-	              	layer.alert('修改分类成功',function () {
+	              	layer.alert('修改品牌成功',function () {
 	              		location.reload();
 	              	});
 	              } else {
-	              	layer.alert('修改分类失败');
+	              	layer.alert('修改品牌失败');
 	              }
 	          }
 	     });  
