@@ -137,7 +137,7 @@ return [
         // 标签库标签结束标记
         'taglib_end'   => '}',
     ],
-    
+
     // 视图输出字符串内容替换
     'view_replace_str'       => [
         '__PUBLIC__' => rtrim(WEB_PATH,'/').'',  //web_path  => http://www.wntp.com
@@ -239,7 +239,7 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
-    
+    //me
      //验证码配置
     'captcha'                => [
         // 验证码字符集合
