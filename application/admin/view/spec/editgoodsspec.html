@@ -15,6 +15,7 @@
 	       <script src="__ADMIN__/js/jquery-1.9.1.min.js"></script>
         <script src="__ADMIN__/assets/js/bootstrap.min.js"></script>
       <style type="text/css">
+        #addtable textarea{height: 80px}
         #addtable td,th{
           font-size: 14px;
           padding:5px 8px;
@@ -23,56 +24,49 @@
         #addtable input{border: 1px solid #000; }
         #addtable {
           margin: 0px auto;
-          width: 800px;
+          width: 600px;
           border: 1px solid #888;
         }
       </style>
 <title>添加产品分类</title>
 </head>
-
 <body>
 <div class="type_style" >
  <div class="type_title" > 产品类型信息</div>
   <div class="type_content" style="margin-left: 100px;">
   <div class="Operate_btn">
-  <a href="javascript:;" onclick="layer.tips('请在下方新增哦~',{tips: 4});" class="btn  btn-warning"><i class="icon-edit align-top bigger-125"></i>新增子类型</a>
-  <a href="javascript:;" onclick="layer.msg('尼玛，这不能禁用', {icon: 4});" class="btn  btn-success"><i class="icon-ok align-top bigger-125"></i>禁用该类型</a>
-  <a href="javascript:;" onclick="layer.msg('你要删哪个？告诉我', {offset: 't', anim: 6});" class="btn  btn-danger"><i class="icon-trash   align-top bigger-125"></i>删除该类型</a>
-  </div>
+  <a href="javascript:;" class="btn  btn-success" id="addsan"><i class="icon-edit align-top bigger-125"></i>新增子类型</a>
+  <a href="javascript:;" class="btn  btn-danger" id="deltype"><i class="icon-ok align-top bigger-125"></i>删除该类型</a>
+  <a href="javascript:;" class="btn  btn-warning" id="delsan"><i class="icon-trash   align-top bigger-125"></i>删掉子类型</a>
+  </div><input type="hidden" name="type_id" value="{$resname['id']}">
   <form action="" method="post" onsubmit="return false;" class="form form-horizontal" id="form-user-add">
     <div class="Operate_cont clearfix">
       <label class="form-label" style="width: 130px;"><span class="c-red" >*</span>商品类型名称：</label>
       <div class="formControls ">
-        <input type="text" class="input-text" value="" placeholder="" id="user-name" name="name">
+        <input type="text" class="input-text"  placeholder="" value="{$resname['name']}" id="user-name" disabled="">
       </div>
     
     </div>
-      <div class="Operate_cont clearfix" >
-        <label class="form-label" style="width: 130px;"><span class="c-red">【可不选】</span>添加属性</label>
-        <div class="formControls ">
-          <select id="addattr" style="width: 165px;margin-left: 12px;">
-            <option>请选择添加数</option>
-            <option>1</option>
-            <option>5</option>
-            <option>10</option>
-          </select>
-        </div>
-      </div>
-
+   
       <div class="Operate_cont clearfix" >
         <table border="1" id="addtable">
           <tr>
-            <th  style="width: 180px;">属性名称</th>
-            <th  style="width: 280px;">录入方式 : 0手工 1列表 2多行文本</th>
-            <th style="width: 280px;">录入方式0:留空 1:一行是一个选项</th>
-            <th  style="width: 80px;">属性排序</th>
+            <th>规格项名</th>
+            <th>排序</th>
+            <th>规格项属性值 一行一个项</th>
           </tr>
-          
+          {foreach $res as $v}
+          <tr>
+            <td><input type="text" name="name[]" value="{$v['name']}"></td>
+            <td><input type="text" name="order[]" value="{$v['order']}"></td>
+            <td><textarea name="item[]">{$v['item']}</textarea></td>
+          </tr>
+          {/foreach}
         </table>
       </div>
   
     <div class="" style=" text-align:center;margin-top: 40px;">
-      <input class="btn btn-primary radius" type="botton" value="添 加" id="submitadd">
+      <input class="btn btn-primary radius" type="botton" value="修 改" id="submitadd">
     </div>
     
   </form>
@@ -85,25 +79,43 @@
 <script type="text/javascript" src="__ADMIN__/js/H-ui.js"></script> 
 <script type="text/javascript" src="__ADMIN__/js/H-ui.admin.js"></script>
 <script type="text/javascript">
+var id = $('input[type="hidden"]').val();
 
-$('#addattr').on('change',function () {
-  var num = $(this).val();
-  for (var i = 1; i <= num; i++) {
+$('#addsan').on('click',function () {
     var str = '<tr>';
-    str += '<td style="width: 180px;"><input type="text" name="attr_name[]" /></td>';
-    str += '<td style="width: 280px;"><input type="text" name="attr_input_type[]" value="0"/></td>';
-    str += '<td style="width: 280px;"><textarea name="attr_values[]" /></textarea>';
-    str += '<td style="width: 80px;"><input type="text" name="order[]" value="50"/></td></tr>';
+    str += '<td><input type="text" name="name[]" value=""></td>';
+    str += '<th><input type="text" name="order[]" value="50"></th>';
+    str += '<th><textarea name="item[]"></textarea></th></tr>';
     $('#addtable').append(str);
-  }
-  $(this).val('请选择添加数');
+  
 });
+
+$('#delsan').on('click',function () {
+    if ($('#addtable tr').length == 2) {layer.alert('不能再删了~');return;}
+    $('#addtable tr')[$('#addtable tr').length-1].remove();
+});
+
+$('#deltype').on('click',function () {
+
+    console.log(id);
+    layer.confirm('确认删除么？',function(index){
+      $.get('{:url("spec/delspectype")}',{'id':id},function (data) {
+        layer.alert('类型表成功删除,对应属性表删除'+data.res2+'条数据',function () {
+            parent.location.reload();
+        });
+      },'json');
+    });
+    
+});
+
+
+
 
 
 $('#submitadd').on('click',function () {
     var formData = new FormData($('#form-user-add')[0]);
     $.ajax({  
-        url: "{:url('spec/dealaddtype')}" ,  
+        url: "dealeditspec?id="+id ,  
         type: 'POST',  
         data: formData,  
         async: true,  
@@ -112,13 +124,13 @@ $('#submitadd').on('click',function () {
         processData: false,  
         success: function (data) {  
             if (data == 1) {
-              layer.alert('添加类型成功',function () {
+              layer.alert('修改规格成功',{'icon':1},function () {
                   parent.location.reload();
               });
             } else {
-              layer.alert('添加类型失败',function () {
+               layer.alert('修改规格失败',{'icon':2},function () {
                   parent.location.reload();
-              });
+                });
             }
         }
    });  

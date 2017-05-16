@@ -95,7 +95,9 @@ class Brand extends Base
 	{
 		$brandid = input('get.id');
 		$brand = BrandModel::get($brandid);
-		$this->assign(['brand' => $brand]);
+
+		$cate = Db::name('goods_cate')->field('id,name')->order('sort_order')->where('level=1')->select();
+		$this->assign(['cate' => $cate,'brand' => $brand]);
 		return $this->fetch();
 	}
 
@@ -103,6 +105,8 @@ class Brand extends Base
 	//增加品牌的信息
 	public function addBrand ()
 	{
+		$cate = Db::name('goods_cate')->field('id,name')->order('sort_order')->where('level=1')->select();
+		$this->assign(['cate' => $cate]);
 		return $this->fetch();
 	}
 
@@ -205,6 +209,7 @@ class Brand extends Base
 		} else {
 			$data['is_hot'] = 0;
 		}
+
 		$result = $brand->save($data,['id' => $data['id']]);
 		if ($result == 1 || $result == 0) {
 			return 1;

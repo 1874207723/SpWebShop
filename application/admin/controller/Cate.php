@@ -59,7 +59,7 @@ class Cate extends Base
 	{
 		$goods = new Goods();
 		$id = input('get.id');
-		$result = $goods->field('goods_id,cat_id,goods_sn,store_count,goods_name,market_price,shop_price,is_recommend,is_on_sale,is_hot,is_new,on_time,last_update')->where('cat_id='.$id )->limit(10)->order('sort','asc')->paginate(10);
+		$result = $goods->field('goods_id,cat_id,goods_sn,store_count,goods_name,market_price,shop_price,is_recommend,is_on_sale,is_hot,is_new,on_time,last_update')->where('cat_id='.$id )->order('sort','asc')->paginate(25);
 		$user = Goods::find(1);
 		return json($result);
 	}

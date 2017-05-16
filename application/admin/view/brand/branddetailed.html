@@ -40,7 +40,7 @@
       <li><label class="label_name">所属国家：</label><span class="name">{$one.url}</span></li>
       <li><label class="label_name">品牌排序:</label><span class="name">{$one.sort}</span></li>
       <li><label class="label_name">推荐品牌：</label><span class="name">{if $one.is_hot}推荐{else}非推荐{/if}</span></li>
-      <li class="b_Introduce"><label class="label_name">品牌介绍：</label><span class="name">1{$one.brand_desc}</span></li>
+      <li class="b_Introduce"><label class="label_name">品牌介绍：</label><span class="name">{$one.brand_desc}</span></li>
     </ul>
     <div class="brand_logo">
       <img src="{$one.logo}"  width="120px" height="60px"/>
@@ -55,8 +55,7 @@
      
       <ul class="search_content clearfix">
        <li><label class="l_f">品牌名称</label><input name="" type="text"  class="text_add" placeholder="输入品牌名称"  style=" width:250px"/></li>
-       <li><label class="l_f">添加时间</label><input class="inline laydate-icon" id="start" style=" margin-left:10px;"></li>
-       <li><select name="" class="text_add"><option  value="1">国内品牌</option><option value="2">国外品牌</option></select></li>
+       
        <li style="width:90px;"><button type="button" class="btn_search"><i class="icon-search"></i>查询</button></li>
       </ul>
     </div>

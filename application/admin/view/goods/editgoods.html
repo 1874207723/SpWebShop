@@ -212,7 +212,7 @@
 <script type="text/javascript" src="__ADMIN__/js/H-ui.js"></script> 
 <script type="text/javascript" src="__ADMIN__/js/H-ui.admin.js"></script> 
 <script>
-getone();
+gettwo();getthree();
 $('#cat_select').on('change',getone);
 function getone() {
 	var catid = $('#cat_select option:selected').val();
@@ -224,7 +224,7 @@ function getone() {
 			var str = '<option value='+data[i].id+'>'+data[i].name+'</option>';
 			$('#brandlist').append(str);
 		}
-		gettwo();
+		
 	},'json');
 
 };

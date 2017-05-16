@@ -87,6 +87,21 @@
 			</select>
 			
 		</div>
+
+		<br />
+		<div class="Add_p_s">
+             <label class="form-label col-12">板块分类: &ensp;</label>	
+			 <select id="cate_select">
+				{foreach $cate as $v}
+					<option value="{$v['id']}">{$v['name']}</option>
+				{/foreach}
+			 </select>
+			<select name="cat_id" id="catelist">
+			</select>
+			<select name="cat_id" id="catelist2">
+			</select>
+			
+		</div>
      
 
 		<div class="Add_p_s" style="margin-top: 10px;">
@@ -190,6 +205,7 @@
 <script type="text/javascript" src="__ADMIN__/js/H-ui.admin.js"></script> 
 <script>
 
+
 $('#cat_select').on('change',function () {
 	var catid = $('#cat_select option:selected').val();
 	//console.log(catid);
@@ -203,6 +219,42 @@ $('#cat_select').on('change',function () {
 	},'json');
 
 });
+
+getthree();gettwo();
+
+$('#cate_select').on('change',gettwo);
+function gettwo() {
+	var cateid = $('#cate_select option:selected').val();
+	//console.log(catid);
+	$.post('{:url("goods/getcatebyid")}',{'id':cateid},function (data) {
+		$('#catelist2').empty();
+		$('#catelist').empty();
+		for(var i in data){
+			
+			var str = '<option value='+data[i].id+'>'+data[i].name+'</option>';
+			$('#catelist').append(str);
+		}
+		getthree();
+	},'json');
+
+};
+
+$('#catelist').on('change',getthree);
+function getthree() {
+	var cateid = $('#catelist option:selected').val();
+	//console.log(catid);
+	$.post('{:url("goods/getcatebyid")}',{'id':cateid},function (data) {
+		$('#catelist2').empty();
+		if (!data.length) {$('#catelist2').removeAttr('name');return;}
+		for(var i in data){
+			var str = '<option value='+data[i].id+'>'+data[i].name+'</option>';
+			$('#catelist2').append(str);
+		}
+		$('#catelist2').attr('name','cat_id');
+	},'json');
+
+}
+
 
 
 function article_save_submit ()

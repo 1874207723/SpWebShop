@@ -23,16 +23,16 @@
         #addtable input{border: 1px solid #000; }
         #addtable {
           margin: 0px auto;
-          width: 800px;
+          width: 600px;
           border: 1px solid #888;
         }
       </style>
-<title>添加产品分类</title>
+<title>添加商品规格</title>
 </head>
 
 <body>
 <div class="type_style" >
- <div class="type_title" > 产品类型信息</div>
+ <div class="type_title" > 商品规格信息</div>
   <div class="type_content" style="margin-left: 100px;">
   <div class="Operate_btn">
   <a href="javascript:;" onclick="layer.tips('请在下方新增哦~',{tips: 4});" class="btn  btn-warning"><i class="icon-edit align-top bigger-125"></i>新增子类型</a>
@@ -40,39 +40,38 @@
   <a href="javascript:;" onclick="layer.msg('你要删哪个？告诉我', {offset: 't', anim: 6});" class="btn  btn-danger"><i class="icon-trash   align-top bigger-125"></i>删除该类型</a>
   </div>
   <form action="" method="post" onsubmit="return false;" class="form form-horizontal" id="form-user-add">
-    <div class="Operate_cont clearfix">
-      <label class="form-label" style="width: 130px;"><span class="c-red" >*</span>商品类型名称：</label>
-      <div class="formControls ">
-        <input type="text" class="input-text" value="" placeholder="" id="user-name" name="name">
+      <div class="Operate_cont clearfix">
+        <label class="form-label" style="width: 130px;color: red"><span class="c-red" >*</span>选择商品类型：</label>
+        <div class="formControls ">
+         &ensp; 
+         <select style="width: 165px;" name="type_id">
+            {foreach $type as $v}
+              <option value="{$v['id']}">{$v['name']}</option>
+            {/foreach}
+          </select>
       </div>
     
     </div>
-      <div class="Operate_cont clearfix" >
-        <label class="form-label" style="width: 130px;"><span class="c-red">【可不选】</span>添加属性</label>
-        <div class="formControls ">
-          <select id="addattr" style="width: 165px;margin-left: 12px;">
-            <option>请选择添加数</option>
-            <option>1</option>
-            <option>5</option>
-            <option>10</option>
-          </select>
-        </div>
-      </div>
+    
+      
 
       <div class="Operate_cont clearfix" >
         <table border="1" id="addtable">
           <tr>
-            <th  style="width: 180px;">属性名称</th>
-            <th  style="width: 280px;">录入方式 : 0手工 1列表 2多行文本</th>
-            <th style="width: 280px;">录入方式0:留空 1:一行是一个选项</th>
-            <th  style="width: 80px;">属性排序</th>
+            <th>规格项名</th>
+            <th>排序</th>
+            <th>规格项属性值 一行一个项</th>
           </tr>
-          
+          <tr>
+            <th><input type="text" name="name"></th>
+            <th><input type="text" name="order" value="50"></th>
+            <th><textarea name="item"></textarea></th>
+          </tr>
         </table>
       </div>
   
     <div class="" style=" text-align:center;margin-top: 40px;">
-      <input class="btn btn-primary radius" type="botton" value="添 加" id="submitadd">
+      <input class="btn btn-primary radius" type="botton" value="添 加 规 格" id="submitadd">
     </div>
     
   </form>
@@ -86,24 +85,12 @@
 <script type="text/javascript" src="__ADMIN__/js/H-ui.admin.js"></script>
 <script type="text/javascript">
 
-$('#addattr').on('change',function () {
-  var num = $(this).val();
-  for (var i = 1; i <= num; i++) {
-    var str = '<tr>';
-    str += '<td style="width: 180px;"><input type="text" name="attr_name[]" /></td>';
-    str += '<td style="width: 280px;"><input type="text" name="attr_input_type[]" value="0"/></td>';
-    str += '<td style="width: 280px;"><textarea name="attr_values[]" /></textarea>';
-    str += '<td style="width: 80px;"><input type="text" name="order[]" value="50"/></td></tr>';
-    $('#addtable').append(str);
-  }
-  $(this).val('请选择添加数');
-});
 
 
 $('#submitadd').on('click',function () {
     var formData = new FormData($('#form-user-add')[0]);
     $.ajax({  
-        url: "{:url('spec/dealaddtype')}" ,  
+        url: "{:url('spec/dealaddspec')}" ,  
         type: 'POST',  
         data: formData,  
         async: true,  
@@ -112,13 +99,9 @@ $('#submitadd').on('click',function () {
         processData: false,  
         success: function (data) {  
             if (data == 1) {
-              layer.alert('添加类型成功',function () {
-                  parent.location.reload();
-              });
+               layer.alert('添加规格成功');
             } else {
-              layer.alert('添加类型失败',function () {
-                  parent.location.reload();
-              });
+               layer.alert('规格添加失败,请填写规格项或者重新添加');
             }
         }
    });  

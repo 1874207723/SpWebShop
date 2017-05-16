@@ -51,10 +51,15 @@ class Goods extends Base
 	{
 		$wuliu = Db::name('shipping')->field('shipping_id as id ,shipping_name as name')->select();
 		$cat = Db::name('brand')->field('cat_name,cat_id')->group('cat_name')->select();
-		$this->assign(['cat' => $cat,'wuliu' => $wuliu]);
+		$cate = Db::name('goods_cate')->field('id,name')->order('sort_order')->where('level=1')->select();
+	$this->assign(['cate'=>$cate,'cat' => $cat,'wuliu' => $wuliu]);
 		return $this->fetch();
 	}
 
+	public function goodsSpec()
+	{
+		return $this->fetch();
+	}
 
 
 	//【ajax】处理修改后的商品数据

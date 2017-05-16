@@ -59,7 +59,7 @@
             <tr>
               <td><input type="text" name="attr_name[]" value="{$v.attr_name}"/></td>
               <td><input type="text" name="attr_input_type[]" value="{$v.attr_input_type}"/></td>
-              <td><input type="text" name="attr_values[]" value="{$v.attr_values}"/></td>
+              <td><textarea name="attr_values[]" style="height: 70px;">{$v.attr_values}</textarea>
               <td><input type="text" name="order[]" value="50" value="{$v.order}"/></td>
             </tr>
           {/foreach}

@@ -73,7 +73,7 @@
                 <th width="50px">推荐</th>
 				<th width="70px">热卖</th>                
 				<th width="70px">上架</th>                
-				<th width="140px">操作</th>
+				<th width="180px">操作</th>
 			</tr>
 		</thead>
 	  <tbody id="tbodylist">
@@ -241,7 +241,7 @@ function success (data)
           }
 
           str += '<td class="td-manage">';
-          str += '<a title="编辑" onclick="member_edit(\'编辑商品\',\'{:url(\'goods/editgoods\')}\','+data[i].goods_id+',1100,610)" href="javascript:;"  class="btn btn-xs btn-info" ><i class="icon-edit bigger-120"></i></a> ';
+          str += '<a title="编辑" onclick="member_edit(\'编辑商品\',\'{:url(\'goods/editgoods\')}\','+data[i].goods_id+',1100,610)" href="javascript:;"  class="btn btn-xs btn-info" ><i class="icon-edit bigger-120"></i></a> <a title="添加模型/图片" onclick="member_edit(\'添加模型/图片\',\'{:url(\'goods/goodsspec\')}\','+data[i].goods_id+',1200,610)" href="javascript:;"  class="btn btn-xs btn-info" ><i class="icon-plus-sign bigger-120"></i></a> ';
           str += '<a title="删除" href="javascript:;"  onclick="member_del(this,'+data[i].goods_id+')" class="btn btn-xs btn-warning" ><i class="icon-trash  bigger-120"></i></a>';
           str += '</td></tr>';
           $('#tbodylist').append(str);

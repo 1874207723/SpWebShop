@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="__ADMIN__/assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="__ADMIN__/css/style.css"/>       
+        <link href="__ADMIN__/assets/css/codemirror.css" rel="stylesheet">
+        <link rel="stylesheet" href="__ADMIN__/assets/css/ace.min.css" />
+        <link rel="stylesheet" href="__ADMIN__/Widget/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+        <link rel="stylesheet" href="__ADMIN__/assets/css/font-awesome.min.css" />
+       
+			<script src="__ADMIN__/assets/js/jquery.min.js"></script>
+		
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='__ADMIN__/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		
+        <script src="__ADMIN__/assets/js/ace-elements.min.js"></script>
+		<script src="__ADMIN__/assets/js/ace.min.js"></script>
+        <script src="__ADMIN__/assets/js/bootstrap.min.js"></script>
+		<script src="__ADMIN__/assets/js/typeahead-bs2.min.js"></script>
+        <script type="text/javascript" src="__ADMIN__/Widget/zTree/js/jquery.ztree.all-3.5.min.js"></script> 
+        <script src="__ADMIN__/js/lrtk.js" type="text/javascript" ></script>
+<title>分类管理</title>
+</head>
+
+<body>
+<div class=" clearfix">
+ <div id="category">
+    <div id="scrollsidebar" class="left_Treeview">
+    <div class="show_btn" id="rightArrow"><span></span></div>
+    <div class="widget-box side_content" >
+    <div class="side_title"><a title="隐藏" class="close_btn"><span></span></a></div>
+     <div class="side_list">
+      <div class="widget-header header-color-green2">
+          <h4 class="lighter smaller">商品规格列表</h4>
+      </div>
+      <div class="widget-body">
+          <div class="widget-main padding-8">
+              <div  id="treeDemo" class="ztree"></div>
+          </div>
+  </div>
+  </div>
+  </div>  
+  </div>
+<!---->
+ <iframe ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO  SRC="{:url('spec/addgoodsspec')}" class="page_right_style"></iframe>
+ </div>
+</div>
+</body>
+</html>
+<script type="text/javascript"> 
+$(function() { 
+	$("#category").fix({
+		float : 'left',
+		//minStatue : true,
+		skin : 'green',	
+		durationTime :false
+	});
+});
+</script>
+<script type="text/javascript">
+//初始化宽度、高度  
+ $(".widget-box").height($(window).height()); 
+ $(".page_right_style").width($(window).width()-220);
+
+ 
+/**************/
+var setting = {
+	view: {
+		dblClickExpand: true,
+		showLine: true,
+		selectedMulti: true
+	},
+	data: {
+		simpleData: {
+			enable:true,
+			idKey: "id",
+			pIdKey: "pId",
+			rootPId: ""
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			var nodes = zTree.getSelectedNodes();
+			if (treeNode.isParent) {
+				zTree.expandNode(nodes);
+				return false;
+			} else {
+				if (treeNode.pId == 1) {
+					$('#testIframe').attr('src','editgoodsspec?id='+treeNode.id);
+				} else {
+			    	$('#testIframe').attr('src','editgoodsspec?id='+treeNode.pId);
+				}
+				return true;
+			}
+		},
+		
+	}
+};
+
+	
+var code;
+		
+function showCode(str) {
+	if (!code) code = $("#code");
+	code.empty();
+	code.append("<li>"+str+"</li>");
+}
+
+$.ajax({  
+  type: 'POST',    
+  dataType : "json",//返回数据类型  
+  async:true,  
+  url: "{:url('spec/spmanage')}",//请求的action路径  
+  data: {"flag":true},  //同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行   
+ 
+  success:function(data){ //请求成功后处理函数。  取到Json对象data  
+      //treeNodes = JSON.parse(data);     
+      $.fn.zTree.init($("#treeDemo"), setting, data);//初始化树，传入树的Dom<pre name="code" class="html">  
+      demoIframe = $("#testIframe");
+} }); 
+		
+/*$(document).ready(function(){
+	var t = $("#treeDemo");
+	t = $.fn.zTree.init(t, setting, zNodes);
+	demoIframe = $("#testIframe");
+	demoIframe.bind("load", loadReady);
+	var zTree = $.fn.zTree.getZTreeObj("tree");
+	zTree.selectNode(zTree.getNodeByParam("id",'11'));
+});	*/
+</script>

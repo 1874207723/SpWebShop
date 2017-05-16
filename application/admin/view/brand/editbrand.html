@@ -53,9 +53,17 @@
            </div> <div class="prompt"><p>图片大小<b>120px*60px</b>图片大小小于5MB,</p><p>支持.jpg;.gif;.png;.jpeg格式的图片</p></div>  
     </li>
          <li class=" clearfix"><label class="label_name"><i>*</i>所属地区：</label> <input name="url" value="{$brand.url}" type="text" class="add_text" style="width:120px"/></li>
-         <!-- 
-         <li class=" clearfix"><label class="label_name"><i>*</i>品牌分类：</label> <input name="url" value="{$brand.url}" type="text" class="add_text" style="width:120px"/></li> -->
+        
+		 <li class=" clearfix"><label class="label_name"><i>*</i>分类名称:</label><input name="cat_name" value="{$brand.cat_name}" type="text" class="add_text" style="width:250px"/></li>
 
+		<li class=" clearfix"><label class="label_name"><i>*</i>选择分类:</label>&ensp;
+			<select name="cat_id" id="cate_select">
+				{foreach $cate as $v}
+					<option value="{$v['id']}">{$v['name']}</option>
+				{/foreach}
+			 </select>
+			
+		</li>
 
          <li class=" clearfix"><label class="label_name">品牌描述：</label> <textarea name="brand_desc" cols="" rows="" class="textarea" onkeyup="checkLength(this);">{$brand.brand_desc}</textarea><span class="wordage">剩余字数：<span id="sy" style="color:Red;">200</span>字</span></li>
          <li class=" clearfix"><label class="label_name"><i>*</i>是否推荐：</label> 
@@ -73,6 +81,9 @@
 </body>
 </html>
 <script type="text/javascript">
+
+
+
 
 $('#savebrand').on('click',function () {
 	var formData = new FormData($( "#form-article-add")[0]); 
