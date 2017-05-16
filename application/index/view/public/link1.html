@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <title>[title]</title>
+    <link rel="Shortcut Icon" type="image/x-icon" href="__STATIC__/images/shoplogo.ico" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" >
+
+
+<!-- 引用静态页面标签 -->
+
+
+<link  type='text/css' href='__STATIC__/css/global.css' rel='stylesheet'/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/public_201703.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/jscrollpane1.css" />
+
+
+<script type = "text/javascript" src="__STATIC__/js/le.jquery.min.js"></script>
+<script type = "text/javascript" src="__STATIC__/js/le.vue.js"></script>
+<script type = "text/javascript" src="__STATIC__/js/le.static.constant.js"></script>
+
+<!-- 中林项目 -->
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/style.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/shopping-mall-index.css" />
+<script type="text/javascript" src="__STATIC__/js/zhonglin.js"></script>
+
+
+    <script type = "text/javascript">
+    var globalHeadVar={
+        m_url:"http://shop.wnphp.cn/moblie/"//m站跳转链接
+    };
+    /**
+     * pc转到m站的跳转
+    */
+    if ((typeof(globalHeadVar) != "undefined") && (globalHeadVar.m_url) && (globalHeadVar.m_url != "")) {
+        var browser = {
+            versions: function() {
+                var a = navigator.userAgent;
+                return {
+                    mobile: !!a.match(/AppleWebKit.*Mobile.*/),
+                    ios: !!a.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+                    android: -1 < a.indexOf("Android"),
+                    iPhone: -1 < a.indexOf("iPhone"),
+                    iPad: -1 < a.indexOf("iPad"),
+                    webApp: -1 == a.indexOf("Safari"),
+                    weixin: -1 < a.indexOf("MicroMessenger")
+                }
+            } ()
+        };
+        if (document.cookie.indexOf("COOKIE_USER_ID_FORWARD_WAP") == -1 && !browser.versions.iPad && (browser.versions.iPhone || browser.versions.mobile || browser.versions.android)) {
+            window.location.href = globalHeadVar.m_url + location.search
+        };
+    }
+    </script>
+      <script type="text/javascript">
+//顶通关闭并删除开始
+function l_adtop_1(obj, btn_close) {
+  var close = btn_close || ".layer-close";
+  $(obj).on('click', close, function() {
+    var $parent = $(this).closest(obj);
+    $parent.slideUp(500, function() {
+      $(this).remove()
+    });
+  })
+}
+//超级IP馆幻灯动效
+function le_slide_4(obj) {
+  var $box = $(obj.box); //最外层的div
+  var $pics = $box[0] ? $box.find(obj.pics) : $(obj.pics); //幻灯模块
+  var $small_list = $box.find(obj.small_list); //幻灯模块下面的小图列表
+  var speed = obj.speed || 3000 //播放速度
+
+  //播放动画时限制点击
+  var space = obj.space ? (obj.space >= 500 ? obj.space : 500) : 500;
+  $pics.open = 1; //1可以点击，0不可以点击；
+
+
+  var $lis = $pics.find(".listpic li");
+
+  // 左右点击按钮
+  $pics.btnL = $pics.find(".next");
+  $pics.btnR = $pics.find(".pre");
+
+  $pics.btnL.click(function() {
+
+    if ($pics.open == 1) {
+      $pics.open = 0;
+      $pics.getLi($lis, -1)
+      setTimeout(function() {
+        $pics.open = 1;;
+      }, 500)
+
+    } else {
+      return false;
+    }
+  });
+  $pics.btnR.click(function() {
+    if ($pics.open == 1) {
+      $pics.open = 0;
+      $pics.getLi($lis, 1);
+      setTimeout(function() {
+        $pics.open = 1;
+
+      }, 500)
+    } else {
+      return false;
+    }
+
+  });
+}
+
+//左侧导航在第一个和最后一个之间fixed定位
+function le_navigation(par, li, arr, arr_tit, Complete) {
+  //左侧导航的每个按钮,不能是li下的a
+  var $parent = $(par);
+  var $navLi = $parent.find(li);
+
+  //获取右侧所有模块列表
+  console.log(data);
+  var $arr = $(arr.join(","));
+
+}
+      </script>
+  </head>
+  <body id="index">
+      <!-- 1200x100 -->
+      <!-- /1200x100 -->
+        <!-- /* 头部模块 开始 */ -->
+    <div class="header">
+        <div class="header_links" id="header_links">
+            <div class="center">
+                <ul class="header_link">
+
+
+                    <li><a>你好，欢迎来到Q-Buy</a></li>
+                </ul>
+                <ul class="header_right">
+                    {if !empty($Think.session.userInfo)}
+                      <li class="header_login relative" id="loginMess">尊敬的{$Think.session.userInfo.mobile}
+                        &ensp; &ensp;  <a href="{:url('user/personaldata')}" id="register" rel="nofollow" >管理中心</a>|<a href="{:url('user/logout')}">退出</a>
+                      }
+                      </li>
+                    {else}
+                      <li class="header_login relative" id="loginMess">
+                        <a href="{:url('user/login')}" rel="nofollow" id="login" ">登录</a> |
+                        <a href="{:url('user/register')}" id="register" rel="nofollow">注册</a>
+                      </li>
+                    {/if}
+                    <li><a target="_blank" href="/lemi.html" webtrekkparam="{ct:'sydb_13'}">乐迷俱乐部</a></li>
+                    {if !empty($Think.session.userInfo)}
+                    <li class="header_order">
+                        <a href="/user/center/orderList_519.html?alys_id=head" rel="nofollow" webtrekkparam="{ct:'sydb_14'}">我的订单</a>
+                    </li>
+                    {/if}
+                    <li type="slide" buffer="300" speed="fast" object="#help" class="hd_list show_hide_block header_help">
+                        <a target="_blank" href="/helpself.html?alys_id=top" webtrekkparam="{ct:'sydb_15'}">帮助中心<div class="jiantou jiantou_down"></div></a>
+                        <dl id="help">
+                            <dt><a target="_blank" href="/helpself.html?alys_id=top">帮助中心<div class="jiantou jiantou_up"></div></a></dt>
+                            <dd><a target="_blank" href="/help/help-id-163.html?alys_id=top" webtrekkparam="{ct:'sydb_16'}">配送安装</a></dd>
+                            <dd><a target="_blank" href="/help/help-id-168.html?alys_id=top" webtrekkparam="{ct:'sydb_17'}">售后服务</a></dd>
+                            <dd><a target="_blank" href="/help/help-id-164.html?alys_id=top" webtrekkparam="{ct:'sydb_18'}">运费标准</a></dd>
+                            <dd><a target="_blank" href="/onlineservice.html?alys_id=top" webtrekkparam="{ct:'sydb_19'}">联系客服</a></dd>
+                        </dl>
+                    </li>
+                    <li type="slide" buffer="300" speed="fast" object="#dao" class="hd_list show_hide_block header_other">
+                        <a href="javascript:void(0)">生态导航<div class="jiantou jiantou_down"></div></a>
+                        <dl id="dao">
+                            <dt>生态导航<div class="jiantou jiantou_up"></div></dt>
+                            <dd><a target="_blank" href="http://www.letv.com?alys_id=top"  webtrekkparam="{ct:'sydb_20'}">乐视视频</a></dd>
+                            <dd><a target="_blank" href="http://www.wangjiu.com?alys_id=top"  webtrekkparam="{ct:'sydb_21'}">网酒网</a></dd>
+                            <!--<dd><a target="_blank" webtrekkparam="{ct:'xbsy_dh1_stdh_lsh'}" href="http://www.lelife.com?alys_id=top">乐生活</a></dd>-->
+                            <dd><a target="_blank" href="http://lepar.letv.com/lepar/join.html?alys_id=top"  webtrekkparam="{ct:'sydb_22'}">LePar</a></dd>
+                        </dl>
+                    </li>
+                    <li type="slide" buffer="300" speed="fast" object="#app_download" class="hd_list show_hide_block">
+                        <a target="_blank" href="/app/download.html?alys_id=top" webtrekkparam="{ct:'sydb_23'}">手机版</a>
+                        <div id="app_download" class="le-tips le-tips-white" style="display:none">
+                            <span class="tips-arr arr-top arr-top-s"><i class="fonticon fonticon-diamond"></i></span>
+                            <span class="tips-arr arr-top"><i class="fonticon fonticon-diamond"></i></span>
+                            <div class="inner-wrap bg-w clearfix">
+                                <div class="inner-cont">
+                                    <p><img alt="" src="__STATIC__/picture/1e75d4832b1f4b4c845a03b163de4dde.gif" style="" /></p>
+                                    <p>扫码下载App</p>
+                                </div>
+                                <div class="inner-cont cont-sec">
+                                    <p><img alt="" src="__STATIC__/picture/9d14496533d64d4b81979e17a220de61.gif" style="" /></p>
+                                    <p>扫码访问微商城</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="Le_head P_cols clearfix">
+            <div class="logoNav">
+              <a href="/index.html" class="logoIndex" style="margin-left: -50px;"><img src="__STATIC__/images/qbuylogo_s.png"></a>
+                <div class="otherNav"></div>
+            </div>
+            <div class="Le_head_form">
+                <div class="form_stuff_1">
+                    <input type="text" class="text" id="txt_company"  style="color:#999">
+                    <input type="button" class="button" id="search_submit" value="搜索" style="font-family: 微软雅黑;">
+                        <!-- 弹层 -->
+
+                              <div class="L_popupmenu hidden">
+                                <div class="box">
+                                </div>
+                              </div>
+
+                        <!-- /弹层-->
+                </div>
+                  <div class="hotwords"></div>
+
+            </div>
+            <div class="btn_cart">
+              <a href="/cart.html" id="cartcar" target="_blank"><span><i class="fonticon fonticon-cart"> </i> <label class="le-label-num" id="productNumInCart">99</label>购物车</span></a>
+              <div id="showcartgoods">
+                <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
+                <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
+                <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
+                <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
+                <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
+                <li><div style="border: 0px;">
+                <p id="goodscount">共 2 件商品</p><p id="sumpirce">4998.00元</p><button id="jiesuan">去购物车结算</button></div></li>
+              </div>
+            </div>
+              <script type="text/javascript">
+
+                $('#cartcar').on('mouseenter',function () {
+                    $('#showcartgoods').show(400);
+                  });
+
+                $('#showcartgoods').on('mouseleave',function () {
+                     $('#showcartgoods').hide(400);
+                  });
+
+              </script>
+
+        </div>
+    </div>
+
+
+
+
+</script>
+<div id="chat" style="position: fixed;right: 50px;top:500px ; display: none;z-index: 500">
+    <div id="onlinelist" class="list-group" style="float: left;display: none;" >
+      <a href="javascript:;" class="list-group-item active" style="cursor: default;" id="onlinetitle">在线客服</a>
+      <a href="tencent://message/?uin=625777511&Site=sc.chinaz.com&Menu=yes" class="list-group-item"><img src="__STATIC__/images/chart/qqonline.png"> 【QQ在线客服】</a>
+    </div>
+
+    <!-- <button type="button" id="onlinebtn" class="btn btn-success" style="font-family: 微软雅黑;">在<br />线<br />客<br />服</button> -->
+  </div>
+
+  <!-- 对话框开始 -->
+    <div class="talk" style="position: absolute;left: 1130px;top: 318px;z-index: 1000; display: none;" id="talkinfo">
+      <div class="talk_title" id="moveWindow" style="cursor: move;"><span style="font-weight: normal;color: #eee;" id="servername">在线客服</span>
+      <a href="javascript:;" onclick="closeonline()" style="float: right;font-size: 20px;margin:0px 10px 0px 5px;color: #ddd;">
+      <span class="glyphicon glyphicon-remove">X</span></a></div>
+      <div class="talk_record" style="overflow-y: auto">
+        <div id="jp-container" class="jp-container"><!-- 这里面存放的是对话的内容 --></div>
+      </div>
+      <div class="talk_word">
+        &nbsp;
+        <input class="add_face" id="facial" type="button" title="添加表情" value="" />
+        <input class="messages emotion" autocomplete="off" value="在这里输入文字" onFocus="if(this.value=='在这里输入文字'){this.value='';}"  onblur="if(this.value==''){this.value='在这里输入文字';}"  id="inputchat" />
+        <input class="talk_send" type="button" title="发送" value="发送" />
+      </div>
+    </div> <!-- 对话框结束 -->
+
+
+
+
+<script type ="text/javascript">
+
+    //顶托滑动效果
+    function header_links(){
+             $header_links=$("#header_links");
+             $header_links.timer="";
+
+             $header_links.find("li[type=slide]").mouseenter(function(event) {
+                 var _this = this;
+                  clearTimeout($header_links.timer);
+                  $header_links.timer=setTimeout(function(){
+                      $(_this).addClass('cur');
+                      $(_this).find(".le-tips,dl").slideDown(150);
+                  },250)
+             }).mouseleave(function(event) {
+                  clearTimeout($header_links.timer);
+                  $(this).removeClass('cur');
+                  $(this).find(".le-tips,dl").slideUp(100);
+             })
+    }
+    header_links();
+</script>
+
