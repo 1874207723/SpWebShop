@@ -74,7 +74,8 @@
 				<th width="120px">品牌名称</th>
 				<th width="130px">所属地区/国家</th>
 				<th width="150px">描述</th>
-				<th width="180px">分类</th>
+				<th width="130px">分类</th>
+				<th width="70px">分类id</th>
 				<th width="100px">推荐品牌</th>                
 				<th width="160px">操作</th>
 			</tr>
@@ -90,6 +91,7 @@
             <td>{$user.url}</td>
             <td class="text-l" style="width: 200px;">{$user.brand_desc}</td>
             <td>{$user.cat_name}</td>
+            <td>{$user.cat_id}</td>
             <td class="td-status">
             {if $user.is_hot}  
               <a onClick="member_stop(this,{$user.id},'nocomme')"  href="javascript:;" title="推荐"  class="btn btn-xs btn-success"><i class="icon-ok bigger-120"></i></a>

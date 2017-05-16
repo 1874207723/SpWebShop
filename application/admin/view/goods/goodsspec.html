@@ -163,45 +163,24 @@
 <!-- 商品模型-->
 		<div class="ncap-form-default tab_div_3" style="" id="moxing">
             <dl class="row">
-
-                        <div class="tab-pane" id="tab_goods_spec">
-                            <table class="table table-bordered" id="goods_spec_table">                                
-                                <tbody><tr>
-                                    <td>商品模型:</td>
-                                    <td>                                        
-                                      <select name="goods_type" id="spec_type" class="form-control" style="width:250px;">
-                                        <option value="0">选择商品模型</option>
-                                        <option value="33">运营商</option>
-                                        <option value="32">相机</option>
-                                        <option value="4">手机</option>
-                                        <option value="31">电池、电源、充电器</option>
-                                        <option value="8">化妆品</option>
-                                        <option value="9">精品手机</option>
-                                        <option value="30">洗衣机</option>
-                                        <option value="29">冰箱</option>
-                                        <option value="16">路由器</option>
-                                        <option value="15">平板电脑</option>
-                                        <option value="13">衣服</option>
-                                        <option value="17">网络盒子</option>
-                                        <option value="18">电视</option>
-                                        <option value="19">家纺</option>
-                                        <option value="20">吸顶灯</option>
-                                        <option value="21">床</option>
-                                        <option value="22">雨伞</option>
-                                        <option value="23">餐具</option>
-                                        <option value="24">毛呢大衣</option>
-                                        <option value="25">针织衫</option>
-                                        <option value="26">文胸</option>
-                                        <option value="27">香水</option>
-                                        <option value="28">珠宝</option>
-                                                                                
-                                      </select>
-                                    </td>
-                                </tr>                            
-                            </tbody></table>
-                            <div class="row">
-                            	<!-- ajax 返回规格-->
-                            	<div id="ajax_spec_data" class="col-xs-8"><table class="table table-bordered" id="goods_spec_table1">                                
+                <div class="tab-pane" id="tab_goods_spec">
+                    <table class="table table-bordered" id="goods_spec_table">    
+                        <tbody><tr>
+                            <td>商品模型:</td>
+                            <td>                                        
+                              <select id="spec_type" class="form-control" style="width:250px;">
+                                <option value="0">选择商品模型</option>
+                                {foreach $type as $v}
+                                   <option value="{$v['id']}" {if $v['name'] == $typename} selected {/if}>{$v['name']}</option> 
+                                {/foreach}
+                              </select>
+                            </td>
+                        </tr>                            
+                        </tbody>
+                    </table>
+                    <div class="row">
+                    	<!-- ajax 返回规格-->
+                    	<div id="ajax_spec_data" class="col-xs-8"><table class="table table-bordered" id="goods_spec_table1">                                
     <tbody><tr>
         <td colspan="2"><b>商品规格:</b></td>
     </tr>
@@ -275,68 +254,62 @@
                         <input type="hidden" name="item_img[23]" value="">                                                      
                 &nbsp;&nbsp;&nbsp;            
                      
-        </td>
-    </tr>                                    
-        <tr>
-        <td>颜色:</td>
-        <td>                            
-                                        
-                <button type="button" data-spec_id="16" data-item_id="55" class="btn btn-default">
-                    黑色                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_55" onclick="GetUploadify3(&#39;55&#39;);">    
-                        <input type="hidden" name="item_img[55]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="16" data-item_id="56" class="btn btn-default">
-                    白色                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_56" onclick="GetUploadify3(&#39;56&#39;);">    
-                        <input type="hidden" name="item_img[56]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="16" data-item_id="57" class="btn btn-default">
-                    金色                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_57" onclick="GetUploadify3(&#39;57&#39;);">    
-                        <input type="hidden" name="item_img[57]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="16" data-item_id="99" class="btn btn-default">
-                    银色                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_99" onclick="GetUploadify3(&#39;99&#39;);">    
-                        <input type="hidden" name="item_img[99]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="16" data-item_id="100" class="btn btn-default">
-                    玫瑰金                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_100" onclick="GetUploadify3(&#39;100&#39;);">    
-                        <input type="hidden" name="item_img[100]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                     
-        </td>
-    </tr>                                    
-        
-</tbody></table>
-<div id="goods_spec_table2"><table class="table table-bordered" id="spec_input_tab"><tbody><tr> <td><b></b></td><td><b>价格</b></td>
-               <td><b>库存</b></td>
-               <td><b>SKU</b></td>
-             </tr></tbody></table></div>
+            </td>
+        </tr>                                    
+    </tbody>
+</table>
+    <div id="goods_spec_table2">
+        <table class="table table-bordered" id="spec_input_tab">
+            <tbody>
+                <tr> 
+                    <td>
+                        <b></b>
+                    </td>
+                    <td>
+                        <b>价格</b>
+                    </td>
+                   <td>
+                        <b>库存</b>
+                    </td>
+                   <td>
+                        <b>SKU</b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
  </div>
-                            	<div id="" class="col-xs-4">
-                            	    <table class="table table-bordered" id="goods_attr_table">                                
-		                                <tbody><tr>
-		                                    <td><b>商品属性</b>：</td>
-		                                </tr>                                
-		                            <tr class="attr_56"><td> 网络制式</td> <td><input type="text" size="40" value="" name="attr_56[]"></td></tr><tr class="attr_57"><td> 支持频率/网络频率</td> <td><input type="text" size="40" value="" name="attr_57[]"></td></tr><tr class="attr_58"><td> 尺寸体积</td> <td><input type="text" size="40" value="   " name="attr_58[]"></td></tr><tr class="attr_59"><td> 外观样式/手机类型</td> <td><select name="attr_59[]"><option value="翻盖">翻盖</option><option value="滑盖">滑盖</option><option value="直板">直板</option><option value="折叠">折叠</option><option value="手写">手写</option></select></td></tr><tr class="attr_60"><td> 主屏参数/内屏参数</td> <td><input type="text" size="40" value="" name="attr_60[]"></td></tr><tr class="attr_61"><td> 副屏参数/外屏参数</td> <td><input type="text" size="40" value="" name="attr_61[]"></td></tr><tr class="attr_62"><td> 清晰度</td> <td><input type="text" size="40" value="" name="attr_62[]"></td></tr><tr class="attr_63"><td> 色数/灰度</td> <td><select name="attr_63[]"><option selected="selected" value=""></option></select></td></tr><tr class="attr_64"><td> 长度</td> <td><input type="text" size="40" value="" name="attr_64[]"></td></tr><tr class="attr_65"><td> 宽度</td> <td><input type="text" size="40" value="" name="attr_65[]"></td></tr><tr class="attr_66"><td> 厚度</td> <td><input type="text" size="40" value="" name="attr_66[]"></td></tr><tr class="attr_67"><td> 屏幕材质</td> <td><input type="text" size="40" value="" name="attr_67[]"></td></tr><tr class="attr_68"><td> 内存容量</td> <td><select name="attr_68[]"><option value="8G">8G</option><option value="16G">16G</option><option value="32G">32G</option><option value="64G">64G</option></select></td></tr><tr class="attr_69"><td> 操作系统</td> <td><input type="text" size="40" value="android4.0
-android5.0
-android6.0" name="attr_69[]"></td></tr><tr class="attr_70"><td> 通话时间</td> <td><input type="text" size="40" value="" name="attr_70[]"></td></tr><tr class="attr_71"><td> 待机时间</td> <td><input type="text" size="40" value="" name="attr_71[]"></td></tr><tr class="attr_72"><td> 标准配置</td> <td><input type="text" size="40" value="" name="attr_72[]"></td></tr><tr class="attr_73"><td> WAP上网</td> <td><input type="text" size="40" value="" name="attr_73[]"></td></tr><tr class="attr_74"><td> 数据业务</td> <td><input type="text" size="40" value="" name="attr_74[]"></td></tr><tr class="attr_75"><td> 天线位置</td> <td><select name="attr_75[]"><option value="内置">内置</option><option value="外置">外置</option></select></td></tr><tr class="attr_76"><td> 随机配件</td> <td><input type="text" size="40" value="" name="attr_76[]"></td></tr><tr class="attr_77"><td> 铃声</td> <td><input type="text" size="40" value="" name="attr_77[]"></td></tr><tr class="attr_78"><td> 摄像头</td> <td><input type="text" size="40" value="" name="attr_78[]"></td></tr><tr class="attr_79"><td> 彩信/彩e</td> <td><select name="attr_79[]"><option value="支持">支持</option><option value="不支持">不支持</option></select></td></tr><tr class="attr_80"><td> 红外/蓝牙</td> <td><input type="text" size="40" value="蓝牙2.0
-蓝牙3.0
-蓝牙4.0" name="attr_80[]"></td></tr><tr class="attr_81"><td> 价格等级</td> <td><select name="attr_81[]"><option value="高价机">高价机</option><option value="中价机">中价机</option><option value="低价机">低价机</option></select></td></tr></tbody></table>
-                            	</div>
-                            </div>
-                        </div>
+    	<div id="" class="col-xs-4">
+    	    <table class="table table-bordered" id="goods_attr_table">                                
+                <tbody id="tbodyaddtype">
+                    <tr>
+                        <td><b>商品属性</b>：</td>
+                    </tr>                        
+                    {foreach $attr as $v}
+                    <tr class="attr_{$v['attr_id']}">
+                        <td> {$v['attr_name']}</td>
+                        {if $v['attr_input_type'] == 1}
+                            <td><select name="attr_{$v['attr_id']}[]">
+                                {foreach $v['attr_values'] as $a}
+                                <option value="{$a}" {if $v['attr_value'] == $a} selected {/if}>{$a}</option>
+                                {/foreach}
+                            </select></td>  
+                        {else}
+                            <td><input type="text" size="40" value="{$v['attr_value']}" name="attr_{$v['attr_id']}[]"></td>
+                        {/if} 
+                        
+                    </tr>
+                    {/foreach}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
                 
-            </dl>             
-        </div>   
+</dl>             
+</div>   
 <!-- 商品模型-->         
         <div class="ncap-form-default">        
             <div class="bot">            
@@ -352,13 +325,57 @@ android6.0" name="attr_69[]"></td></tr><tr class="attr_70"><td> 通话时间</td
 <script>
 
     function showmuxing() {
-        $('#muxing').css('display','block');
+        $('#moxing').css('display','block');
         $('#xiangce').css('display','none');
     }
     function showxiangce() {
         $('#xiangce').css('display','block');
-        $('#muxing').css('display','none');
+        $('#moxing').css('display','none');
     }
+/*<tr class="attr_58">
+    <td> 尺寸体积</td> 
+    <td><input type="text" size="40" value="   " name="attr_58[]"></td>
+</tr>
+<tr class="attr_59">
+    <td> 外观样式/手机类型</td> 
+    <td>
+        <select name="attr_59[]">
+            <option value="翻盖">翻盖</option>
+            <option value="滑盖">滑盖</option>
+            <option value="直板">直板</option>
+            <option value="折叠">折叠</option>
+            <option value="手写">手写</option>
+        </select>
+    </td>
+</tr>
+*/
+
+    $('#spec_type').on('change',function () {
+        var typeid = $('#spec_type option:selected').val();
+        $.get('{:url("goods/getmodelbyid")}',{"id":typeid},function (data) {
+            $('#tbodyaddtype').empty('tr td');
+            var type = data.type;
+             $('#tbodyaddtype').append('<tr><td><b>商品属性</b>：</td></tr> ');  
+            for(var i in type){
+                var str = '<tr class="attr_'+type[i].attr_id+'">';
+                    str += '<td> '+type[i].attr_name+'</td>';
+                    if(type[i].attr_input_type == 1){
+                        str += '<td><select name="attr_'+type[i].attr_id+'[]">';
+                        for(var j in type[i].attr_values){
+                            str += '<option value="'+type[i].attr_values[j]+'">'+type[i].attr_values[j]+'</option>';
+                        }
+                        str += '</select></td>';
+                    } else {
+                        str += '<td><input type="text" size="40" value="" name="attr_'+type[i].attr_id+'[]"></td>';
+                    } 
+                    str += '</tr>';
+                 $('#tbodyaddtype').append(str); 
+                
+            }
+           
+           
+        },'json');
+    });
 
 </script>		
 

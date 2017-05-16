@@ -79,17 +79,147 @@ class Cate extends Base
 
 	public function editcate ()
 	{
-		$cateid = input('get.');
+		$cateid = input('get.id');
 		$cate = Db::name('goods_cate')->where('id='.$cateid)->find();
-		$res = Db::name('goods_cate')->where('parent_id='.$cate['id'])->find();
-		if (!empty($res)) {
-			$res = 1;
-		} else {
-			$res = 0;
-		}
-		$this->fetch(['res' => $res,'cate',$cate]);
+
+		$this->assign(['cate' => $cate]);
 		return $this->fetch();
 	}
+
+	//接受ajax传来的上传品牌图片的消息
+	public function cateupload ()
+	{
+		$file = request()->file('Filedata');
+		$cateid = request()->param()['brandid'];
+		$info = $file->validate(['ext'=>'jpeg,jpg,png,gif'])->move('./static/uploads/cate/'.$cateid,'');
+	    if($info){
+	        $logo_img = WEB_PATH.'/static/uploads/cate/'.$cateid.'/'.$info->getSaveName();
+	    }else{
+	        return $file->getError();die;
+	    }
+	    //查询到数据表中的logo信息 然后删掉 注意 http://后面加上路径 是不能操作的
+	    $oldImgUrl = Db::name('goods_cate')->find($cateid)['image'];
+	    if ($oldImgUrl != $logo_img && file_exists(str_replace(WEB_PATH, '',$oldImgUrl))) {
+	    	unlink('.'.str_replace(WEB_PATH, '',$oldImgUrl));
+	    }
+	    
+		$result = Db::name('goods_cate')->where('id',$cateid)->update(['image' => htmlspecialchars($logo_img)]);
+
+		return json(['path' => $logo_img,
+		'width' => '200',
+		'height' => '100']);
+	}
+
+	public function dealEditCate() {
+
+		$data = input('post.');
+		if($data['is_hot'] == 1){
+			$data['is_hot'] = 1;
+		} else {
+			$data['is_hot'] = 0;
+		}
+
+		$result = Db::name('goods_cate')->update($data,['id' => $data['id']]);
+		if ($result == 1 || $result == 0) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+
+	public function addCate ()
+	{
+		$cate = Db::name('goods_cate')->field('id,name')->order('sort_order')->where('level=1')->select();
+		$this->assign(['cate' => $cate]);
+		return $this->fetch();
+	}
+
+	public function getCateById ()
+	{
+		$cateid = input('post.id');
+		$reuslt = Db::name('goods_cate')->where('parent_id='.$cateid)->select();
+		return json($reuslt);
+	}
+
+	//添加商品的图片请求然后保存缓存到文件夹
+	public function addCateUpload ()
+	{
+		//使用变量接受file文件信息 和 post数据
+		$file = request()->file('Filedata');
+		$goodsid = session('admin_uid');
+		//若传递过来的文件不为空则不会去修改这个文件的路径
+		//验证文件的类型是不是指定的格式 然后移动文件到拼接的目录 文件的名字是原来的名字
+		$info = $file->move('./static/uploads/cate/temp/'.$goodsid,'temp_goods');
+	    if($info){
+	        $logo_img = WEB_PATH.'/static/uploads/cate/temp/'.$goodsid.'/temp_goods.'.$info->getExtension();
+	        return json([
+	        	'path' => $logo_img,
+	        	'width' => '200',
+				'height' => '100'
+				]);
+	    }else{
+	        return $file->getError();die;
+	    }
+	}
+
+
+	//接受ajax上传的表单的信息 然后添加品牌
+	public function dealAddCate ()
+	{
+		$filepath = './static/uploads/cate/temp/'.session('admin_uid');
+		$dh = opendir($filepath);
+		while (($file = readdir($dh)) !== false) {
+			if (strstr(basename($file),'temp_goods')) {
+				$imgpath = $file;
+			}
+		}
+		closedir($dh);
+		if (empty($imgpath)) {
+			return '请重新上传商品图片';die;
+		}
+
+		$data = input('post.');
+		if($data['is_hot'] == 1){
+			$data['is_hot'] = 1;
+		} else {
+			$data['is_hot'] = 0;
+		}
+		if ($data['yiji'] == 0) {
+			$data['parent_id'] = 0;
+			$data['level'] = 1;
+			$parent_id_path = '0_';
+		} elseif(empty($data['erji'])) {
+			$data['parent_id'] = $data['yiji'];
+			$data['level'] = 2;
+			$parent_id_path = '0_'.$data['parent_id'].'_';
+		} else {
+			$data['parent_id'] = $data['erji'];
+			$data['level'] = 3;
+			$yiji = $data['yiji'];
+			$parent_id_path = '0_'.$yiji.'_'.$data['parent_id'];
+			unset($data['erji']);
+		}
+		unset($data['yiji']);
+		$result = Db::name('goods_cate')->insertGetId($data);
+		
+		$oldname = './static/uploads/cate/temp/'.session('admin_uid').'/'.$imgpath;
+		$newname = './static/uploads/cate/'.$result;
+		
+		if (!is_dir($newname)) {
+			mkdir($newname);
+		}
+		rename($oldname, $newname.'/'.$imgpath);
+		$resultimg = Db::name('goods_cate')->where(['id' => $result])->update(['image' => WEB_PATH.substr($newname,1).'/'.$imgpath,'parent_id_path' => $parent_id_path.$result]);
+		
+		if ($resultimg == 0 || $resultimg == 1) {
+			return 1;
+		} else {
+			return '新增分类图片失败，请重新添加';die;
+		}
+
+	}
+
 
 }
  

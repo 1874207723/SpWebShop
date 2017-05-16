@@ -56,10 +56,7 @@ class Goods extends Base
 		return $this->fetch();
 	}
 
-	public function goodsSpec()
-	{
-		return $this->fetch();
-	}
+	
 
 
 	//【ajax】处理修改后的商品数据
@@ -248,6 +245,60 @@ class Goods extends Base
 		$result = Db::name('goods')->field('original_img')->find($id)['original_img'];
 		return json(['img' => $result]);
 	}
+
+
+
+	//对商品的模型和相册进行修改
+	public function goodsSpec()
+	{
+		$goodsid = input('get.id');
+		//dump($goodsid);
+		$type = Db::name('goods_type')->select();
+		//获取商品的属性类型id
+		$typeid = Db::name('goods')->field('spec_type')->where('goods_id='.$goodsid)->find()['spec_type'];
+		$typename = Db::name('goods_type')->where('id='.$typeid)->find()['name'];
+		//下面的两个是获取到相关的信息 然后准备合并
+		$attr = Db::table('qb_goods_attribute')->alias('b')->field('b.*,a.attr_value')->join('qb_goods_attr a','b.attr_id=a.attr_id','')->where('a.goods_id='.$goodsid)->select();
+		$typeinfo = Db::name('goods_attribute')->order('order')->where('type_id='.$typeid)->select();
+		$arr = [];
+		foreach ($typeinfo as $key2 => $value2) {
+				if (empty($attr[$key2])) {
+					$arr[$key2] = $typeinfo[$key2];
+					$arr[$key2]['attr_value'] = '';
+				} else {
+					$arr[$key2] = array_merge($typeinfo[$key2],$attr[$key2]);
+				}
+		}
+		foreach ($arr as $key => $value) {
+			if ($value['attr_input_type'] == 1) {
+				$arr[$key]['attr_values'] = explode("\n",$arr[$key]['attr_values']);
+			}
+		}
+		$this->assign(['type' => $type,'attr' => $arr,'typename' => $typename]);
+		return $this->fetch();
+	}
+
+
+	//获取到指定商品的模型（规格和类型）数据
+	public function getModelById ()
+	{
+		//$result = Db::table('qb_goods_type')->alias('a')->join('qb_spec s','s.type_id = a.id')->select();
+		$typeid = input('get.id');
+		$type = Db::name('goods_attribute')->order('order')->where('type_id='.$typeid)->select();
+		$res = Db::table('qb_spec')->alias('s')->join('qb_spec_item i','s.id=i.spec_id')->where('s.type_id='.$typeid)->select();
+		foreach ($type as $key => $value) {
+			if ($value['attr_input_type'] == 1) {
+				$type[$key]['attr_values'] = explode("\n",$type[$key]['attr_values']);
+			}
+		}
+		return json(['type' => $type,'spec' => $res]);
+	}
+
+
+
+
+
+
 
 }
  

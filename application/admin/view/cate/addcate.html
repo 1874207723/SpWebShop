@@ -12,12 +12,8 @@
         <link rel="stylesheet" href="__ADMIN__/assets/css/ace.min.css" />
         <link rel="stylesheet" href="__ADMIN__/assets/css/font-awesome.min.css" />
         <link href="__ADMIN__/Widget/icheck/icheck.css" rel="stylesheet" type="text/css" />
-		<!--[if IE 7]>
-		  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
-		<![endif]-->
-        <!--[if lte IE 8]>
-		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
-		<![endif]-->
+		
+		
 	    <script src="__ADMIN__/js/jquery-1.9.1.min.js"></script>
         <script src="__ADMIN__/assets/js/bootstrap.min.js"></script>
         <script src="__ADMIN__/assets/js/typeahead-bs2.min.js"></script>
@@ -32,15 +28,16 @@
 <div class=" clearfix">
  <div id="add_brand" class="clearfix">
  <div class="left_add">
-   <div class="title_name">修改分类</div>
+   <div class="title_name">添加分类</div>
   <form action="" onsubmit="return false" method="post" id="form-article-add">
    <ul class="add_conent">
    
-    <li class=" clearfix"><label class="label_name"><i>*</i>分类名称：</label> <input name="name" value="{$cate['name']}" type="text" class="add_text"/></li><input type="hidden" name="id" value="{$cate['id']}" id="hiddenid">
-    <li class=" clearfix"><label class="label_name"><i>*</i>分类排序：</label> <input name="sort_order" type="text" value="{$cate['sort_order']}" class="add_text" style="width:80px"/></li>
+    <li class=" clearfix"><label class="label_name"><i>*</i>分类名称：</label> <input name="name" value="" type="text" class="add_text"/></li>
+     <li class=" clearfix"><label class="label_name"><i>*</i>手机端名称：</label> <input name="mobile_name" value="" type="text" class="add_text"/></li>
+    <li class=" clearfix"><label class="label_name"><i>*</i>分类排序：</label> <input name="sort_order" type="text" value="" class="add_text" style="width:80px"/></li>
     <li class=" clearfix"><label class="label_name">分类图片：</label>
            <div class="demo l_f">
-	           <div class="logobox"><div class="resizebox"><img src="{$cate['image']}" width="100px" alt="" height="100px"/></div></div>	
+	           <div class="logobox"><div class="resizebox"><img src="__ADMIN__/images/image.png" width="100px" alt="" height="100px"/></div></div>	
                <div class="logoupload">
                   <div class="btnbox"><a id="uploadBtnHolder" class="uploadbtn" href="javascript:;">上传替换</a></div>
                   <div style="clear:both;height:0;overflow:hidden;"></div>
@@ -52,13 +49,28 @@
                       	
            </div> <div class="prompt"><p>图片大小<b>120px*60px</b>图片大小小于5MB,</p><p>支持.jpg;.gif;.png;.jpeg格式的图片</p></div>  
     </li>
-  
-   		
-         
-	    <li class=" clearfix"><label class="label_name"><i>*</i>是否推荐热门：</label> 
-	    <label><input name="is_hot" type="radio" class="ace" {if $cate['is_hot']}checked="checked{/if}" value="1"><span class="lbl">推荐</span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-	    <label><input type="radio" class="ace" name="is_hot" {if !$cate['is_hot']}checked="checked{/if} value="0"><span class="lbl">不推荐</span></label>
-	    </li>
+     
+        
+   
+		<li class=" clearfix"><label class="label_name"><i>*</i>选择父类:</label>&ensp;
+			<select name="yiji" id="cate_select">
+				<option value="0">创建一级类</option>
+				{foreach $cate as $v}
+					<option value="{$v['id']}">{$v['name']}</option>
+				{/foreach}
+			 </select>	
+			是否添加二级类<input type="checkbox" id="addtwo">
+			<select id="erjilei">
+				
+			</select>
+		</li>
+
+
+      
+         <li class=" clearfix"><label class="label_name"><i>*</i>是否推荐：</label> 
+         <label><input name="is_hot" type="radio" class="ace" checked="checked" value="1"><span class="lbl">推荐</span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+         <label><input type="radio" class="ace" name="is_hot"  value="0"><span class="lbl">不推荐</span></label>
+         </li>
  
    </ul></form>
  </div>
@@ -71,13 +83,47 @@
 </html>
 <script type="text/javascript">
 
+$('#addtwo').on('click',function () {
+	var catid = $('#cate_select option:selected').val();
+	if ($('#addtwo').is(':checked') && catid != 0) {
+		$('#erjilei').attr('name','erji');
+		
+		$.post('{:url("cate/getcatebyid")}',{'id':catid},function (data) {
+			$('#erjilei').empty();
+			for(var i in data){
+				var str = '<option value='+data[i].id+'>'+data[i].name+'</option>';
+				$('#erjilei').append(str);
+			}
+		
+		},'json');
+	} else {
+		$('#erjilei').empty();
+		$('#erjilei').removeAttr('name');
+	}
+});
 
-
+$('#cate_select').on('change',function () {
+	var catid = $('#cate_select option:selected').val();
+	if ($('#addtwo').is(':checked') && catid != 0) {
+		$('#erjilei').attr('name','erji');
+		$.post('{:url("cate/getcatebyid")}',{'id':catid},function (data) {
+			$('#erjilei').empty();
+			for(var i in data){
+				var str = '<option value='+data[i].id+'>'+data[i].name+'</option>';
+				$('#erjilei').append(str);
+			}
+		
+		},'json');
+	} else {
+		$('#erjilei').empty();
+		$('#erjilei').removeAttr('name');
+	}
+});
 
 $('#savebrand').on('click',function () {
 	var formData = new FormData($( "#form-article-add")[0]); 
 	    $.ajax({  
-	          url: "{:url('cate/dealeditcate')}" ,  
+	          url: "{:url('cate/dealaddcate')}" ,  
 	          type: 'POST',  
 	          data: formData,  
 	          async: true,  
@@ -86,11 +132,11 @@ $('#savebrand').on('click',function () {
 	          processData: false,  
 	          success: function (data) {  
 	              if (data == 1) {
-	              	layer.alert('修改分类成功',function () {
+	              		layer.alert('添加分类成功',function () {
 	              		location.reload();
 	              	});
 	              } else {
-	              	layer.alert('修改分类失败');
+	              	layer.alert('添加分类失败');
 	              }
 	          }
 	     });  
@@ -134,7 +180,7 @@ $('#savebrand').on('click',function () {
 
 
 
-var brandid = $('#hiddenid').val();
+//var brandid = $('#hiddenid').val();
 function updateProgress(file) {
 	$('.progress-box .progress-bar > div').css('width', parseInt(file.percentUploaded) + '%');
 	$('.progress-box .progress-num > b').html(SWFUpload.speed.formatPercent(file.percentUploaded));
@@ -170,7 +216,7 @@ $(document).ready(function() {
 	var settings = {
 		flash_url : "__ADMIN__/Widget/swfupload/swfupload.swf",
 		flash9_url : "__ADMIN__/Widget/swfupload/swfupload_fp9.swf",
-		upload_url: "{:url('cate/cateupload')}",// 接受上传的地址
+		upload_url: "{:url('cate/addcateupload')}",// 接受上传的地址
 		file_size_limit : "5MB",// 文件大小限制
 		file_types : "*.jpg;*.gif;*.png;*.jpeg;",// 限制文件类型
 		file_types_description : "图片",// 说明，自己定义
@@ -178,7 +224,6 @@ $(document).ready(function() {
 		file_queue_limit : 0,
 		custom_settings : {},
 		debug: false,
-		post_params: {'brandid':brandid},
 		// Button settings
 		button_image_url: "__ADMIN__/Widget/swfupload/upload-btn.png",
 		button_width: "95",
