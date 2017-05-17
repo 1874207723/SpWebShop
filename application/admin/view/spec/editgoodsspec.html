@@ -51,12 +51,15 @@
       <div class="Operate_cont clearfix" >
         <table border="1" id="addtable">
           <tr>
+            <th></th>
             <th>规格项名</th>
             <th>排序</th>
             <th>规格项属性值 一行一个项</th>
           </tr>
           {foreach $res as $v}
           <tr>
+
+            <td><input type="hidden" name="id[]" value="{$v['id']}"></td>
             <td><input type="text" name="name[]" value="{$v['name']}"></td>
             <td><input type="text" name="order[]" value="{$v['order']}"></td>
             <td><textarea name="item[]">{$v['item']}</textarea></td>
@@ -83,6 +86,7 @@ var id = $('input[type="hidden"]').val();
 
 $('#addsan').on('click',function () {
     var str = '<tr>';
+    str += '<td><input type="hidden"></td>';
     str += '<td><input type="text" name="name[]" value=""></td>';
     str += '<th><input type="text" name="order[]" value="50"></th>';
     str += '<th><textarea name="item[]"></textarea></th></tr>';

@@ -57,6 +57,7 @@
           </tr>
           {foreach $res as $v}
             <tr>
+              <td><input type="hidden" name="attr_id[]" value="{$v['attr_id']}"></td>
               <td><input type="text" name="attr_name[]" value="{$v.attr_name}"/></td>
               <td><input type="text" name="attr_input_type[]" value="{$v.attr_input_type}"/></td>
               <td><textarea name="attr_values[]" style="height: 70px;">{$v.attr_values}</textarea>
@@ -84,6 +85,7 @@ var id = $('input[type="hidden"]').val();
 
 $('#addsan').on('click',function () {
     var str = '<tr>';
+    str += '<td><input type="hidden" name="" /></td>';
     str += '<td><input type="text" name="attr_name[]" /></td>';
     str += '<td><input type="text" name="attr_input_type[]" value="0"/></td>';
     str += '<td><input type="text" name="attr_values[]" /></td>';

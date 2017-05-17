@@ -258,42 +258,129 @@ class Goods extends Base
 		$typeid = Db::name('goods')->field('spec_type')->where('goods_id='.$goodsid)->find()['spec_type'];
 		$typename = Db::name('goods_type')->where('id='.$typeid)->find()['name'];
 		//下面的两个是获取到相关的信息 然后准备合并
-		$attr = Db::table('qb_goods_attribute')->alias('b')->field('b.*,a.attr_value')->join('qb_goods_attr a','b.attr_id=a.attr_id','')->where('a.goods_id='.$goodsid)->select();
+		$attr = Db::table('qb_goods_attribute')->alias('b')->field('b.*,a.attr_value')->join('qb_goods_attr a','b.attr_id=a.attr_id','')->order('order')->where('a.goods_id='.$goodsid)->select();
 		$typeinfo = Db::name('goods_attribute')->order('order')->where('type_id='.$typeid)->select();
 		$arr = [];
+		$arr2 = [];
+
+		//合并两个表  但是要将空白的也显示出来
 		foreach ($typeinfo as $key2 => $value2) {
-				if (empty($attr[$key2])) {
+				
+			foreach ($attr as $k => $v) {
+				if ($v['attr_id'] == $value2['attr_id']) {
+					$arr[$key2] = $attr[$k]; break;
+				} else {
 					$arr[$key2] = $typeinfo[$key2];
 					$arr[$key2]['attr_value'] = '';
-				} else {
-					$arr[$key2] = array_merge($typeinfo[$key2],$attr[$key2]);
 				}
-		}
-		foreach ($arr as $key => $value) {
-			if ($value['attr_input_type'] == 1) {
-				$arr[$key]['attr_values'] = explode("\n",$arr[$key]['attr_values']);
 			}
 		}
-		$this->assign(['type' => $type,'attr' => $arr,'typename' => $typename]);
+	
+		foreach ($arr as $key => $value) {
+			if ($value['attr_input_type'] == 1) {
+				$arr[$key]['attr_values'] = explode("\n",trim($arr[$key]['attr_values']));
+			}
+		}
+		//获取到规格的信息 要使用group分组吧名称取出来
+		$res = Db::table('qb_spec')->alias('s')->join('qb_spec_item i','s.id=i.spec_id')->where('s.type_id='.$typeid)->select();
+		$res2 = Db::table('qb_spec')->alias('s')->join('qb_spec_item i','s.id=i.spec_id')->where('s.type_id='.$typeid)->group('s.name')->select();
+		$spec_goods = Db::name('spec_goods')->where('goods_id='.$goodsid)->select();
+		$goods_itemid = [];
+		//将规格的商品进行切割出一个一维数组
+		foreach ($spec_goods as $key => $value) {
+			$keykey = explode('_',$spec_goods[$key]['key']);
+			$goods_itemid = array_merge($goods_itemid,$keykey);
+		}
+		$imginfo = Db::name('goods_images')->where('goods_id='.$goodsid)->select();
+		$this->assign(['goodsid' => $goodsid,
+						'type' => $type,
+						'attr' => $arr,
+						'typename' => $typename,
+						'spec' => $res,
+						'spec2' => $res2,
+						'spec_goods' => $spec_goods,
+						'gitm' => $goods_itemid,
+						'imginfo' => $imginfo
+					]);
 		return $this->fetch();
 	}
 
+	//接受ajax的请求进行添加商品模型的修改
+	public function editGoodsModel ()
+	{
+		$data = input('post.');
+		$goodsid = input('get.id');
+		//更改商品的类别
+		Db::name('goods')->where('goods_id='.$goodsid)->update(['goods_type' => $data['gtype_id']]);
+		$addattr = [];
+		$addspec = [];
+		$flag = true;
 
-	//获取到指定商品的模型（规格和类型）数据
+		//若类别不是空的那别进行插入数据
+		if (!empty($data['attr_values'])) {
+			foreach ($data['attr_values'] as $key => $value) {
+				if (empty($value)) {
+					unset($data['attr_values'][$key]);continue;
+				}
+				$addattr[] = ['goods_id' => $goodsid,'attr_id' => $key,'attr_value' => $value];
+			}
+			$flag = Db::name('goods_attr')->where('goods_id='.$goodsid)->delete();
+			$flag = Db::name('goods_attr')->insertAll($addattr);
+		}
+		//若规格不是空的在则拼接进行插入数据
+		if (!empty($data['key'])) {	
+			foreach ($data['key'] as $key => $value) {
+				$addspec[] = ['goods_id' => $goodsid,'key' => $value,'price' => $data['price'][$key],'store_count' => $data['store_count'][$key]];
+			}
+			$flag = Db::name('spec_goods')->where('goods_id='.$goodsid)->delete();
+			$flag = Db::name('spec_goods')->insertAll($addspec);
+		}
+		if ($flag || $flag == 0) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+
+	//ajax获取到指定商品的模型（规格和类型）数据
 	public function getModelById ()
 	{
 		//$result = Db::table('qb_goods_type')->alias('a')->join('qb_spec s','s.type_id = a.id')->select();
 		$typeid = input('get.id');
 		$type = Db::name('goods_attribute')->order('order')->where('type_id='.$typeid)->select();
 		$res = Db::table('qb_spec')->alias('s')->join('qb_spec_item i','s.id=i.spec_id')->where('s.type_id='.$typeid)->select();
+		$res2 = Db::table('qb_spec')->alias('s')->field('s.name')->join('qb_spec_item i','s.id=i.spec_id')->where('s.type_id='.$typeid)->group('s.name')->select();
 		foreach ($type as $key => $value) {
 			if ($value['attr_input_type'] == 1) {
 				$type[$key]['attr_values'] = explode("\n",$type[$key]['attr_values']);
 			}
 		}
-		return json(['type' => $type,'spec' => $res]);
+		return json(['type' => $type,'spec' => $res,'spec2' => $res2]);
 	}
 
+
+	//处理上传的图片的信息
+	public function uploadAction () 
+	{
+		$goodsid = input('get.id');
+		// 获取表单上传文件 例如上传了001.jpg
+	    $file = request()->file('fileList');
+	    // 移动到框架应用根目录/public/uploads/ 目录下
+	    $info = $file->move('static/uploads/goods/show/'.$goodsid.'/','');
+	    if($info){
+	    	$imagepath = WEB_PATH.'/static/uploads/goods/show/'.$goodsid.'/'.$info->getSaveName();
+	      	$result = Db::name('goods_images')->insert(['goods_id' => $goodsid,'image_url' => $imagepath]);
+	    	if ($result) {
+	    		return $imagepath;
+	    	} else {
+	    		return '上传错误~';
+	    	}
+	    }else{
+	        // 上传失败获取错误信息
+	        return $file->getError();
+	    }
+	}
 
 
 
