@@ -79,6 +79,7 @@ class Spec extends Base
 			foreach ($data['attr_name'] as $key => $value) {
 				if ($value == '') {
 					unset($data['attr_name'][$key]);
+					unset($data['attr_id'][$key]);
 					unset($data['attr_input_type'][$key]);
 					unset($data['attr_values'][$key]);
 					unset($data['order'][$key]);
@@ -108,7 +109,7 @@ class Spec extends Base
 		$name = $data['name'];
 		unset($data['name']);
 		Db::name('goods_type')->where(['id' => $typeid])->update(['name' => $name]);
-		Db::name('goods_attribute')->where('type_id='.$typeid)->delete();
+		//Db::name('goods_attribute')->where('type_id='.$typeid)->delete();
 		if (!empty($data)) {
 			$spec = [];
 			foreach ($data['attr_name'] as $key => $value) {
@@ -119,9 +120,17 @@ class Spec extends Base
 					unset($data['order'][$key]);
 					continue;
 				}
-				$spec[] = ['type_id' => $typeid,'attr_name' => $data['attr_name'][$key],'attr_input_type' => $data['attr_input_type'][$key],'attr_values' => $data['attr_values'][$key],'order' => $data['order'][$key]];
+				//dump($data);die;
+				if (!empty($data['attr_id'][$key])) {
+					$arr = ['attr_id'=>$data['attr_id'][$key],'type_id' => $typeid,'attr_name' => $data['attr_name'][$key],'attr_input_type' => $data['attr_input_type'][$key],'attr_values' => $data['attr_values'][$key],'order' => $data['order'][$key]];
+					Db::name('goods_attribute')->update($arr);
+				} else {
+					$arr = ['type_id' => $typeid,'attr_name' => $data['attr_name'][$key],'attr_input_type' => $data['attr_input_type'][$key],'attr_values' => $data['attr_values'][$key],'order' => $data['order'][$key]];
+					Db::name('goods_attribute')->insert($arr);
+				}
+				
 			}
-			$addtype = Db::name('goods_attribute')->insertAll($spec);				
+			//$addtype = Db::name('goods_attribute')->insertAll($spec);				
 		}
 		return 1;
 	}
@@ -151,7 +160,7 @@ class Spec extends Base
 		return json(['res' => $res,'res2' => $res2]);
 	}
 
-
+	//渲染规格的模板
 	public function spmanage ()
 	{
 		if (!empty(input('post.'))) {
@@ -188,6 +197,7 @@ class Spec extends Base
 		return $this->fetch();
 	}
 
+	//处理添加规格
 	public function dealAddSpec ()
 	{
 		$data = input('post.');
@@ -206,7 +216,7 @@ class Spec extends Base
 		}
 	}
 
-
+	//修改商品的规格属性
 	public function editGoodsSpec ()
 	{
 		$typeid = input('get.id');
@@ -237,7 +247,6 @@ class Spec extends Base
 		foreach ($del as $key => $value) {
 			Db::name('spec_item')->where('spec_id='.$value['id'])->delete();
 		}
-		Db::name('spec')->where('type_id='.$typeid)->delete();
 
 		if (!empty($data)) {
 			$spec = [];
@@ -245,11 +254,21 @@ class Spec extends Base
 			foreach ($data['name'] as $key => $value) {
 				if ($value == '') {
 					unset($data['name'][$key]);
+					unset($data['id'][$key]);
 					unset($data['order'][$key]);
 					unset($data['item'][$key]);
 					continue;
 				}
-				$spec[] = Db::name('spec')->insertGetId(['type_id' => $typeid,'name' => $data['name'][$key],'order' => $data['order'][$key]]);
+				//dump($data);dump($key);dump($data['id'][$key]);die;
+				if (!empty($data['id'][$key])) {
+					$arr = ['id' => $data['id'][$key],'type_id' => $typeid,'name' => $data['name'][$key],'order' => $data['order'][$key]];
+					Db::name('spec')->update($arr);
+					$spec[] = $data['id'][$key];
+				} else {
+					$arr = ['type_id' => $typeid,'name' => $data['name'][$key],'order' => $data['order'][$key]];
+					$spec[] = Db::name('spec')->insertGetId($arr);
+				}
+				/*$spec[] = Db::name('spec')->insertGetId(['type_id' => $typeid,'name' => $data['name'][$key],'order' => $data['order'][$key]]);*/
 			}
 
 			foreach ($data['item'] as $key => $value) {

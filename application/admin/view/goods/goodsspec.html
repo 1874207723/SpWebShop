@@ -11,11 +11,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link href="__ADMIN__/tpcss/main.css" rel="stylesheet" type="text/css">
 <link href="__ADMIN__/tpcss/page.css" rel="stylesheet" type="text/css">
-
 <link href="__ADMIN__/tpcss/jquery-ui.min.css" rel="stylesheet" type="text/css">
 <link href="__ADMIN__/tpcss/perfect-scrollbar.min.css" rel="stylesheet" type="text/css">
 <style type="text/css">html, body { overflow: visible;}</style>
 </script>
+<link rel="stylesheet" href="__ADMIN__/imageupload/control/css/zyUpload.css" type="text/css">
+
+
+
 <link rel="stylesheet" href="__ADMIN__/tpcss/layer.css" id="layuicss-skinlayercss">
 <script src="__ADMIN__/js/jquery-1.9.1.min.js"></script>
 <script src="__ADMIN__/assets/js/jquery.dataTables.min.js"></script>
@@ -26,7 +29,11 @@
 <script type="text/javascript" src="__ADMIN__/js/H-ui.admin.js"></script> 
 <script src="__ADMIN__/assets/layer/layer.js" type="text/javascript" ></script>
 <script src="__ADMIN__/assets/laydate/laydate.js" type="text/javascript"></script>
-<script src="__ADMIN__/js/lrtk.js" type="text/javascript" ></script>   
+<script src="__ADMIN__/js/lrtk.js" type="text/javascript" ></script>  
+
+<script src="__ADMIN__/imageupload/core/zyFile.js"></script>
+<script src="__ADMIN__/imageupload/control/js/zyUpload.js"></script>
+<script src="__ADMIN__/imageupload/core/jq22.js"></script>
 <style>
     ul.group-list {
         width: 96%;min-width: 1000px; margin: auto 5px;list-style: disc outside none;
@@ -133,31 +140,21 @@
         </ul>
     </div>
     <!--表单数据-->
-    <form method="post" id="addEditGoodsForm">
+    <form method="post" onsubmit="return false;" id="addEditGoodsForm">
 
 <!-- 商品相册-->        
 		<div class="ncap-form-default tab_div_2" style="display:none;" id="xiangce">
-            <dl class="row">
-                
-                         <div class="tab-pane" id="tab_goods_images">
-                            <table class="table table-bordered">
-                                <tbody>
-                                <tr>                                    
-                                    <td>                                    
-                                                                        
-                                        <div class="goods_xc" style="width:100px; text-align:center; margin: 5px; display:inline-block;">
-                                            <input type="hidden" name="goods_images[]" value="">
-                                            <a href="javascript:void(0);" onclick="GetUploadify(10,&#39;&#39;,&#39;goods&#39;,&#39;call_back2&#39;);"><img src="__ADMIN__/tpcss/add-button.jpg" width="100" height="100"></a>
-                                            <br>
-                                            <a href="javascript:void(0)">&nbsp;&nbsp;</a>
-                                        </div>                                        
-                                    </td>
-                                </tr>                                              
-                                </tbody>
-                            </table>
-                        </div>
-                
-            </dl>             
+         
+            <div style="height: 800px;border: 1px solid #f00">
+                <p style="margin-left: 100px;font-size: 18px;">当前商品图片:</p>
+                <div>
+                    {foreach $imginfo as $v}
+                        <img src="{$v['image_url']}" width="140" style="">
+                    {/foreach}
+                </div>
+                <div id="demo" class="demo" style="height: 500px;"></div>
+
+            </div>
         </div>   
 <!-- 商品相册-->
 <!-- 商品模型-->
@@ -168,12 +165,13 @@
                         <tbody><tr>
                             <td>商品模型:</td>
                             <td>                                        
-                              <select id="spec_type" class="form-control" style="width:250px;">
+                              <select id="spec_type" name="gtype_id" class="form-control" style="width:250px;">
                                 <option value="0">选择商品模型</option>
                                 {foreach $type as $v}
-                                   <option value="{$v['id']}" {if $v['name'] == $typename} selected {/if}>{$v['name']}</option> 
+                                   <option value="{$v['id']}"  {if $v['name'] == $typename} selected {/if}>{$v['name']}</option> 
                                 {/foreach}
                               </select>
+                              <input type="hidden" id="goodsid" value="{$goodsid}">
                             </td>
                         </tr>                            
                         </tbody>
@@ -181,89 +179,36 @@
                     <div class="row">
                     	<!-- ajax 返回规格-->
                     	<div id="ajax_spec_data" class="col-xs-8"><table class="table table-bordered" id="goods_spec_table1">                                
-    <tbody><tr>
-        <td colspan="2"><b>商品规格:</b></td>
-    </tr>
+    <tbody id="addspec">
         <tr>
-        <td>网络:</td>
-        <td>                            
-                                        
-                <button type="button" data-spec_id="5" data-item_id="11" class="btn btn-default">
-                    4G                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_11" onclick="GetUploadify3(&#39;11&#39;);">    
-                        <input type="hidden" name="item_img[11]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="5" data-item_id="12" class="btn btn-default">
-                    3G                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_12" onclick="GetUploadify3(&#39;12&#39;);">    
-                        <input type="hidden" name="item_img[12]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                     
-        </td>
-    </tr>                                    
-        <tr>
-        <td>内存:</td>
-        <td>                            
-                                        
-                <button type="button" data-spec_id="6" data-item_id="13" class="btn btn-default">
-                    16G                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_13" onclick="GetUploadify3(&#39;13&#39;);">    
-                        <input type="hidden" name="item_img[13]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="6" data-item_id="14" class="btn btn-default">
-                    8G                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_14" onclick="GetUploadify3(&#39;14&#39;);">    
-                        <input type="hidden" name="item_img[14]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="6" data-item_id="28" class="btn btn-default">
-                    32G                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_28" onclick="GetUploadify3(&#39;28&#39;);">    
-                        <input type="hidden" name="item_img[28]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="6" data-item_id="101" class="btn btn-default">
-                    64G                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_101" onclick="GetUploadify3(&#39;101&#39;);">    
-                        <input type="hidden" name="item_img[101]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="6" data-item_id="102" class="btn btn-default">
-                    128G                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_102" onclick="GetUploadify3(&#39;102&#39;);">    
-                        <input type="hidden" name="item_img[102]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                     
-        </td>
-    </tr>                                    
-        <tr>
-        <td>屏幕:</td>
-        <td>                            
-                                        
-                <button type="button" data-spec_id="7" data-item_id="21" class="btn btn-default">
-                    触屏                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_21" onclick="GetUploadify3(&#39;21&#39;);">    
-                        <input type="hidden" name="item_img[21]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                                        
-                <button type="button" data-spec_id="7" data-item_id="23" class="btn btn-default">
-                    文字屏                </button>                                                        
-                        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_23" onclick="GetUploadify3(&#39;23&#39;);">    
-                        <input type="hidden" name="item_img[23]" value="">                                                      
-                &nbsp;&nbsp;&nbsp;            
-                     
-            </td>
-        </tr>                                    
+            <td colspan="2"><b>商品规格:</b></td>
+        </tr>
+        
+        {foreach $spec2 as $k => $v2}
+            <tr>
+                <td>{$v2['name']}</td>
+                <td>
+                {foreach $spec as  $v}
+                 
+                    {if $v['name'] == $v2['name']}
+                        
+                        <button type="button"  class="{if in_array($v['item_id'],$gitm)}btn btn-success{else}btn btn-default{/if}"><em style="color:red">[{$v['item_id']}]</em>{$v['item']}</button> 
+                        <img onclick="addxiang()" width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_11">
+                        &nbsp;&nbsp;&nbsp;
+                    {/if}
+                  
+                {/foreach}
+                </td></tr>
+        {/foreach}
+
     </tbody>
 </table>
     <div id="goods_spec_table2">
         <table class="table table-bordered" id="spec_input_tab">
-            <tbody>
-                <tr> 
+            <tbody id="afterthis">
+                <tr > 
                     <td>
-                        <b></b>
+                       <b>请填写规格前的ID值 按照ID-ID-ID格式</b>
                     </td>
                     <td>
                         <b>价格</b>
@@ -271,10 +216,22 @@
                    <td>
                         <b>库存</b>
                     </td>
+                </tr>
+               
+                {foreach $spec_goods as $v}
+                <tr class="spec_goods"> 
+                 
+                    <td>
+                       <input type="text" name="key[]" value="{$v['key']}" style="width: 400px;">
+                    </td>
+                    <td>
+                      <input type="text" name="price[]" value="{$v['price']}">
+                    </td>
                    <td>
-                        <b>SKU</b>
+                      <input type="text" name="store_count[]" value="{$v['store_count']}">
                     </td>
                 </tr>
+                {/foreach}
             </tbody>
         </table>
     </div>
@@ -287,16 +244,16 @@
                         <td><b>商品属性</b>：</td>
                     </tr>                        
                     {foreach $attr as $v}
-                    <tr class="attr_{$v['attr_id']}">
-                        <td> {$v['attr_name']}</td>
+                    <tr>
+                        <td>{$v['attr_name']}</td>
                         {if $v['attr_input_type'] == 1}
-                            <td><select name="attr_{$v['attr_id']}[]">
+                            <td><select name="attr_values[{$v['attr_id']}]">
                                 {foreach $v['attr_values'] as $a}
                                 <option value="{$a}" {if $v['attr_value'] == $a} selected {/if}>{$a}</option>
                                 {/foreach}
                             </select></td>  
                         {else}
-                            <td><input type="text" size="40" value="{$v['attr_value']}" name="attr_{$v['attr_id']}[]"></td>
+                            <td><input type="text" size="40" value="{$v['attr_value']}" name="attr_values[{$v['attr_id']}]"></td>
                         {/if} 
                         
                     </tr>
@@ -312,10 +269,8 @@
 </div>   
 <!-- 商品模型-->         
         <div class="ncap-form-default">        
-            <div class="bot">            
-                <input type="hidden" name="goods_id" value="">
-                <input type="hidden" name="__token__" value="7e8ae19a7164753245ee9a16dbbd7b67">
-                <a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="">确认提交</a>
+            <div class="bot">          
+                <a href="JavaScript:;" class="ncap-btn-big ncap-btn-green" id="submit">确认提交</a> 
             </div>
         </div> 
     </form>
@@ -323,6 +278,35 @@
 </div>
 <div id="goTop" style="bottom: -156px;"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
 <script>
+
+    var goodsid = $('#goodsid').val();
+
+  
+    $('#submit').on('click',function () {
+        var formData = new FormData($( "#addEditGoodsForm" )[0]); 
+        $.ajax({  
+          url: 'editGoodsModel.html?id='+goodsid,  
+          //url: '{:url("editGoodsModel")}',  
+          type: 'POST',  
+          data: formData,  
+          async: true,  
+          cache: false,  
+          contentType: false,  
+          processData: false,  
+          success: function (data) {
+            if (data == 1) {
+                layer.alert('更改成功');
+            } else {
+                layer.alert('更改失败',{'icon':2});
+            }
+          }
+        });  
+    });
+     
+
+
+
+
 
     function showmuxing() {
         $('#moxing').css('display','block');
@@ -350,23 +334,61 @@
 </tr>
 */
 
+/* <tr>
+    <td>网络:</td>
+    <td>                            
+        <button type="button" data-spec_id="5" data-item_id="11" class="btn btn-default">4G</button> 
+        <img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_11">    
+        <input type="hidden" name="item_img[11]" value="">                                                      
+        &nbsp;&nbsp;&nbsp;  
+
+        <button type="button" data-spec_id="5" data-item_id="12" class="btn btn-default">3G</button><img width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_12">    
+        <input type="hidden" name="item_img[12]" value="">                                                      
+        &nbsp;&nbsp;&nbsp;            
+     
+    </td>
+</tr>       */
+
     $('#spec_type').on('change',function () {
         var typeid = $('#spec_type option:selected').val();
+
         $.get('{:url("goods/getmodelbyid")}',{"id":typeid},function (data) {
             $('#tbodyaddtype').empty('tr td');
+            $('#addspec').empty('tr td');
+            $('.spec_goods').remove();
             var type = data.type;
-             $('#tbodyaddtype').append('<tr><td><b>商品属性</b>：</td></tr> ');  
+            var spec = data.spec;
+            var spec2 = data.spec2;
+
+            $('#tbodyaddtype').append('<tr><td><b>商品属性</b>：</td></tr> ');  
+            $('#addspec').append('<tr><td><b>商品规格</b>：</td></tr> ');
+
+            for(var n in spec2) {
+                var str = '<tr><td>'+spec2[n].name+'</td><td>';
+                for(var m in spec){
+                    if (spec[m].name == spec2[n].name) {
+                        str += '<button type="button" id="'+spec[m].id+'" class="btn btn-default"><em style="color:red">['+spec[m].item_id+']</em>'+spec[m].item+'</button>'; 
+                        str += '<img onclick="addxiang()" width="35" height="35" src="__ADMIN__/tpcss/add-button.jpg" id="item_img_11">';
+                        str += '&nbsp;&nbsp;&nbsp;';
+                    }
+                }
+                str += '</td></tr>';
+               
+                $('#addspec').append(str); 
+                
+            }
+
             for(var i in type){
-                var str = '<tr class="attr_'+type[i].attr_id+'">';
+                var str = '<tr>';
                     str += '<td> '+type[i].attr_name+'</td>';
                     if(type[i].attr_input_type == 1){
-                        str += '<td><select name="attr_'+type[i].attr_id+'[]">';
+                        str += '<td><select name="attr_id['+type[i].attr_id+']">';
                         for(var j in type[i].attr_values){
                             str += '<option value="'+type[i].attr_values[j]+'">'+type[i].attr_values[j]+'</option>';
                         }
                         str += '</select></td>';
                     } else {
-                        str += '<td><input type="text" size="40" value="" name="attr_'+type[i].attr_id+'[]"></td>';
+                        str += '<td><input type="text" size="40" value="" name="attrid['+type[i].attr_id+']"></td>';
                     } 
                     str += '</tr>';
                  $('#tbodyaddtype').append(str); 
@@ -376,6 +398,12 @@
            
         },'json');
     });
+
+    function addxiang ()
+    {
+        var str = '<tr class="spec_goods"><td><input type="text" name="key[]" value="" style="width: 400px;"></td><td><input type="text" name="price[]" value=""></td><td><input type="text" name="store_count[]" value=""></td></tr>';
+        $('#afterthis').append(str);
+    }
 
 </script>		
 
