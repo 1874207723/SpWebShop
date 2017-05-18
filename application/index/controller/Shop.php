@@ -108,7 +108,7 @@ class Shop extends Base
                 $this->assign('parent3', $parent3);
             }
 
-            //该id查询的所有分类的数组。以键值对形式存储id，name。
+            //该id查询的所有分类的数组。以键值对形式存储。
             $checkReco = $checkData[$idCheck['level']];
 
             //查询本品牌热销
