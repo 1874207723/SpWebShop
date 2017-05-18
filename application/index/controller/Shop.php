@@ -47,6 +47,12 @@ class Shop extends Base
                 $level3[$value2['id']] = $data2;
             }
         }
+        $this->assign([
+            'level1' => $level1,
+            'level2' => $level2,
+            'level3' => $level3,
+            'level2Limit' => $level2Limit
+            ]);
 
         //查询头部板块推荐。
         $hotCate = Db::table('qb_goods_cate')->where('is_hot', 1)->where('level', 'in', '2,3')->limit(8)->select();
@@ -63,7 +69,7 @@ class Shop extends Base
                 if (!empty($parentData1)) {
                     foreach ($parentData1 as $pd1first) {
                         $checkData1[$pd1first['id']] = $pd1first['name'];
-                        $$pd1second = Db::table('qb_goods_cate')->field('id,name')->where('parent_id', $pd1first['id'])->select();
+                        $pd1second = Db::table('qb_goods_cate')->field('id,name')->where('parent_id', $pd1first['id'])->select();
                         if (!empty($pd1second)) {
                             foreach ($pd1second as $pd1third) {
                                 $checkData1[$pd1third['id']] = $pd1third['name'];
@@ -72,6 +78,9 @@ class Shop extends Base
                     }
                     $checkData[1] = $checkData1;
                 }
+
+                //服务路径。
+                $this->assign('parent1', $parent1);
             }
             if (!empty($parent[2])) {
                 $parent2 = Db::table('qb_goods_cate')->field('id,name')->where('id', $parent[2])->find();
@@ -82,13 +91,24 @@ class Shop extends Base
                     }
                     $checkData[2] = $checkData2;
                 }
+
+                //服务路径
+                $this->assign('parent2', $parent2);
             }
             if (!empty($parent[3])) {
                 $parent3 = Db::table('qb_goods_cate')->field('id,name,parent_id_path')->where('id', $parent[3])->find();
                 $checkData3 = $checkData2;
+                if(empty($checkData2)) {
+                    dump($checkData2);
+                    $checkData3 = $checkData1;
+                }
                 $checkData[3] = $checkData3;
+
+                //服务路径
+                $this->assign('parent3', $parent3);
             }
 
+            //该id查询的所有分类的数组。以键值对形式存储id，name。
             $checkReco = $checkData[$idCheck['level']];
 
             //查询本品牌热销
@@ -110,7 +130,7 @@ class Shop extends Base
             $this->assign([
                 'checkReco' => $checkReco,
                 'hotData' => $hotData,
-                'recommendData' => $recommmendData,
+                'recommendData' => $recommendData,
                 'brandData' => $brandData,
                 'brandAll' => $brandAll,
                 'hotCate' => $hotCate,

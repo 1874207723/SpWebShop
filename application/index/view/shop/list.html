@@ -13,17 +13,17 @@
             	<dl class="kj-dl1" name="{$value['id']}">
                		<dt><a href="{:url('',['cateid'=>$value['id']])}">{$value['name']}</a></dt>
                     <dd>
-                    	{foreach $level2Limit[$value['id']] as $value2}<a href="">{$value2['name']}</a>&ensp;{/foreach}
+                    	{foreach $level2Limit[$value['id']] as $value2}<a href="{:url('',['cateid'=>$value2['id']])}">{$value2['name']}</a>&ensp;{/foreach}
                     </dd>
                 </dl>
 
                 <div class="kj-if-show" mg2="{$value['id']}">
                 	{foreach $level2[$value['id']] as $value3}
                     <dl>
-                    	<dt><a href="">{$value3['name']}</a></dt>
+                    	<dt><a href="{:url('',['cateid'=>$value3['id']])}">{$value3['name']}</a></dt>
                         <dd>
                             {foreach $level3[$value3['id']] as $value4}
-                        	<a href=""> {$value4['name']}</a>
+                        	<a href="{:url('',['cateid'=>$value4['id']])}"> {$value4['name']}</a>
                             {/foreach}
                         </dd>
                         <div style="clear:both;"></div>
@@ -81,44 +81,6 @@
         <!--品牌 更多-->
     <div class="re-brand">
             <div class="brand-top">
-                <!-- <div class="br-t">
-                    <p class="pingpai f-l">品牌</p>
-                    <div class="br-abc f-l">
-                        <p class="moren f-l">默认</p>
-                        <ul class="f-l">
-                            <li><a href="#">A</a></li>
-                            <li><a href="#">B</a></li>
-                            <li><a href="#">C</a></li>
-                            <li><a href="#">D</a></li>
-                            <li><a href="#">E</a></li>
-                            <li><a href="#">F</a></li>
-                            <li><a href="#">G</a></li>
-                            <li><a href="#">H</a></li>
-                            <li><a href="#">I</a></li>
-                            <li><a href="#">J</a></li>
-                            <li><a href="#">K</a></li>
-                            <li><a href="#">L</a></li>
-                            <li><a href="#">M</a></li>
-                            <li><a href="#">N</a></li>
-                            <li><a href="#">O</a></li>
-                            <li><a href="#">P</a></li>
-                            <li><a href="#">Q</a></li>
-                            <li><a href="#">R</a></li>
-                            <li><a href="#">S</a></li>
-                            <li><a href="#">T</a></li>
-                            <li><a href="#">U</a></li>
-                            <li><a href="#">V</a></li>
-                            <li><a href="#">W</a></li>
-                            <li><a href="#">X</a></li>
-                            <li><a href="#">Y</a></li>
-                            <li><a href="#">Z</a></li>
-                            <div style="clear:both;"></div>
-                        </ul>
-                        <a href="#" class="qita f-l">其他</a>
-                        <div style="clear:both;"></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                </div> -->
                 <div class="br-b">
                     <ul>
                         {foreach $brandAll as $brAll}
@@ -127,194 +89,6 @@
                             <span>{$brAll['name']|mb_substr=0,10}</span>
                         </li>
                         {/foreach}
-                        <!-- <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>乐事/Lay's </span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>周黑鸭/ZHOU...</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>喜之郎/STRONG</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>费列罗/FERRERO</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>好丽友/orion</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>莱家/Loacker </span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>稻香村/dao...</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>友臣/YOUCHEN</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>好想你</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>黄飞红/HUANG...</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>可康/COCON</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>张君雅</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>德芙/Dove</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>利奥/Oreo</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>士力架/SNICKERS</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>汉斯/Hunt's</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>多力多滋</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百草味/Be ...</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>丽芝士/Richeese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百吉福/MILKANA</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>利葡/LiPO</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>友谊牌/Tipo</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百草味/Be ...</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>丽芝士/Richeese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百吉福/MILKANA</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>利葡/LiPO</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>友谊牌/Tipo</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百草味/Be ...</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>丽芝士/Richeese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百吉福/MILKANA</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>利葡/LiPO</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>友谊牌/Tipo</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百草味/Be ...</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>丽芝士/Richeese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百吉福/MILKANA</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>利葡/LiPO</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>友谊牌/Tipo</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百草味/Be ...</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>丽芝士/Richeese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百吉福/MILKANA</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>利葡/LiPO</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>友谊牌/Tipo</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百草味/Be ...</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>丽芝士/Richeese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>百吉福/MILKANA</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>利葡/LiPO</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" name="hobby" ></input>
-                            <span>友谊牌/Tipo</span>
-                        </li> -->
                         <div style="clear:both;"></div>
                     </ul>
                 </div>
@@ -323,16 +97,16 @@
                 <button>确定</button>
                 <button class="quxiao" quxiao1="">取消</button>
             </div>
-        </div>
+    </div>
 
         <!--品牌热销-->
     <div class="brand-sales">
         <dl>
             <dt>本品牌热销</dt>
             <dd>
-                {if !empty($recommendCate)}
-                {foreach $recommendCate as $recoCate}
-                <a href="#">{$recoCate}</a>
+                {if !empty($recommendData)}
+                {foreach $recommendData as $recoData}
+                <a href="#">{$checkReco[$recoData['cat_id']]}</a>
                 {/foreach}
                 {/if}
             </dd>
@@ -341,9 +115,9 @@
         <dl style="border-bottom:none;">
             <dt>大家都在选</dt>
             <dd>
-                {if !empty($hotCheck)}
-                {foreach $hotCheck as $hCheck}
-                <a href="#">{$hCheck}</a>
+                {if !empty($hotData)}
+                {foreach $hotData as $hData}
+                <a href="#">{$checkReco[$hData['cat_id']]}</a>
                 {/foreach}
                 {/if}
             </dd>
