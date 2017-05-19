@@ -258,7 +258,73 @@ class Shop extends Base
         $hotCate = Db::table('qb_goods_cate')->where('is_hot', 1)->where('level', 'in', '2,3')->limit(8)->select();
         $this->assign('hotCate', $hotCate);
 
+        //产品规格查询。
+        if (input('get.goodsid')) {
+            $goodsid = input('get.goodsid');
+
+            //得到商品相关信息。
+            $goodsInfo = Db::table('qb_goods')->where('goods_id', $goodsid)->find();
+            $title = $goodsInfo['goods_name'];
+            //dump($goodsInfo);
+            $this->assign('goodsInfo', $goodsInfo);
+            $this->assign('title', $title);
+
+            //查询商品图片
+            $goodsImage = Db::table('qb_goods_images')->field('image_url')->where('goods_id', $goodsid)->select();
+            $this->assign('goodsImage', $goodsImage);
+
+            //查询推荐商品
+            $recommendGoods = Db::table('qb_goods')->where('cat_id', $goodsInfo['cat_id'])->where('is_recommend', 1)->limit(5)->select();
+            $this->assign('recommendGoods', $recommendGoods);
+
+            //查询热销产品
+            $hotGoods = Db::table('qb_goods')->where('cat_id', $goodsInfo['cat_id'])->where('is_hot', 1)->limit(8)->select();
+            $this->assign('hotGoods', $hotGoods);
+
+            //查询商品属性
+            $goodsAttr = Db::table('qb_goods_attr')->alias('a')->join('qb_goods_attribute b','a.attr_id=b.attr_id')->field('attr_value,attr_name')->order('b.order asc')->where('a.goods_id', $goodsid)->select();
+
+            $this->assign('goodsAttr', $goodsAttr);
+
+            //查询商品规格图谱等信息。
+            $goodsType = Db::table('qb_spec_goods')->where('goods_id', $goodsid)->select();
+            //5  [11-14-23 ,11-14-24]\
+
+            //遍历得到123级规格信息。
+            $arr = [];
+            $i = 0;
+            foreach ($goodsType as $goodsSpec) {
+                $goodsPlate = $goodsSpec['key'];
+                $goodsPlateMsg = explode('_', $goodsPlate); //11-14-23 => [11,14,23]
+                $goodsPlNumber = count($goodsPlateMsg);
+
+                foreach ($goodsPlateMsg as $key => $value) {
+                    $arr[] = Db::table('qb_spec_item')->alias('i')->join('qb_spec s','s.id=i.spec_id')->field('item_id,item,name')->where('i.item_id='.$value)->find();
+                }
+            }
+             $arrMstAll = [];
+             $arrAll = [];
+             foreach ($arr as $key => $value) {
+                $arrMstAll[$value['name']][$value['item_id']] = $value['item'];
+                $arrAll[$value['name']] = $key;
+             }
+
+            $this->assign('arrMsgAll', $arrMstAll);
+            $this->assign('arrAll', $arrAll);
+        }
+
+
         return $this->fetch();
+    }
+
+    public function checkplate() {
+        $data = input('post.');
+        $checkPlate = Db::table('qb_spec_goods')->field('store_count')->where('key', $data['spec'])->where('goods_id', $data['goods'])->find();
+        if (empty($checkPlate) || $checkPlate['store_count'] <= 0) {
+            return json(['checkPlate' => false]);
+        } else {
+            return json(['checkPlate' => $checkPlate['store_count']]);
+        }
     }
 
     public function checklevel($data)

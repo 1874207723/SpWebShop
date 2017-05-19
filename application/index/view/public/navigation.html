@@ -9,7 +9,7 @@
             <div class="kj-info1" mg="{$value['id']}" >
 
                 <dl class="kj-dl1" name="{$value['id']}">
-                    <dt><a href="{:url('',['cateid'=>$value['id']])}">{$value['name']}</a></dt>
+                    <dt><a href="{:url('index/shop/list',['cateid'=>$value['id']])}">{$value['name']}</a></dt>
                     <dd>
                         {foreach $level2Limit[$value['id']] as $value2}<a href="{:url('',['cateid'=>$value2['id']])}">{$value2['name']}</a>&ensp;{/foreach}
                     </dd>
@@ -18,10 +18,10 @@
                 <div class="kj-if-show" mg2="{$value['id']}">
                     {foreach $level2[$value['id']] as $value3}
                     <dl>
-                        <dt><a href="{:url('',['cateid'=>$value3['id']])}">{$value3['name']}</a></dt>
+                        <dt><a href="{:url('index/shop/list',['cateid'=>$value3['id']])}">{$value3['name']}</a></dt>
                         <dd>
                             {foreach $level3[$value3['id']] as $value4}
-                            <a href="{:url('',['cateid'=>$value4['id']])}"> {$value4['name']}</a>
+                            <a href="{:url('index/shop/list',['cateid'=>$value4['id']])}"> {$value4['name']}</a>
                             {/foreach}
                         </dd>
                         <div style="clear:both;"></div>
