@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -31,7 +31,7 @@
 <script src="__ADMIN__/order/js/myformvalidate.js"></script>
 <script src="__ADMIN__/order/js/myajax2.js"></script>
 <script src="__ADMIN__/order/js/global.js"></script>
-
+<title>Q-Buy订单</title>
 </head>
 <style>
 .ncm-goods-gift {
@@ -95,28 +95,12 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
   vertical-align: text-bottom;
 }
 </style>
-<div class="page">
-  <div class="fixed-bar">
-    <div class="item-title"><a class="back" href="javascript:history.go(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
-      <div class="subject">
-        <h3>商品订单</h3>
-        <h5>商城实物商品交易订单查询及管理</h5>
-      </div>
-      <div class="subject" style="width:62%">
-	           		<a href="editorder.html?id={$info[0]->order_id}" style="float:right;margin-right:10px" class="ncap-btn-big ncap-btn-green" ><i class="fa fa-pencil-square-o"></i>修改订单</a>
-      	       	 <a href="javascript:;" target="_blank" data-toggle="tooltip" title=""  class="btn btn-primary" data-original-title="打印订单">
-      	 <a href="printorder.html?id={$info[0]->order_id}" style="float:right;margin-right:10px" class="ncap-btn-big ncap-btn-green"  ><i class="fa fa-print"></i>打印订单</a>
-      	 </a>	
-      </div>
-    </div>
-      
-  </div>
+<a href="javascript:;" style="float:left;margin-left:10px" class="ncap-btn-big ncap-btn-green" onclick="printorder()" id="printorder"><i class="fa fa-print"></i>打印订单</a>
+<br />
+<br />
+<br />
   <div class="ncap-order-style">
-    <div class="titile">
-      <h3></h3>
-    </div>
- 
-    <div class="ncap-order-details">
+     <div class="ncap-order-details">
       <form id="order-action">
         <div class="tabs-panels">
         <div class="misc-info">
@@ -168,11 +152,6 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
             	<dd>{$info[0]->zipcode}</dd>
           </dl>
           <dl>
-            <dt>发票抬头：</dt>
-              <dd> {$info[0]->invoice_title}</dd>
-          </dl>
-          
-          <dl>
            		<dt>配送方式：</dt>
             	<dd>{$info[0]->shipping_name}</dd>
           	</dl>
@@ -195,9 +174,9 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
             <tbody>
               {foreach $info as $v}
                 <tr>
-                  <td class="w30"><div class="goods-thumb"><a href="__PUBLIC__/index/shop/details?goodsid={$v.goods_id}" target="_blank"><img alt="" src="{$v.original_img
+                  <td class="w30"><div class="goods-thumb"><a href="__PUBLIC__/index/goods/goodsinfo?goodsid={$v.goods_id}" target="_blank"><img alt="" src="{$v.original_img
                   }" /> </a></div></td>
-                  <td style="text-align: left;"><a href="__PUBLIC__/index/shop/details?goodsid={$v.goods_id}" target="_blank">{$v.goods_name}</a><br/></td>
+                  <td style="text-align: left;"><a href="__PUBLIC__/index/goods/goodsinfo?goodsid={$v.goods_id}" target="_blank">{$v.goods_name}</a><br/></td>
                   <td class="w80">{$v.spec_key_name}</td>
                   <td class="w60">{$v.goods_num}</td>
                   <td class="w100">{$v.goods_price}</td>
@@ -212,10 +191,7 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
           <h3>订单总额：￥{$info[0]->total_amount}</h3>
         </div>
         <div class="contact-info">
-          <h3>费用信息 </h3>
-          <div class="form_class">
-          		<a class="btn green" href="/index.php/Admin/Order/editprice/order_id/1494.html"><i class="fa fa-pencil-square-o"></i>修改费用</a>
-          </div>   
+          <h3>费用信息 </h3>  
           <dl>
             <dt>小计：</dt>
             <dd>{$info[0]->gpric}</dd>
@@ -240,43 +216,10 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
 	          <label for="note">操作备注</label>
 	        </dt>
 	        <dd class="opt" style="margin-left:10px">
-	         <textarea id="note" name="note" style="width:600px" rows="6"  placeholder="请输入操作备注" class="tarea">{$info[0]->user_note}</textarea>
+	         <textarea id="note" name="note" style="width:600px" rows="6" disabled=""  placeholder="请输入操作备注" class="tarea">{$info[0]->user_note}</textarea>
 	        </dd>
 	      </dl> 
-	      <dl class="row">
-	        <dt class="tit">
-	          <label for="note">可执行操作</label>
-	        </dt>
-	        <dd class="opt" style="margin-left:10px">
-          
-            
-          {if $info[0]->order_status != 4}
-          <a class="ncap-btn-big ncap-btn-blue" onclick="ajax_submit_form('order-action','/index.php/Admin/order/orderaction/order_id/{$info[0]->order_id}/action/allow.html');" >已完成</a>
-            {if $info[0]->pay_status}
-             <a class="ncap-btn-big ncap-btn-green" onclick="ajax_submit_form('order-action','/index.php/Admin/order/orderaction/order_id/{$info[0]->order_id}/action/nopay.html');" >
-                  未付款</a>
-               <a class="ncap-btn-big ncap-btn-blue" onclick="ajax_submit_form('order-action','/index.php/Admin/order/orderaction/order_id/{$info[0]->order_id}/action/true.html');" >
-                  确认订单</a>
-              {if !$info[0]->shipping_status}
-                <a class="ncap-btn-big ncap-btn-blue" onclick="ajax_submit_form('order-action','/index.php/Admin/order/orderaction/order_id/{$info[0]->order_id}/action/fahuoall.html');" >发货</a>
-               {else}
-                 <a class="ncap-btn-big ncap-btn-green" onclick="ajax_submit_form('order-action','/index.php/Admin/order/orderaction/order_id/{$info[0]->order_id}/action/nofahuo.html');" >未发货</a>
-               {/if}
-
-
-              {else}
-                <a class="ncap-btn-big ncap-btn-blue" onclick="ajax_submit_form('order-action','/index.php/Admin/order/orderaction/order_id/{$info[0]->order_id}/action/pay.html');" >
-                  付款</a>
-              {/if}
-
-          {else}
-          <a class="ncap-btn-big ncap-btn-green" onclick="ajax_submit_form('order-action','/index.php/Admin/order/orderaction/order_id/{$info[0]->order_id}/action/invalid.html');" >
-              无效</a>
-          {/if}
-           <a class="ncap-btn-big ncap-btn-blue" onclick="ajax_submit_form('order-action','/index.php/Admin/order/orderaction/order_id/{$info[0]->order_id}/action/chushihua.html');" >
-              初始化</a>
-          </dd>
-	      </dl> 
+	     
         </div>
         <div class="goods-info">
           <h4>操作记录</h4>
@@ -298,7 +241,7 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
             	 <tr>
                    <td class="text-center">{$k+1}</td>
 	                 <td class="text-center">{$v.action_user}</td>
-	                 <td class="text-center">{$v.log_time|date="Y-m-d H:i:s",###}</td>
+	                 <td class="text-center">{$v.log_time}</td>
 	                 <td class="text-center">{$v.order_statuss}</td>
 	                 <td class="text-center">{$v.shipping_statuss}</td>
 	                 <td class="text-center">{$v.pay_statuss}</td>
@@ -306,15 +249,25 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
 	                 <td class="text-center">{$v.action_note}</td>
 	             </tr>
               {/foreach}
+
+              
+         </a> 
+
                         </table>
         </div>
       </div>
       </form>
+      
   	</div>
   </div>
 </div>
 <script type="text/javascript">
 
+function printorder(){
+  $('#printorder').hide();
+  window.print();
+  $('#printorder').show(1000);
+}
 
 function delfun() {
 	// 删除按钮
@@ -327,17 +280,6 @@ function delfun() {
 	});
 }
 
-function ajax_submit_form (action,url)
-{
-  var note = $('#note').val();
-  $.get(url,{'note':note},function (data) {
-    if(data == 1){
-      layer.alert('修改成功',function () {
-          location.reload();
-      });
-    }
-  });
-}
  
 </script>
 </body>

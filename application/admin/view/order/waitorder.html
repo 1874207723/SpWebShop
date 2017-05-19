@@ -43,8 +43,8 @@
   <div class="fixed-bar">
     <div class="item-title">
       <div class="subject">
-        <h3>商品订单</h3>
-        <h5>商城实物商品交易订单查询及管理</h5>
+        <h3>待发货订单</h3>
+        <h5>商城实物商品外发货订单实时管理</h5>
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@
     </div>
      <ul>
       <li>查看操作可以查看订单详情, 包括支付费用, 商品详情等</li>
-      <li>未支付的订单可以取消</li>
+      <li>代发货的订单进行发货</li>
       <li>用户收货后, 如果没有点击"确认收货",系统自动根据设置的时间跟商家结算.</li>
     </ul>
   </div>
@@ -140,37 +140,31 @@
 	                <div style="width: 24px;"><i class="ico-check"></i></div>
 	              </th>
 	              <th align="left" abbr="order_sn" axis="col3" class="">
-	                <div style="text-align: left; width: 140px;" class="">订单编号</div>
+	                <div style="text-align: left; width: 150px;" class="">订单编号</div>
 	              </th>
 	              <th align="left" abbr="consignee" axis="col4" class="">
-	                <div style="text-align: left; width: 140px;" class="">收货人</div>
+	                <div style="text-align: left; width: 150px;" class="">收货人</div>
 	              </th>
 	              <th align="center" abbr="article_show" axis="col5" class="">
-	                <div style="text-align: center; width: 80px;" class="">总金额</div>
+	                <div style="text-align: center; width: 100px;" class="">总金额</div>
 	              </th>
 	              <th align="center" abbr="article_time" axis="col6" class="">
-	                <div style="text-align: center; width: 80px;" class="">应付金额</div>
+	                <div style="text-align: center; width: 90px;" class="">应付金额</div>
+	              </th>
+	               <th align="center" abbr="article_time" axis="col6" class="">
+	                <div style="text-align: center; width: 90px;" class="">发货状态</div>
 	              </th>
 	              <th align="center" abbr="article_time" axis="col6" class="">
-	                <div style="text-align: center; width: 80px;" class="">订单状态</div>
+	                <div style="text-align: center; width: 90px;" class="">支付方式</div>
 	              </th>
 	              <th align="center" abbr="article_time" axis="col6" class="">
-	                <div style="text-align: center; width: 80px;" class="">支付状态</div>
-	              </th>
-	              <th align="center" abbr="article_time" axis="col6" class="">
-	                <div style="text-align: center; width: 80px;" class="">发货状态</div>
-	              </th>
-	              <th align="center" abbr="article_time" axis="col6" class="">
-	                <div style="text-align: center; width: 80px;" class="">支付方式</div>
-	              </th>
-	              <th align="center" abbr="article_time" axis="col6" class="">
-	                <div style="text-align: center; width: 80px;" class="">配送方式</div>
+	                <div style="text-align: center; width: 90px;" class="">配送方式</div>
 	              </th>
 	              <th align="center" abbr="article_time" axis="col6" class="">
 	                <div style="text-align: center; width: 160px;" class="">下单时间</div>
 	              </th>
 	              <th align="left" axis="col1" class="handle">
-	                <div style="text-align: left; width: 150px;">操作</div>
+	                <div style="text-align: left; width: 200px;">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;操作</div>
 	              </th>
 	             
 	            </tr>
@@ -212,15 +206,11 @@
               <td align="center" abbr="article_time" axis="col6" class="">
                 <div style="text-align: center; width: 80px;" class="">{$v.order_amount}</div>
               </td>
-              <td align="center" abbr="article_time" axis="col6" class="">
-                <div style="text-align: center; width: 80px;" class="">{$v.order_statuss}</div>
-              </td>
+              
               <td align="center" abbr="article_time" axis="col6" class="">
                 <div style="text-align: center; width: 80px;" class="">{$v.shipping_statuss}</div>
               </td>
-              <td align="center" abbr="article_time" axis="col6" class="">
-                <div style="text-align: center; width: 80px;" class="">{$v.pay_statuss}</div>
-              </td>
+             
               <td align="center" abbr="article_time" axis="col6" class="">
                 <div style="text-align: center; width: 80px;" class="">{$v.pay_name}</div>
               </td>
@@ -233,7 +223,9 @@
               <td align="left" axis="col1" class="handle">
                   <div style="text-align: left; ">
                     <a class="btn green" href="orderinfo.html?id={$v.order_id}"><i class="fa fa-list-alt"></i>查看</a>
-                   
+                    {if $v.shipping_status != 1}
+                    <a class="btn green" href="sendorder.html?id={$v.order_id}"><i class="fa fa-paper-plane"></i>发货</a>
+                    {/if}
                   </div>
               </td>  
             </tr>
@@ -251,7 +243,7 @@
     $('#searchbtn').on('click',function () {
         var formdata = new FormData($('#search-form2')[0]);
          $.ajax({  
-          url: "{:url('order/searchorder')}" ,  
+          url: "{:url('order/searchwaitorder')}" ,  
           type: 'POST',  
           data: formdata,  
           async: true,  
@@ -265,18 +257,20 @@
               if (flag >= 50) { return}
                var str = '<tr class=""><!-- trSelected -->';
                str += ' <td class="sign" axis="col0"><div style="width: 24px;"><i class="ico-check"><i></div></td>';
-               str += '<td align="left" abbr="order_sn" axis="col3" class=""><div style="text-align: left; width: 160px;" class="">'+data[i].order_sn+'</div></td>';
-                str += '<td align="left" abbr="consignee" axis="col4" class=""><div style="text-align: left; width: 160px;" class="">'+data[i].consignee+data[i].mobile+'</div></td>';
+               str += '<td align="left" abbr="order_sn" axis="col3" class=""><div style="text-align: left; width: 140px;" class="">'+data[i].order_sn+'</div></td>';
+                str += '<td align="left" abbr="consignee" axis="col4" class=""><div style="text-align: left; width: 140px;" class="">'+data[i].consignee+data[i].mobile+'</div></td>';
                 str += '<td align="center" abbr="article_show" axis="col5" class=""><div style="text-align: center; width: 80px;" class="">'+data[i].goods_price+'</div></ td>';
                 str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 80px;" class="">'+data[i].total_amount+'</div></td>';
-                str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 80px;" class="">'+data[i].order_status+'</div></td>';
-                str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 80px;" class="">'+data[i].shipping_status+'</div></td>';
-                str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 80px;" class="">'+data[i].pay_status+'</div></td>';
-                str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 80px;" class="">'+data[i].pay_name+'</div></td>';
+             if (data[i].shipping_status == 0) {var shippingg = '未发货';}
+                if (data[i].shipping_status == 2) {var shippingg = '部分发货';}
+                str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 80px;" class="">'+shippingg+'</div></td>';
+              
+                str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 70px;" class="">'+data[i].pay_name+'</div></td>';
+                
                 str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 80px;" class="">'+data[i].shipping_name+'</div></td>';
-                str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 80px;" class="">'+data[i].shipping_name+'</div></td>';
+             
                 str += '<td align="center" abbr="article_time" axis="col6" class=""><div style="text-align: center; width: 160px;" class="">'+data[i].add_time+'</div></td>';
-                str += ' <td align="left" axis="col1" class="handle"><div style="text-align: left; "> <a class="btn green" href="orderinfo.html?id='+data[i].order_id+'"><i class="fa fa-list-alt"></i>查看</a></div></td> </tr>';
+                str += ' <td align="left" axis="col1" class="handle"><div style="text-align: left; "> <a class="btn green" href="orderinfo.html?id='+data[i].order_id+'"><i class="fa fa-list-alt"></i>查看</a><a class="btn green" href="sendorder.html?id='+data[i].order_id+'"><i class="fa fa-paper-plane"></i>发货</a></div></td> </tr>';
 
 
                 $('#tbodyadd').append(str);

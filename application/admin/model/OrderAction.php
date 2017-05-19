@@ -49,7 +49,8 @@ class OrderAction extends Model
         		2 => '已收货',
         		3 => '已取消',
         		4 => '已完成', //评价完
-        		5 => '已作废'
+                5 => '已作废',
+        		6 => '操作中'
         		];
         return $status[$data['order_status']];
     }
