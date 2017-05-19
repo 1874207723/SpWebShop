@@ -54,7 +54,7 @@ class User extends Base
                 $data['checkCaptcha'] = null;
             } else {
                 $user = new UserModel();
-                $user->insert(["username"=>input('post.username'),"password"=>md5(input('post.password')),"mobile"=>input('post.mobile')]);
+                $user->insert(["username"=>input('post.username'),"password"=>md5(input('post.password')),"mobile"=>input('post.mobile'),"ret_time"=>time()]);
                 $userInfo = $user->field('user_id,level')->where('mobile', input('post.mobile'))->find();
                 //设置session
                 session('userInfo', ['id'=>$userInfo['user_id'], 'level'=>$userInfo['level'], 'mobile'=>input('post.mobile')]);
@@ -85,6 +85,7 @@ class User extends Base
         $userInfo = $user->field('user_id,mobile,level')->where(['mobile' => input('post.mobile'), 'password' => md5(input('post.password'))])->find();
         //匹配成功，设置session值。
         if (isset($userInfo)) {
+            $user->where('mobile', input('post.mobile'))->update(['last_login'=>time(), 'last_ip'=>$_SERVER['REMOTE_ADDR']]);
             session('userInfo', ['id'=>$userInfo['user_id'], 'level'=>$userInfo['level'], 'mobile'=>input('post.mobile')]);
             //自动登录，设置cookie值。
             if (input('post.checkbox')) {

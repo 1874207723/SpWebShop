@@ -1,0 +1,62 @@
+<!--nav 开始-->
+    <div style="border-bottom:2px solid #d13333;width:90%;margin-left:5%;">
+        <div class="nav w1200" style="margin-left:0px;">
+        <a href="JavaScript:;" class="sp-kj" kj="" style="background-color:#d13333;">
+            商品分类快捷
+        </a>
+        <div class="kj-show2 none" kj-sh="" style="opacity:1;display:none;">
+            {foreach $level1 as $value}
+            <div class="kj-info1" mg="{$value['id']}" >
+
+                <dl class="kj-dl1" name="{$value['id']}">
+                    <dt><a href="{:url('',['cateid'=>$value['id']])}">{$value['name']}</a></dt>
+                    <dd>
+                        {foreach $level2Limit[$value['id']] as $value2}<a href="{:url('',['cateid'=>$value2['id']])}">{$value2['name']}</a>&ensp;{/foreach}
+                    </dd>
+                </dl>
+
+                <div class="kj-if-show" mg2="{$value['id']}">
+                    {foreach $level2[$value['id']] as $value3}
+                    <dl>
+                        <dt><a href="{:url('',['cateid'=>$value3['id']])}">{$value3['name']}</a></dt>
+                        <dd>
+                            {foreach $level3[$value3['id']] as $value4}
+                            <a href="{:url('',['cateid'=>$value4['id']])}"> {$value4['name']}</a>
+                            {/foreach}
+                        </dd>
+                        <div style="clear:both;"></div>
+                    </dl>
+                    {/foreach}
+                </div>
+
+            </div>
+            {/foreach}
+        </div>
+
+        <ul>
+            {foreach $hotCate as $hot}
+            <li><a href="{:url('',['cateid'=>$hot['id']])}">{$hot['name']}</a></li>
+            {/foreach}
+            <div style="clear:both;"></div>
+        </ul>
+        <div style="clear:both;"></div>
+        </div>
+    </div>
+
+    <div class="screening-results w1200">
+
+        <div class="results">
+            <p class="re-p1 f-l">
+                全部结果：{if !empty($brand)}<!-- - --><a href="http://www.wntp.com/index/shop/list?cateid={$parent['id']}">{$parent['name']}</a>&ensp; <!-- - -->><a href="http://www.wntp.com/index/shop/list?brand={$brand}">{$brandCheck['name']}</a><!-- - -->{/if}<!-- 分隔处 -->{if !empty($cateid)}<!-- - -->{if !empty($parent1)}<a href="{:url('',['cateid'=>$parent1['id']])}">{$parent1['name']}</a>{/if}&ensp; <!-- - -->{if !empty($parent2)}><a href="{:url('',['cateid'=>$parent2['id']])}">{$parent2['name']}</a>{/if}&ensp; <!-- - -->{if !empty($parent3)}><a href="{:url('',['cateid'=>$parent3['id']])}">{$parent3['name']}</a>{/if}<!-- - -->{/if}
+            </p>
+            <div class="re-search f-l" style="float:right;margin-right:10px;">
+                <input type="text" placeholder="三只松鼠" class="f-l" />
+                <button></button>
+                <div style="clear:both;"></div>
+            </div>
+            <!-- <p class="re-p2 f-r">
+                <a href="#">清空筛选条件</a>
+            </p> -->
+            <div style="clear:both;"></div>
+        </div>
+    </div>

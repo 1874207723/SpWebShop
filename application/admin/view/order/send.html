@@ -1,0 +1,333 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link href="css/main.css" rel="stylesheet" type="text/css">
+<link href="css/page.css" rel="stylesheet" type="text/css">
+<link href="css/font-awesome.min.css" rel="stylesheet" />
+<!--[if IE 7]>
+  <link rel="stylesheet" href="css/font-awesome-ie7.min.css">
+<![endif]-->
+<link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+<link href="css/perfect-scrollbar.min.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">html, body { overflow: visible;}</style>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/layer.js"></script><!-- 弹窗js 参考文档 http://layer.layui.com/-->
+<script type="text/javascript" src="js/admin.js"></script>
+<script type="text/javascript" src="js/flexigrid.js"></script>
+<script type="text/javascript" src="js/jquery.validation.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+<script src="js/myformvalidate.js"></script>
+<script src="js/myajax2.js"></script>
+<script src="js/global.js"></script>
+    <script type="text/javascript">
+    function delfunc(obj){
+    	layer.confirm('确认删除？', {
+    		  btn: ['确定','取消'] //按钮
+    		}, function(){
+    		    // 确定
+   				$.ajax({
+   					type : 'post',
+   					url : $(obj).attr('data-url'),
+   					data : {act:'del',del_id:$(obj).attr('data-id')},
+   					dataType : 'json',
+   					success : function(data){
+   						if(data==1){
+   							layer.msg('操作成功', {icon: 1});
+   							$(obj).parent().parent().parent().remove();
+   						}else{
+   							layer.msg(data, {icon: 2,time: 2000});
+   						}
+//   						layer.closeAll();
+   					}
+   				})
+    		}, function(index){
+    			layer.close(index);
+    			return false;// 取消
+    		}
+    	);
+    }
+    
+    function selectAll(name,obj){
+    	$('input[name*='+name+']').prop('checked', $(obj).checked);
+    }   
+    
+    function get_help(obj){
+        layer.open({
+            type: 2,
+            title: '帮助手册',
+            shadeClose: true,
+            shade: 0.3,
+            area: ['70%', '80%'],
+            content: $(obj).attr('data-url'), 
+        });
+    }
+    
+    function delAll(obj,name){
+    	var a = [];
+    	$('input[name*='+name+']').each(function(i,o){
+    		if($(o).is(':checked')){
+    			a.push($(o).val());
+    		}
+    	})
+    	if(a.length == 0){
+    		layer.alert('请选择删除项', {icon: 2});
+    		return;
+    	}
+    	layer.confirm('确认删除？', {btn: ['确定','取消'] }, function(){
+    			$.ajax({
+    				type : 'get',
+    				url : $(obj).attr('data-url'),
+    				data : {act:'del',del_id:a},
+    				dataType : 'json',
+    				success : function(data){
+    					if(data == 1){
+    						layer.msg('操作成功', {icon: 1});
+    						$('input[name*='+name+']').each(function(i,o){
+    							if($(o).is(':checked')){
+    								$(o).parent().parent().remove();
+    							}
+    						})
+    					}else{
+    						layer.msg(data, {icon: 2,time: 2000});
+    					}
+    					layer.closeAll();
+    				}
+    			})
+    		}, function(index){
+    			layer.close(index);
+    			return false;// 取消
+    		}
+    	);	
+    }
+</script>  
+
+</head>
+<style>
+.ncm-goods-gift {
+	text-align: left;
+}
+.ncm-goods-gift ul {
+    display: inline-block;
+    font-size: 0;
+    vertical-align: middle;
+}
+.ncm-goods-gift li {
+    display: inline-block;
+    letter-spacing: normal;
+    margin-right: 4px;
+    vertical-align: top;
+    word-spacing: normal;
+}
+.ncm-goods-gift li a {
+    background-color: #fff;
+    display: table-cell;
+    height: 30px;
+    line-height: 0;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+    width: 30px;
+}
+.ncm-goods-gift li a img {
+    max-height: 30px;
+    max-width: 30px;
+}
+
+a.green{
+	
+	background: #fff none repeat scroll 0 0;
+    border: 1px solid #f5f5f5;
+    border-radius: 4px;
+    color: #999;
+    cursor: pointer !important;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: normal;
+    height: 20px;
+    letter-spacing: normal;
+    line-height: 20px;
+    margin: 0 5px 0 0;
+    padding: 1px 6px;
+    vertical-align: top;
+}
+
+a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
+
+.ncap-order-style .ncap-order-details{
+	margin:20px auto;
+}
+.contact-info h3,.contact-info .form_class{
+  display: inline-block;
+  vertical-align: middle;
+}
+.form_class i.fa{
+  vertical-align: text-bottom;
+}
+</style>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.go(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>订单发货</h3>
+        <h5>订单发货编辑</h5>
+      </div>
+      <div class="subject" style="width:62%">
+      		<a href="/index.php/admin/Order/order_print/order_id/1480/template/picking.html" style="float:right;margin-right:10px" class="ncap-btn-big ncap-btn-green" ><i class="fa fa-print"></i>打印配货单</a>
+      	 </a>	
+      </div>
+    </div>
+      
+  </div>
+  <div class="ncap-order-style">
+    <div class="titile">
+      <h3></h3>
+    </div>
+ <form id="delivery-form" action="/index.php/Admin/order/deliveryHandle.html" method="post">
+    <div class="ncap-order-details">
+      <div class="tabs-panels">
+        <div class="misc-info">
+           <h3>基本信息</h3>
+           		<dl>
+           			<dt>订单号:</dt>
+		            <dd>201702071145017310</dd>
+		            <dt>下单时间:</dt>
+		            <dd>2017-02-07 11:45</dd>
+		            <dt>配送方式</dt>
+		            <dd>申通物流</dd>
+		          </dl>
+	              <dl>
+	              	<dt>配送费用</dt>
+		            <dd>0.00</dd>
+		            <dt>配送单号</dt>
+		            <dd><input class="input-txt" name="invoice_no" id="invoice_no" value=""></dd>
+		            <dt></dt>
+		            <dd></dd>
+			       </dl>
+        	</div>
+        
+        <div class="addr-note">
+          <h4>收货信息</h4>
+          <dl>
+            <dt>收货人</dt>
+            <dd>张谷泉</dd>
+            <dt>电子邮件</dt>
+            <dd></dd>
+          </dl>
+          <dl>
+            <dt>收货地址</dt>
+            <dd>五和大道五和商业广场2017</dd>
+          </dl>
+          <dl>
+            <dt>邮编</dt>
+            	<dd>N</dd>
+          </dl>
+          <dl>
+           		<dt>电话</dt>
+            	<dd>13512345678</dd>
+            	<dt>发票抬头</dt>
+            	<dd></dd>
+          	</dl>
+        </div>
+  
+         
+        <div class="goods-info">
+          <h4>商品信息</h4>
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2">商品</th>
+                <th>规格属性</th>
+                <th>购买数量</th>
+                <th>商品单价</th>
+                <th>选择发货</th>
+              </tr>
+            </thead>
+            <tbody>
+                       	<tr>
+                <td class="w30"><div class="goods-thumb"><a href="/index.php/admin/Goods/addEditGoods/id/39.html" target="_blank"><img alt="" src="picture/goods_thumb_39_200_200.jpeg" /> </a></div></td>
+                <td style="text-align: left;"><a href="/index.php/admin/Goods/addEditGoods/id/39.html" target="_blank">华为（HUAWEI） M2 10.0 平板电脑 WiFi 月光银</a><br/></td>
+                <td class="w80">尺寸:7寸及以下 内存:16G 颜色:银白色</td>
+                <td class="w60">1</td>
+                <td class="w100">2000.00</td>
+                <td class="w60">
+                	                        	<input type="checkbox" name="goods[]" value="1733" checked="checked">
+                                    </td>
+              </tr>
+                        </table>
+        </div>
+        <div class="contact-info"  style="margin-top:10px;">
+          <h3>发货单备注</h3>
+          <dl class="row">
+	        <dt class="tit">
+	          <label for="note">发货单备注</label>
+	        </dt>
+	        <dd class="opt" style="margin-left:10px">
+	        <input type="hidden" name="order_id" value="1480">
+	         <textarea id="note" name="note" style="width:600px" rows="6"  placeholder="请输入操作备注" class="tarea" id="note"></textarea>
+	        </dd>
+	      </dl> 
+	      <dl class="row">
+	        <dt class="tit">
+	          <label for="note">可执行操作</label>
+	        </dt>
+	        <dd class="opt" style="margin-left:10px">
+               		<a class="ncap-btn-big ncap-btn-green"  onclick="dosubmit()">确认发货</a>
+	        </dd>
+	      </dl> 
+        </div>
+        <div class="goods-info">
+          <h4>发货记录</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>操作者</th>
+                <th>发货时间</th>
+                <th>发货单号</th>
+                <th>收货人</th>
+                <th>快递公司</th>
+                <th>备注</th>
+                <th>查看</th>
+              </tr>
+            </thead>
+            <tbody>
+                      </table>
+        </div>
+      </div>
+  	</div>
+  	</form>
+  </div>
+  
+</div>
+<script type="text/javascript">
+function dosubmit(){
+	if($('#invoice_no').val() ==''){
+		 layer.alert('请输入配送单号', {icon: 2});  // alert('请输入配送单号');
+		return;
+	}
+	var a = [];
+	$('input[name*=goods]').each(function(i,o){
+		if($(o).is(':checked')){
+			a.push($(o).val());
+		}
+	});
+	if(a.length == 0){
+		layer.alert('请选择发货商品', {icon: 2});  //alert('请选择发货商品');
+		return;
+	}
+	$('#delivery-form').submit();
+}
+</script>
+</body>
+</html>

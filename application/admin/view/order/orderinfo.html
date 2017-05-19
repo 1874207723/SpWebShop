@@ -1,0 +1,305 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link href="__ADMIN__/order/css/main.css" rel="stylesheet" type="text/css">
+<link href="__ADMIN__/order/css/page.css" rel="stylesheet" type="text/css">
+<link href="__ADMIN__/order/css/font-awesome.min.css" rel="stylesheet" />
+<!--[if IE 7]>
+  <link rel="stylesheet" href="css/font-awesome-ie7.min.css">
+<![endif]-->
+<link href="__ADMIN__/order/css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+<link href="__ADMIN__/order/css/perfect-scrollbar.min.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">html, body { overflow: visible;}</style>
+
+<script type="text/javascript" src="__ADMIN__/order/js/jquery.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/layer.js"></script><!-- 弹窗js 参考文档 http://layer.layui.com/-->
+<script type="text/javascript" src="__ADMIN__/order/js/admin.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/flexigrid.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/jquery.validation.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/common.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/jquery.mousewheel.js"></script>
+<script src="__ADMIN__/order/js/myformvalidate.js"></script>
+<script src="__ADMIN__/order/js/myajax2.js"></script>
+<script src="__ADMIN__/order/js/global.js"></script>
+
+</head>
+<style>
+.ncm-goods-gift {
+	text-align: left;
+}
+.ncm-goods-gift ul {
+    display: inline-block;
+    font-size: 0;
+    vertical-align: middle;
+}
+.ncm-goods-gift li {
+    display: inline-block;
+    letter-spacing: normal;
+    margin-right: 4px;
+    vertical-align: top;
+    word-spacing: normal;
+}
+.ncm-goods-gift li a {
+    background-color: #fff;
+    display: table-cell;
+    height: 30px;
+    line-height: 0;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+    width: 30px;
+}
+.ncm-goods-gift li a img {
+    max-height: 30px;
+    max-width: 30px;
+}
+
+a.green{
+	
+	background: #fff none repeat scroll 0 0;
+    border: 1px solid #f5f5f5;
+    border-radius: 4px;
+    color: #999;
+    cursor: pointer !important;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: normal;
+    height: 20px;
+    letter-spacing: normal;
+    line-height: 20px;
+    margin: 0 5px 0 0;
+    padding: 1px 6px;
+    vertical-align: top;
+}
+
+a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
+
+.ncap-order-style .ncap-order-details{
+	margin:20px auto;
+}
+.contact-info h3,.contact-info .form_class{
+  display: inline-block;
+  vertical-align: middle;
+}
+.form_class i.fa{
+  vertical-align: text-bottom;
+}
+</style>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.go(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>商品订单</h3>
+        <h5>商城实物商品交易订单查询及管理</h5>
+      </div>
+      <div class="subject" style="width:62%">
+	           		<a href="/index.php/Admin/order/edit_order/order_id/1494.html" style="float:right;margin-right:10px" class="ncap-btn-big ncap-btn-green" ><i class="fa fa-pencil-square-o"></i>修改订单</a>
+      	       	 <a href="/index.php/admin/Order/order_print/order_id/1494.html" target="_blank" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="打印订单">
+      	 <a href="/index.php/admin/Order/order_print/order_id/1494.html" style="float:right;margin-right:10px" class="ncap-btn-big ncap-btn-green" ><i class="fa fa-print"></i>打印订单</a>
+      	 </a>	
+      </div>
+    </div>
+      
+  </div>
+  <div class="ncap-order-style">
+    <div class="titile">
+      <h3></h3>
+    </div>
+ 
+    <div class="ncap-order-details">
+      <form id="order-action">
+        <div class="tabs-panels">
+        <div class="misc-info">
+           <h3>基本信息</h3>
+           		<dl>
+		            <dt>订单 ID:</dt>
+		            <dd>{$info[0]->order_id}</dd>
+		            <dt>订单号:</dt>
+		            <dd>{$info[0]->order_sn}</dd>
+		            <dt>会员:</dt>
+		            <dd>{$info[0]->user_id}</dd>
+		          </dl>
+	              <dl>
+	              	<dt>E-Mail:</dt>
+		            <dd></dd>
+		            <dt>电话:</dt>
+		            <dd>{$info[0]->mobile}</dd>
+		            <dt>应付金额:</dt>
+		            <dd>{$info[0]->order_amount}</dd>
+			       </dl>
+			       <dl>
+	              	<dt>订单状态:</dt>
+		            <dd> &ensp;{$info[0]->order_statuss} / {$info[0]->shipping_statuss} / {$info[0]->pay_statuss}</dd>
+		            <dt>下单时间:</dt>
+		            <dd>{$info[0]->add_time}</dd>
+		            <dt>支付时间:</dt>
+		            <dd>{if !empty($info[0]->pay_time)}{$info[0]->pay_time}{else}暂无{/if}</dd>
+			       </dl>
+			       <dl>
+	              	<dt>支付方式:</dt>
+		            <dd>{$info[0]->pay_name}</dd>
+		            </dl>
+        	</div>
+        
+        <div class="addr-note">
+          <h4>收货信息</h4>
+          <dl>
+            <dt>收货人：</dt>
+            <dd>{$info[0]->consignee}</dd>
+            <dt>联系方式：</dt>
+            <dd>{$info[0]->mobile}</dd>
+          </dl>
+          <dl>
+            <dt>收货地址：</dt>
+            <dd>{$info[0]->province|get_place_name}&ensp;{$info[0]->city|get_place_name}&ensp;{$info[0]->district|get_place_name}&ensp;{$info[0]->twon|get_place_name} <br />{$info[0]->address}</dd>
+          </dl>
+          <dl>
+            <dt>邮编：</dt>
+            	<dd>{$info[0]->zipcode}</dd>
+          </dl>
+          <dl>
+           		<dt>配送方式：</dt>
+            	<dd>{$info[0]->shipping_name}</dd>
+          	</dl>
+        </div>
+  
+         
+        <div class="goods-info">
+          <h4>商品信息</h4>
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2">商品</th>
+                <th>规格属性</th>
+                <th>数量</th>
+                <th>单品价格</th>
+                <th>会员折扣价</th>
+                <th>单品小计</th>
+              </tr>
+            </thead>
+            <tbody>
+              {foreach $info as $v}
+                <tr>
+                  <td class="w30"><div class="goods-thumb"><a href="__PUBLIC__/index/goods/goodsinfo?goodsid={$v.goods_id}" target="_blank"><img alt="" src="{$v.original_img
+                  }" /> </a></div></td>
+                  <td style="text-align: left;"><a href="__PUBLIC__/index/goods/goodsinfo?goodsid={$v.goods_id}" target="_blank">{$v.goods_name}</a><br/></td>
+                  <td class="w80">{$v.spec_key_name}</td>
+                  <td class="w60">{$v.goods_num}</td>
+                  <td class="w100">{$v.goods_price}</td>
+                  <td class="w60">{$v.member_goods_price}</td>
+                  <td class="w80">{$v.member_goods_price}</td>
+                </tr>
+              {/foreach}
+                        </table>
+        </div>
+   
+        <div class="total-amount contact-info">
+          <h3>订单总额：￥{$info[0]->total_amount}</h3>
+        </div>
+        <div class="contact-info">
+          <h3>费用信息 </h3>
+          <div class="form_class">
+          		<a class="btn green" href="/index.php/Admin/Order/editprice/order_id/1494.html"><i class="fa fa-pencil-square-o"></i>修改费用</a>
+          </div>   
+          <dl>
+            <dt>小计：</dt>
+            <dd>{$info[0]->gpric}</dd>
+            <dt>运费：</dt>
+            <dd>+{$info[0]->shipping_price}</dd>
+            <dt>积分 (-{$info[0]->integral}}):</dt>
+            <dd>-{$info[0]->integral_money}</dd>
+          </dl>
+          <dl>
+            <dt>优惠券抵扣：</dt>
+            <dd>-{$info[0]->coupon_price}</dd>
+          </dl>
+          <dl>
+            <dt>应付 : </dt>
+            <dd><strong class="red_common">{$info[0]->order_amount}</strong></dd>
+           </dl>
+        </div>
+        <div class="contact-info">
+          <h3>操作信息</h3>
+          <dl class="row">
+	        <dt class="tit">
+	          <label for="note">操作备注</label>
+	        </dt>
+	        <dd class="opt" style="margin-left:10px">
+	         <textarea id="note" name="note" style="width:600px" rows="6"  placeholder="请输入操作备注" class="tarea">{$info[0]->user_note}</textarea>
+	        </dd>
+	      </dl> 
+	      <dl class="row">
+	        <dt class="tit">
+	          <label for="note">可执行操作</label>
+	        </dt>
+	        <dd class="opt" style="margin-left:10px">
+	         	               		<a class="ncap-btn-big ncap-btn-green" onclick="ajax_submit_form('order-action','/index.php/Admin/order/order_action/order_id/1494/type/pay.html');" >
+               		付款</a>
+               		               		<a class="ncap-btn-big ncap-btn-green" onclick="ajax_submit_form('order-action','/index.php/Admin/order/order_action/order_id/1494/type/invalid.html');" >
+               		无效</a>
+               			        </dd>
+	      </dl> 
+        </div>
+        <div class="goods-info">
+          <h4>操作记录</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>顺序</th>
+                <th>操作者</th>
+                <th>操作时间</th>
+                <th>订单状态</th>
+                <th>付款状态</th>
+                <th>发货状态</th>
+                <th>描述</th>
+                <th>备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              {foreach $log as $k => $v}
+            	 <tr>
+                   <td class="text-center">{$k+1}</td>
+	                 <td class="text-center">{$v.action_user}</td>
+	                 <td class="text-center">{$v.log_time}</td>
+	                 <td class="text-center">{$v.order_statuss}</td>
+	                 <td class="text-center">{$v.shipping_statuss}</td>
+	                 <td class="text-center">{$v.pay_statuss}</td>
+	                 <td class="text-center">{$v.status_desc}</td>
+	                 <td class="text-center">{$v.action_note}</td>
+	             </tr>
+              {/foreach}
+                        </table>
+        </div>
+      </div>
+      </form>
+  	</div>
+  </div>
+</div>
+<script type="text/javascript">
+
+
+function delfun() {
+	// 删除按钮
+	layer.confirm('确认删除？', {
+		btn: ['确定'] //按钮
+	}, function () {
+		console.log("确定");
+	}, function () {
+		console.log("取消");
+	});
+}
+
+ 
+</script>
+</body>
+</html>
