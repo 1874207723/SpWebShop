@@ -11,7 +11,7 @@
                 <dl class="kj-dl1" name="{$value['id']}">
                     <dt><a href="{:url('index/shop/list',['cateid'=>$value['id']])}">{$value['name']}</a></dt>
                     <dd>
-                        {foreach $level2Limit[$value['id']] as $value2}<a href="{:url('',['cateid'=>$value2['id']])}">{$value2['name']}</a>&ensp;{/foreach}
+                        {foreach $level2Limit[$value['id']] as $value2}<a href="{:url('index/shop/list',['cateid'=>$value2['id']])}">{$value2['name']}</a>&ensp;{/foreach}
                     </dd>
                 </dl>
 
@@ -35,7 +35,7 @@
 
         <ul>
             {foreach $hotCate as $hot}
-            <li><a href="{:url('',['cateid'=>$hot['id']])}">{$hot['name']}</a></li>
+            <li><a href="{:url('index/shop/list',['cateid'=>$hot['id']])}">{$hot['name']}</a></li>
             {/foreach}
             <div style="clear:both;"></div>
         </ul>
@@ -47,7 +47,14 @@
 
         <div class="results">
             <p class="re-p1 f-l">
-                全部结果：{if !empty($brand)}<!-- - --><a href="http://www.wntp.com/index/shop/list?cateid={$parent['id']}">{$parent['name']}</a>&ensp; <!-- - -->><a href="http://www.wntp.com/index/shop/list?brand={$brand}">{$brandCheck['name']}</a><!-- - -->{/if}<!-- 分隔处 -->{if !empty($cateid)}<!-- - -->{if !empty($parent1)}<a href="{:url('',['cateid'=>$parent1['id']])}">{$parent1['name']}</a>{/if}&ensp; <!-- - -->{if !empty($parent2)}><a href="{:url('',['cateid'=>$parent2['id']])}">{$parent2['name']}</a>{/if}&ensp; <!-- - -->{if !empty($parent3)}><a href="{:url('',['cateid'=>$parent3['id']])}">{$parent3['name']}</a>{/if}<!-- - -->{/if}
+                全部结果：{if !empty($brand)}<!-- - --><a href="http://www.wntp.com/index/shop/list?cateid={$parent['id']}">{$parent['name']}</a>&ensp; <!-- - -->><a href="http://www.wntp.com/index/shop/list?brand={$brand}">{$brandCheck['name']}</a><!-- - -->{/if}<!-- 分隔处 -->{if !empty($cateid)}<!-- - -->{if !empty($parent1)}<a href="{:url('index/shop/list',['cateid'=>$parent1['id']])}">{$parent1['name']}</a>{/if}&ensp; <!-- - -->{if !empty($parent2)}><a href="{:url('index/shop/list',['cateid'=>$parent2['id']])}">{$parent2['name']}</a>{/if}&ensp; <!-- - -->{if !empty($parent3)}><a href="{:url('index/shop/list',['cateid'=>$parent3['id']])}">{$parent3['name']}</a>{/if}<!-- - -->{/if}
+                {if !empty($goodsInfo)}
+                    {foreach $goodsPth as $gpKey=>$gpValue}
+                        <a href="http://www.wntp.com/index/shop/list?cateid={$gpKey}">{$gpValue}</a>>&ensp;
+                    {/foreach}
+                    {$goodsInfo['goods_name']}
+                {/if}
+
             </p>
             <div class="re-search f-l" style="float:right;margin-right:10px;">
                 <input type="text" placeholder="三只松鼠" class="f-l" />

@@ -38,28 +38,10 @@ class Shop extends Base
 
         $brandid = input('get.brand');
 
-        //查询板块分类，1,2,3级。
-        $level1 = Db::table('qb_goods_cate')->where('level', 1)->order('sort_order desc')->select();
-        foreach($level1 as $value) {
-            $data = Db::table('qb_goods_cate')->where('parent_id', $value['id'])->select();
-            $dataLimit = Db::table('qb_goods_cate')->where('parent_id', $value['id'])->limit(4)->select();
-            $level2[$value['id']] = $data;
-            $level2Limit[$value['id']] = $dataLimit;
-            foreach($data as $value2) {
-                $data2 = Db::table('qb_goods_cate')->where('parent_id', $value2['id'])->limit(5)->select();
-                $level3[$value2['id']] = $data2;
-            }
+        $headCate = $this->headcate();
+        foreach ($headCate as $h=>$c) {
+            $this->assign($h, $c);
         }
-        $this->assign([
-            'level1' => $level1,
-            'level2' => $level2,
-            'level3' => $level3,
-            'level2Limit' => $level2Limit
-            ]);
-
-        //查询头部板块推荐。
-        $hotCate = Db::table('qb_goods_cate')->where('is_hot', 1)->where('level', 'in', '2,3')->limit(8)->select();
-        $this->assign('hotCate', $hotCate);
 
         //查询销量、新品、评价、价格。
         $salesum = !empty(input('get.salesum')) && input('get.salesum')=='1' ? (' asc') : (!empty(input('get.salesum')) && input('get.salesum')=='2' ? ' desc' : 0);
@@ -123,52 +105,61 @@ class Shop extends Base
                     $this->assign('parent3', $parent3);
                 }
 
-                //该id查询的所有分类的数组。以键值对形式存储。
-                $checkReco = $checkData[$idCheck['level']];
-                $this->assign('checkReco', $checkReco);
+                if (!empty($checkData[$idCheck['level']])) {
 
-                //查询本品牌热销
-                $recommendData = Db::table('qb_goods')->where('cat_id', 'in', array_keys($checkReco))->where('is_recommend', 1)->select();
-                if (!empty($recommendData)) {
-                    foreach($recommendData as $red) {
-                        $recoData[] = $red['cat_id'];
+                    //该id查询的所有分类的数组。以键值对形式存储。
+                    $checkReco = $checkData[$idCheck['level']];
+                    $this->assign('checkReco', $checkReco);
+
+                    //查询本品牌热销
+                    $recommendData = Db::table('qb_goods')->where('cat_id', 'in', array_keys($checkReco))->where('is_recommend', 1)->select();
+                    if (!empty($recommendData)) {
+                        foreach($recommendData as $red) {
+                            $recoData[] = $red['cat_id'];
+                        }
+                        $recoData = array_slice($recoData, 0, 8);
+                        $this->assign('recoData', array_unique($recoData));
                     }
-                    $recoData = array_slice($recoData, 0, 8);
-                    $this->assign('recoData', array_unique($recoData));
+
+                    //查询大家都在选
+                    $hotData = Db::table('qb_goods')->field('cat_id,goods_name,goods_id')->where('cat_id', 'in', array_keys($checkReco))->where('is_hot', 1)->limit(6)->select();
+
+                    //查询推荐商品
+                    $recommendGoods = Db::table('qb_goods')->field('goods_id,goods_name,comment_count,market_price,shop_price,original_img')->where('cat_id', 'in', array_keys($checkReco))->where('is_recommend', 1)->paginate(3);
+
+                    //查询品牌
+                    $brandData = Db::table('qb_brand')->field('id,logo')->where('cat_id',$parent[1])->order('sort desc')->limit(18)->select();
+                    $brandAll = Db::table('qb_brand')->where('cat_id',$parent[1])->order('sort desc')->select();
+
+                    //查询商品。价格区间
+                    $goods = Db::table('qb_goods')->field('goods_id,goods_name,comment_count,market_price,sales_sum,shop_price,original_img')->where('cat_id', 'in', array_keys($checkReco))->where('is_on_sale', 1)->order('shop_price asc');
+
+                    if (!empty($salesum)) {
+                        $goods->order('sales_sum '.$salesum);
+                    }
+                    if (!empty($ontime)) {
+                        $goods->order('on_time '.$ontime);
+                    }
+                    if (!empty($commentcount)) {
+                        $goods->order('comment_count '.$commentcount);
+                    }
+                    if (!empty(input('get.priceF'))) {
+                        $goods->where('shop_price', 'between', input('get.priceF').','.input('get.priceS'));
+                        $this->assign('pricef', input('get.priceF'));
+                        $this->assign('prices', input('get.priceS'));
+                    }
+                    $goods = $goods->paginate(12);
+
+                    $this->assign([
+                    'hotData' => $hotData,
+                    'brandData' => $brandData,
+                    'brandAll' => $brandAll,
+                    'goods' => $goods,
+                    'recommendGoods' => $recommendGoods
+                    ]);
                 }
-
-                //查询大家都在选
-                $hotData = Db::table('qb_goods')->field('cat_id,goods_name')->where('cat_id', 'in', array_keys($checkReco))->where('is_hot', 1)->limit(6)->select();
-
-                //查询推荐商品
-                $recommendGoods = Db::table('qb_goods')->field('goods_id,goods_name,comment_count,market_price,shop_price,original_img')->where('cat_id', 'in', array_keys($checkReco))->where('is_recommend', 1)->paginate(3);
-
-                //查询品牌
-                $brandData = Db::table('qb_brand')->field('id,logo')->where('cat_id',$parent[1])->order('sort desc')->limit(18)->select();
-                $brandAll = Db::table('qb_brand')->where('cat_id',$parent[1])->order('sort desc')->select();
-
-                //查询商品。价格区间
-                $goods = Db::table('qb_goods')->field('goods_id,goods_name,comment_count,market_price,sales_sum,shop_price,original_img')->where('cat_id', 'in', array_keys($checkReco))->where('is_on_sale', 1);
-
-                if (!empty($salesum)) {
-                    $goods->order('sales_sum '.$salesum);
-                }
-                if (!empty($ontime)) {
-                    $goods->order('on_time '.$ontime);
-                }
-                if (!empty($commentcount)) {
-                    $goods->order('comment_count '.$commentcount);
-                }
-                if (!empty(input('get.priceF'))) {
-                    $goods->where('shop_price', 'between', input('get.priceF').','.input('get.priceS'));
-                    $this->assign('pricef', input('get.priceF'));
-                    $this->assign('prices', input('get.priceS'));
-                }
-                $goods = $goods->paginate(12);
-
             }
         }
-
 
         //得到brand查询数据
 
@@ -192,7 +183,7 @@ class Shop extends Base
             }
 
             //查询大家都在选
-            $hotData = Db::table('qb_goods')->field('cat_id,goods_name')->where('brand_id', $brand)->where('is_hot', 1)->limit(6)->select();
+            $hotData = Db::table('qb_goods')->field('cat_id,goods_name,goods_id')->where('brand_id', $brand)->where('is_hot', 1)->limit(6)->select();
 
             //查询推荐商品
             $recommendGoods = Db::table('qb_goods')->field('goods_id,goods_name,comment_count,market_price,shop_price,original_img')->where('brand_id', $brand)->where('is_recommend', 1)->paginate(3);
@@ -202,7 +193,7 @@ class Shop extends Base
             $brandAll = Db::table('qb_brand')->where('cat_id',$brandCheck['cat_id'])->order('sort desc')->select();
 
             //查询商品。价格区间
-            $goods = Db::table('qb_goods')->field('goods_id,goods_name,comment_count,market_price,sales_sum,shop_price,original_img')->where('brand_id', $brand)->where('is_on_sale', 1);
+            $goods = Db::table('qb_goods')->field('goods_id,goods_name,comment_count,market_price,sales_sum,shop_price,original_img')->where('brand_id', $brand)->where('is_on_sale', 1)->order('shop_price asc');
 
             if (!empty($salesum)) {
                 $goods->order('sales_sum '.$salesum);
@@ -220,43 +211,24 @@ class Shop extends Base
             }
             $goods = $goods->paginate(12);
 
+            $this->assign([
+                'hotData' => $hotData,
+                'brandData' => $brandData,
+                'brandAll' => $brandAll,
+                'goods' => $goods,
+                'recommendGoods' => $recommendGoods
+                ]);
         }
-
-        $this->assign([
-            'hotData' => $hotData,
-            'brandData' => $brandData,
-            'brandAll' => $brandAll,
-            'goods' => $goods,
-            'recommendGoods' => $recommendGoods
-            ]);
 
         return $this->fetch();
-    }
 
+    }
     public function details()
     {
-        //查询板块分类，1,2,3级。
-        $level1 = Db::table('qb_goods_cate')->where('level', 1)->order('sort_order desc')->select();
-        foreach($level1 as $value) {
-            $data = Db::table('qb_goods_cate')->where('parent_id', $value['id'])->select();
-            $dataLimit = Db::table('qb_goods_cate')->where('parent_id', $value['id'])->limit(4)->select();
-            $level2[$value['id']] = $data;
-            $level2Limit[$value['id']] = $dataLimit;
-            foreach($data as $value2) {
-                $data2 = Db::table('qb_goods_cate')->where('parent_id', $value2['id'])->limit(5)->select();
-                $level3[$value2['id']] = $data2;
-            }
+        $headCate = $this->headcate();
+        foreach ($headCate as $h=>$c) {
+            $this->assign($h, $c);
         }
-        $this->assign([
-            'level1' => $level1,
-            'level2' => $level2,
-            'level3' => $level3,
-            'level2Limit' => $level2Limit
-            ]);
-
-        //查询头部板块推荐。
-        $hotCate = Db::table('qb_goods_cate')->where('is_hot', 1)->where('level', 'in', '2,3')->limit(8)->select();
-        $this->assign('hotCate', $hotCate);
 
         //产品规格查询。
         if (input('get.goodsid')) {
@@ -268,6 +240,16 @@ class Shop extends Base
             //dump($goodsInfo);
             $this->assign('goodsInfo', $goodsInfo);
             $this->assign('title', $title);
+
+            //查询路径信息
+            $goodsPath = Db::table('qb_goods_cate')->field('parent_id_path')->where('id', $goodsInfo['cat_id'])->find();
+            $goodsPath = explode('_', $goodsPath['parent_id_path']);
+            array_shift($goodsPath);
+            foreach ($goodsPath as $gdp) {
+                $goodsPth[$gdp] = Db::table('qb_goods_cate')->field('name')->where('id', $gdp)->find()['name'];
+            }
+            $this->assign('goodsPth', $goodsPth);
+
 
             //查询商品图片
             $goodsImage = Db::table('qb_goods_images')->field('image_url')->where('goods_id', $goodsid)->select();
@@ -313,11 +295,11 @@ class Shop extends Base
             $this->assign('arrAll', $arrAll);
         }
 
-
         return $this->fetch();
     }
 
-    public function checkplate() {
+    public function checkplate()
+    {
         $data = input('post.');
         $checkPlate = Db::table('qb_spec_goods')->field('store_count')->where('key', $data['spec'])->where('goods_id', $data['goods'])->find();
         if (empty($checkPlate) || $checkPlate['store_count'] <= 0) {
@@ -336,6 +318,33 @@ class Shop extends Base
     public function goodsinfo ()
     {
         return $this->fetch();
+    }
+
+    public function headcate()
+    {
+        //查询板块分类，1,2,3级。
+        $level1 = Db::table('qb_goods_cate')->where('level', 1)->order('sort_order desc')->select();
+        foreach($level1 as $value) {
+            $data = Db::table('qb_goods_cate')->where('parent_id', $value['id'])->select();
+            $dataLimit = Db::table('qb_goods_cate')->where('parent_id', $value['id'])->limit(4)->select();
+            $level2[$value['id']] = $data;
+            $level2Limit[$value['id']] = $dataLimit;
+            foreach($data as $value2) {
+                $data2 = Db::table('qb_goods_cate')->where('parent_id', $value2['id'])->limit(5)->select();
+                $level3[$value2['id']] = $data2;
+            }
+        }
+
+        //查询头部板块推荐。
+        $hotCate = Db::table('qb_goods_cate')->where('is_hot', 1)->where('level', 'in', '2,3')->limit(8)->select();
+
+        return [
+            'level1'=>$level1,
+            'level2' => $level2,
+            'level3' => $level3,
+            'level2Limit' => $level2Limit,
+            'hotCate' => $hotCate
+        ];
     }
 
 }

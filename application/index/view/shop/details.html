@@ -266,10 +266,10 @@
         if (arr2.length == num) {
             $.post("{:url('checkplate')}",{'spec':arr2.join('_'),'goods':goodsid},function (data) {
                 if (data.checkPlate) {
-                    var numberCheck = true;
+                    numberCheck = true;
                     $('#numberCheck').html('库存数量' + data.checkPlate);
                 } else {
-                    var numberCheck = false;
+                    numberCheck = false;
                     $('#numberCheck').html('库存不足，请选择其他型号');
                 }
             })
@@ -288,10 +288,14 @@
     $('#btn1').on('click',function () {
         i = 0;
         var arr3 = []
+        console.log(arr);
         for (var r in arr) {
             arr3[i] = r;
             i++;
         }
+        console.log(arr3);
+        console.log(num);
+        console.log(numberCheck);
         if (arr3.length != num || !numberCheck) {
             layer.alert('请添加足够的规格',{'icon':0});
         } else {

@@ -71,7 +71,7 @@
             <dd>
                 {if !empty($hotData)}
                 {foreach $hotData as $hData}
-                <a href="{:url('', ['cateid'=>$hData['cat_id']])}">{$hData['goods_name']|mb_substr=0,8}</a>
+                <a href="http://www.wntp.com/index/shop/details?goodsid={$hData['goods_id']}">{$hData['goods_name']|mb_substr=0,8}</a>
                 {/foreach}
                 {/if}
             </dd>
@@ -91,7 +91,7 @@
                     {foreach $recommendGoods as $recommend}
                 	<li>
                         <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="{$recommend['original_img']}" alt="{$recommend['goods_name']}"/></a>
+                            <a href="http://www.wntp.com/index/shop/details?goodsid={$recommend['goods_id']}" class="li-top-tu"><img src="{$recommend['original_img']}" alt="{$recommend['goods_name']}"/></a>
                             <p class="jiage"><span class="sp1">￥{$recommend['market_price']}</span><span class="sp2">￥{$recommend['shop_price']}</span></p>
                         </div>
                         <p class="miaoshu" style="height:50px;overflow:hidden;"><a href="">{$recommend['goods_name']}</a></p>
@@ -105,7 +105,7 @@
                                 <div style="clear:both;"></div>
                             </div>
                             <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
+                                <button class="md-l-btn1" onclick="window.location.href='http://www.wntp.com/index/shop/details?goodsid={$recommend['goods_id']}';">立即购买</button>
                                 <button class="md-l-btn2">加入购物车</button>
                             </div>
                             <div style="clear:both;"></div>
@@ -168,10 +168,10 @@
                     {foreach $goods as $good}
                 	<li>
                         <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="{$good['original_img']}" alt="{$good['goods_name']}"/></a>
+                            <a href="http://www.wntp.com/index/shop/details?goodsid={$good['goods_id']}" class="li-top-tu"><img src="{$good['original_img']}" alt="{$good['goods_name']}"/></a>
                             <p class="jiage"><span class="sp1">￥{$good['market_price']}</span><span class="sp2">￥{$good['shop_price']}</span></p>
                         </div>
-                        <p class="miaoshu" style="height:50px;overflow:hidden;"><a href="">{$good['goods_name']}</a></p>
+                        <p class="miaoshu" style="height:50px;overflow:hidden;"><a href="http://www.wntp.com/index/shop/details?goodsid={$good['goods_id']}">{$good['goods_name']}</a></p>
                         <div class="li-md">
                             <div class="md-l f-l">
                                 <p class="md-l-l f-l" ap="">1</p>
@@ -182,7 +182,7 @@
                                 <div style="clear:both;"></div>
                             </div>
                             <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
+                                <button class="md-l-btn1" onclick="window.location.href='http://www.wntp.com/index/shop/details?goodsid={$good['goods_id']}'">立即购买</button>
                                 <button class="md-l-btn2">加入购物车</button>
                             </div>
                             <div style="clear:both;"></div>
@@ -211,7 +211,7 @@
                 window.location.href="http://www.wntp.com/index/shop/list?cateid="+ cateid +"&priceF="+ priceF +"&priceS="+ priceS;
                 $("#tipkey").empty();
             } else {
-                $("#tipkey").html("两个都必须以数字开头，且不能为空")
+                $("#tipkey").html("必须以数字开头，且不能为空")
             }
         })
     </script>
@@ -227,7 +227,7 @@
                 window.location.href="http://www.wntp.com/index/shop/list?brand="+ brand +"&priceF="+ priceF +"&priceS="+ priceS;
                 $("#tipkey").empty();
             } else {
-                $("#tipkey").html("两个都必须以数字开头，且不能为空")
+                $("#tipkey").html("必须以数字开头，且不能为空")
             }
         })
     </script>
