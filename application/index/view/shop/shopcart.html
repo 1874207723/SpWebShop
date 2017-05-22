@@ -1,0 +1,218 @@
+{include file="public/link1"}
+{include file="public/navigation"}
+
+    <!--内容开始-->
+    <div class="cart-content w1200">
+    	<ul class="cart-tit-nav">
+        	<li class="current" id="productNum" style="color:#F34737;font-size:1.3em">全部商品   21</li>
+            <div style="clear:both;"></div>
+        </ul>
+        <div class="cart-con-tit">
+        	<!-- <p class="p1">
+            	<input type="checkbox" value="" name="hobby"></input>
+				<span>全选</span>
+            </p> -->
+            <p class="p2" style="margin-left:40px;margin-right:90px;">商品信息</p>
+            <p class="p3" style="width:138px;">规格</p>
+            <p class="p4">数量</p>
+            <p class="p5">单价（元）</p>
+            <p class="p6">金额（元）</p>
+            <p class="p7">操作</p>
+        </div>
+        <div class="cart-con-info">
+
+        </div>
+        <!--分页-->
+       <!--  <div class="paging">
+            	<div class="pag-left f-l">
+                	<a href="#" class="about left-r f-l"><</a>
+                    <ul class="left-m f-l">
+                    	<li><a href="#">1</a></li>
+                        <li class="current"><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">6</a></li>
+                        <li><a href="#">...</a></li>
+                        <li><a href="#">100</a></li>
+                        <div style="clear:both;"></div>
+                    </ul>
+                	<a href="#" class="about left-l f-l">></a>
+                    <div style="clear:both;"></div>
+                </div>
+            	<div class="pag-right f-l">
+                	<div class="jump-page f-l">
+                        到第<input type="text" />页
+                    </div>
+                    <button class="f-l">确定</button>
+                    <div style="clear:both;"></div>
+                </div>
+                <div style="clear:both;"></div>
+            </div> -->
+       	<div class="cart-con-footer">
+        	<!-- <input type="checkbox" value="" name="hobby"></input> -->
+            {if !empty($userDataInfo)}
+            <a href="javascript:;" onclick="clearCart({$userDataInfo['id']})" style="color:#c60000;font-family:'微软雅黑';font-size:1.3em;">清空购物车</a>
+            {else}
+            <a href="javascript:;" onclick="clearCart()" style="color:#c60000;font-family:'微软雅黑';font-size:1.3em;">清空购物车</a>
+            {/if}
+        </div>
+        <div>
+            <p id="totalPrice" style="float:right;font-size:2em;margin-top:10px;font-family:微软雅黑">总共￥300.00元</p>
+        </div>
+        <div style="clear:both;"></div>
+        <div>
+            <button style="float:right;font-size:1.8em;width:110px;background-color:#c60000;color:white;height:50px;margin-top:10px;font-family:微软雅黑" onclick="orderlist()">提交订单</button>
+        </div>
+    </div>
+<script>
+    var userlist = $('#userdatainfo').val();
+
+    //用户登录状态下
+    if (udi) {
+
+    var userData;
+    var totalNumber = 0;
+    var totalAmount = 0;
+    addCart();
+
+   //登录状态下，页面添加实时购物车数据
+    function addCart() {
+        alert('1234');
+        $.post("{:url('index/shop/querycart')}", {'userid' : udi}, function(data) {
+        var userlist = JSON.parse(data);
+        userData = userlist;
+        $('.cart-con-info').empty();
+        totalAmount = 0;
+        totalNumber = 0;
+            for (var i in userlist) {
+
+                totalNumber = totalNumber + userlist[i]['goods_num'];
+                totalAmount = totalAmount + userlist[i]['goods_num']*userlist[i]['goods_price'];
+
+                $('.cart-con-info').append("<div class='info-mid' style='padding-top:0px;height:100px;'><div class='mid-tu f-l' style='border:none;margin-left:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ userlist[i]['user_id'] +"'><img src='"+ userlist[i]['image'] +"' style='width:80px;height:80px;margin-top:15px;' /></a></div><div class='mid-font f-l' style='margin-top:25px;width:232px;height:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ userlist[i]['user_id'] +"'>"+ userlist[i]['goods_name'] +"</div><div class='mid-guige f-l' style='border:1px solid white;margin-top:20px;'><p>"+ userlist[i]['spec_key_name'] +"</p></div><div class='mid-sl f-l' style='margin-top:30px;width:40px;'><input style='border:none;' type='text' value='"+ userlist[i]['goods_num'] +"' /></div><p class='mid-dj f-l' style='margin-top:40px;margin-left:30px;width:70px;'>¥ "+ userlist[i]['goods_price'] +"</p><p class='mid-je f-l' style='margin-top:40px;width:60px;'>¥ "+ userlist[i]['goods_num'] * userlist[i]['goods_price'] +"</p><div class='mid-chaozuo f-l' style='margin-top:40px;'><a href='javascript:;' onclick='deleteCart("+ userlist[i]['id'] +")' style='color:#c60000'>删除</a></div><div style='clear:both;'></div></div>");
+            }
+            //console.log('1234');
+            $('#totalPrice').html("总共￥"+ totalAmount +"元");
+            //console.log('765');
+            $('#productNum').html("全部商品   "+ totalNumber);
+        })
+    }
+
+    //登录状态下，ajax删除购物车数据
+    function deleteCart(data)
+    {
+        alert('1234');
+        $.post("{:url('index/shop/deletecart')}", {'id' : data});
+        addCart();
+        changeCart();
+    }
+
+    //登录状态下，删除、清空购物车后js实时刷新页面
+    function clearCart(data)
+    {
+        $.post("{:url('index/shop/clearcart')}", {'userid' : data});
+        addCart();
+        changeCart();
+    }
+
+    //登录状态下，更新顶部购物车数据
+    function changeCart()
+    {
+        $.post("{:url('index/shop/querycart')}", {'userid' : udi}, function(data) {
+          var userList = JSON.parse(data);
+
+          $('#showcartgoods').empty();
+
+          var totalNumber = 0;
+          var totalAmount = 0;
+
+          for (var p in userList) {
+
+            totalNumber = totalNumber + userList[p]['goods_num'];
+            totalAmount = totalAmount + userList[p]['goods_num']*userList[p]['goods_price'];
+
+            $('#showcartgoods').append("<li><div><img src='"+ userList[p].image +"' style='width:30%;' /> <p  id='goodsinfo'>"+ userList[p].goods_name +"<br />"+ userList[p].spec_key_name +"</p><p id='price'>"+ userList[p].goods_price +"元 x "+ userList[p].goods_num +"</p></div></li>")
+          }
+
+          $('#showcartgoods').append("<p id='goodscount'>共 "+ totalNumber +" 件商品</p><p id='sumpirce'>"+ totalAmount +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+
+          $('#productNumInCart').html(totalNumber);
+
+        })
+    }
+
+    function orderlist()
+    {
+        layer.alert("订单提交成功！",{'icon':1});
+    }
+
+    //用户未登录状态下
+    } else {
+        var goodslist = cart.getproductlist();
+        if(goodslist.length >= 0) {
+            addCartList();
+        }
+
+        //添加购物车商品
+        function addCartList() {
+            var glt = cart.getproductlist();
+            console.log(glt);
+            for(var i in glt) {
+                $('.cart-con-info').append("<div class='info-mid' style='padding-top:0px;height:100px;'><div class='mid-tu f-l' style='border:none;margin-left:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ glt[i]['id'] +"'><img src='"+ glt[i]['image'] +"' style='width:80px;height:80px;margin-top:15px;' /></a></div><div class='mid-font f-l' style='margin-top:25px;width:232px;height:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ glt[i]['id'] +"'>"+ glt[i]['name'] +"</div><div class='mid-guige f-l' style='border:1px solid white;margin-top:20px;'><p>"+ glt[i]['spec'] +"</p></div><div class='mid-sl f-l' style='margin-top:30px;width:40px;'><input style='border:none;' type='text' value='"+ glt[i]['num'] +"' /></div><p class='mid-dj f-l' style='margin-top:40px;margin-left:30px;width:70px;'>¥ "+ glt[i]['price'] +"</p><p class='mid-je f-l' style='margin-top:40px;width:60px;'>¥ "+ glt[i]['num'] * glt[i]['price'] +"</p><div class='mid-chaozuo f-l' style='margin-top:40px;'><a href='javascript:;' onclick='deleteCart("+ i +")' style='color:#c60000'>删除</a></div><div style='clear:both;'></div></div>");
+            }
+            //console.log('1234');
+            $('#totalPrice').html("总共￥"+ f(orderdetail.totalAmount,2) +"元")
+            //console.log('765');
+            $('#productNum').html("全部商品   "+ orderdetail.totalNumber)
+        }
+
+        //删除购物车商品
+        function deleteCart(data)
+        {
+            var pdtlist=cart.getproductlist();
+            cart.deleteproduct(pdtlist[data]['id'],pdtlist[data]['spec']);
+            $('.cart-con-info').empty();
+            addCartList();
+            changeList();
+        }
+
+        //更新顶部购物车数据。
+        function changeList()
+        {
+            var pdtlist=cart.getproductlist();
+            function f(num,n){
+                return parseInt(num*Math.pow(10,n)+0.5,10)/Math.pow(10,n);
+              }
+
+            $('#productNumInCart').html(pdtlist.length);
+
+            $('#showcartgoods').empty();
+            for (var p in pdtlist) {
+              console.log('123456');
+              $('#showcartgoods').append("<li><div><img src='"+ pdtlist[p].image +"' style='width:30%;' /> <p  id='goodsinfo'>"+ pdtlist[p].name +"<br />"+ pdtlist[p].spec +"</p><p id='price'>"+ pdtlist[p].price +"元 x "+ pdtlist[p].num +"</p></div></li>")
+            }
+            $('#showcartgoods').append("<p id='goodscount'>共 "+ orderdetail.totalNumber +" 件商品</p><p id='sumpirce'>"+ f(orderdetail.totalAmount,2) +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+        }
+
+        //清空购物车商品
+        function clearCart()
+        {
+            var pdtlist=cart.getproductlist();
+            for(var p in pdtlist) {
+                cart.deleteproduct(pdtlist[p]['id'],pdtlist[p]['spec']);
+            }
+            console.log(cart.getproductlist());
+            $('.cart-con-info').empty();
+            addCartList();
+            changeList();
+        }
+
+        function orderlist()
+        {
+            layer.alert("订单提交失败！请先登录。",{'icon':0});
+        }
+    }
+
+</script>
+{include file="public/footer"}
