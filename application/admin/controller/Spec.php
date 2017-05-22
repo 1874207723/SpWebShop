@@ -90,6 +90,7 @@ class Spec extends Base
 			$addtype = Db::name('goods_attribute')->insertAll($spec);				
 		}
 		if ($addtype) {
+			$this->setAdminLog('添加商品的类型属性');
 			return 1;
 		} else {
 			return 0;
@@ -132,6 +133,7 @@ class Spec extends Base
 			}
 			//$addtype = Db::name('goods_attribute')->insertAll($spec);				
 		}
+		$this->setAdminLog('修改商品的类型属性');
 		return 1;
 	}
 
@@ -157,6 +159,7 @@ class Spec extends Base
 			Db::name('spec_item')->where('spec_id='.$value['id'])->delete();
 		}
 		Db::name('spec')->where('type_id='.$typeid)->delete();
+		$this->setAdminLog('删除了商品的类型');
 		return json(['res' => $res,'res2' => $res2]);
 	}
 
@@ -212,6 +215,7 @@ class Spec extends Base
 		if (!$result) {
 			return 0;
 		} else {
+			$this->setAdminLog('添加商品的规格');
 			return 1;
 		}
 	}
@@ -281,6 +285,7 @@ class Spec extends Base
 			$result = Db::name('spec_item')->insertAll($item);		
 		}
 		if ($result) {
+			$this->setAdminLog('修改了商品的规格');
 			return 1;
 		} else {
 			return 0;

@@ -77,7 +77,7 @@ class Order extends Base
 	public function orderForm ()
 	{
 		$order = new OrderModel();
-		$list = $order->paginate(10);
+		$list = $order->paginate(20);
 		$this->assign(['list' => $list]);
 		return $this->fetch();
 	}
@@ -120,6 +120,7 @@ class Order extends Base
 		$res = $order->alias('o')->join('qb_order_goods g','g.order_id=o.order_id')->join('qb_goods gg','gg.goods_id=g.goods_id')->field('*,o.goods_price as gpric')->where('o.order_id in ('.$orderid .')')->select();
 		$log = OrderAction::all(['order_id' => $orderid]);
 		$this->assign(['info' => $res,'log' => $log]);
+		$this->setAdminLog('查看订单 订单ID：'.$orderid);
 		return $this->fetch();
 	}
 
@@ -133,6 +134,7 @@ class Order extends Base
 		$res = $order->alias('o')->join('qb_order_goods g','g.order_id=o.order_id')->join('qb_goods gg','gg.goods_id=g.goods_id')->field('*,o.goods_price as gpric')->where('o.order_id in ('.$orderid .')')->select();
 		$log = OrderAction::all(['order_id' => $orderid]);
 		$this->assign(['info' => $res,'log' => $log]);
+		$this->setAdminLog('打印订单 订单ID：'.$orderid);
 		return $this->fetch();
 	}
 
@@ -230,6 +232,7 @@ class Order extends Base
  		unset($data['goods_price']);
  		unset($data['goods_sum']);
  		$order->save($data,$data['order_id']);
+ 		$this->setAdminLog('修改了订单 订单ID：'.$orderid);
  		$this->success('修改成功',url('order/orderinfo',null,'?id='.$orderid));
 	}
 
@@ -241,7 +244,7 @@ class Order extends Base
 		$action = input('action');
 		$note = input('note');
 		$orderaction = new OrderAction();
-		
+		$this->setAdminLog('修改'.$orderid.'订单状态 => '.$action);
 		switch ($action) {
 			case 'pay':
 			 	$flag = $order->save(['pay_status' => 1],['order_id' => $orderid]);
@@ -291,7 +294,7 @@ class Order extends Base
 	public function waitOrder ()
 	{
 		$order = new OrderModel();
-		$list = $order->where('(order_status in (1,2)) and (shipping_status in (0,2)) and pay_status=1')->paginate(10);
+		$list = $order->where('(order_status in (1,2)) and (shipping_status in (0,2)) and pay_status=1')->paginate(20);
 		$this->assign(['list' => $list]);
 		return $this->fetch();
 	}
@@ -377,6 +380,7 @@ class Order extends Base
 			$delid = Db::name('delivery_doc')->getLastInsID();
 			$ordergoods->save(['is_send' => 1,'delivery_id' => $delid],['rec_id' => $value]);
 			$orderaction->save(['order_id' => $info->order_id,'shipping_status' =>$shipping_status ,'action_note' => $data['note'],'log_time' => time() ,'status_desc' => '商品发货']);
+			$this->setAdminLog($info->order_id.'订单发货');
 			$this->success('发货成功',url('order/waitorder'));
 		}
 
@@ -392,6 +396,41 @@ class Order extends Base
 		return $this->fetch();
 	}
 
+
+
+    //进行退款的管理
+    public function returnOrder ()
+    {
+    	$res = Db::name('return_goods')->paginate(20);
+    	$this->assign(['list' => $res]);
+    	return $this->fetch();
+    }
+
+    //查看编辑退款订单
+    public function editReturn ()
+    {
+    	$orderid = input('get.id');
+    	$res = Db::name('return_goods')->where('id='.$orderid)->find();
+    	$money = Db::name('order_goods')->where(['order_id' => $res['order_id'],'goods_id' => $res['goods_id']])->find()['goods_price'];
+    	$this->assign(['info' => $res,'money' => $money]);
+    	return $this->fetch();
+    }
+
+    //对退货/退款的订单进行判断处理
+    public function dealReturnOrder ()
+    {
+    	$data= input('post.');
+    	$result = Db::name('return_goods')->update($data);
+    	$this->success('修改成功',url('order/returnorder'));
+    }
+
+    //进行金额的退款
+    public function accountEdit ()
+    {
+    	$data = input('get.');
+    	$this->assign(['data'=> $data]);
+    	return $this->fetch();
+    }
 
 
 
@@ -495,6 +534,8 @@ class Order extends Base
 	    	downloadExcel($strTable,'QBuy');
 	    	exit();
     }
+
+
 
 
 	public function allowAction () 

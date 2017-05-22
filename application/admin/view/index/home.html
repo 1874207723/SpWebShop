@@ -3,7 +3,7 @@
 <div class="page-content clearfix">
  <div class="alert alert-block alert-success">
   <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
-  <i class="icon-ok green"></i>欢迎使用<strong class="green">后台管理系统<small>(v1.2)</small></strong>,你本次登陆时间为2016年7月12日13时34分，登陆IP:192.168.1.110.	
+  <i class="icon-ok green"></i>欢迎使用<strong class="green">后台管理系统<small>(v1.2)</small></strong>,你本次登陆时间为<?php echo date('Y年m月d日H时i分s秒',time()); ?>，登陆IP:{$Request.ip}.	
  </div>
  <div class="state-overview clearfix">
                   <div class="col-lg-3 col-sm-6">
@@ -25,10 +25,10 @@
                               <i class="icon-tags"></i>
                           </div>
                           <div class="value">
-                              <h1>140</h1>
-                              <p>分销记录</p>
+                              <h1>{$artcount}</h1>
+                              <p>商城公告</p>
                           </div>
-                      </section>
+                      </section>  
                   </div>
                   <div class="col-lg-3 col-sm-6">
                       <section class="panel">
@@ -36,7 +36,7 @@
                               <i class="icon-shopping-cart"></i>
                           </div>
                           <div class="value">
-                              <h1>345</h1>
+                              <h1>{$ordercount}</h1>
                               <p>商城订单</p>
                           </div>
                       </section>
@@ -47,7 +47,7 @@
                               <i class="icon-bar-chart"></i>
                           </div>
                           <div class="value">
-                              <h1>￥34,500</h1>
+                              <h1 style="font-size: 21px;">￥{$sumprice}</h1>
                               <p>交易记录</p>
                           </div>
                       </section>
@@ -59,11 +59,11 @@
           <div class="title_name">订单统计信息</div>
            <table class="table table-bordered">
            <tbody>
-           <tr><td class="name">未处理订单：</td><td class="munber"><a href="#">0</a>&nbsp;个</td></tr>
-           <tr><td class="name">待发货订单：</td><td class="munber"><a href="#">10</a>&nbsp;个</td></tr>
-           <tr><td class="name">待结算订单：</td><td class="munber"><a href="#">13</a>&nbsp;个</td></tr>
-           <tr><td class="name">已成交订单数：</td><td class="munber"><a href="#">26</a>&nbsp;个</td></tr>
-           <tr><td class="name">交易失败：</td><td class="munber"><a href="#">26</a>&nbsp;个</td></tr>
+           <tr><td class="name">未处理订单：</td><td class="munber"><a href="#">{$orderinfo['wait']}</a>&nbsp;个</td></tr>
+           <tr><td class="name">待发货订单：</td><td class="munber"><a href="#">{$orderinfo['shipping']}</a>&nbsp;个</td></tr>
+           <tr><td class="name">待结算订单：</td><td class="munber"><a href="#">{$orderinfo['jiesuan']}</a>&nbsp;个</td></tr>
+           <tr><td class="name">已成交订单数：</td><td class="munber"><a href="#">{$orderinfo['success']}</a>&nbsp;个</td></tr>
+           <tr><td class="name">交易失败：</td><td class="munber"><a href="#">{$orderinfo['faild']}</a>&nbsp;个</td></tr>
            </tbody>
           </table>
          </div> 
@@ -71,37 +71,37 @@
           <div class="title_name">商品统计信息</div>
            <table class="table table-bordered">
            <tbody>
-           <tr><td class="name">商品总数：</td><td class="munber"><a href="#">340</a>&nbsp;个</td></tr>
-           <tr><td class="name">回收站商品：</td><td class="munber"><a href="#">10</a>&nbsp;个</td></tr>
-           <tr><td class="name">上架商品：</td><td class="munber"><a href="#">13</a>&nbsp;个</td></tr>
-           <tr><td class="name">下架商品：</td><td class="munber"><a href="#">26</a>&nbsp;个</td></tr>
-           <tr><td class="name">商品评论：</td><td class="munber"><a href="#">21s6</a>&nbsp;条</td></tr>
+           <tr><td class="name">商品总数：</td><td class="munber"><a href="#">{$goodscount}</a>&nbsp;个</td></tr>
+           <tr><td class="name">回收站商品：</td><td class="munber"><a href="#">{$goodsinfo['hui']}</a>&nbsp;个</td></tr>
+           <tr><td class="name">上架商品：</td><td class="munber"><a href="#">{$goodsinfo['sale']}</a>&nbsp;个</td></tr>
+           <tr><td class="name">下架商品：</td><td class="munber"><a href="#">{$goodsinfo['nosale']}</a>&nbsp;个</td></tr>
+           <tr><td class="name">商品评论：</td><td class="munber"><a href="#">{$goodsinfo['reply']}</a>&nbsp;条</td></tr>
 
            </tbody>
           </table>
          </div> 
-         <div class="Order_Statistics">
-          <div class="title_name">会员登陆统计信息</div>
+         <div class="Order_Statistics" style="width: 380px">
+          <div class="title_name">【{$admininfo['username']}】 个人信息</div>
            <table class="table table-bordered">
            <tbody>
-           <tr><td class="name">注册会员登陆：</td><td class="munber"><a href="#">3240</a>&nbsp;次</td></tr>
-           <tr><td class="name">新浪会员登陆：</td><td class="munber"><a href="#">1130</a>&nbsp;次</td></tr>
-           <tr><td class="name">支付宝登陆：</td><td class="munber"><a href="#">1130</a>&nbsp;次</td></tr>
-           <tr><td class="name">QQ会员登陆：</td><td class="munber"><a href="#">1130</a>&nbsp;次</td></tr>
+           <tr><td class="name">管理员角色：</td><td class="munber"><a href="#">{$admininfo['role_name']}</a></td></tr>
+           <tr><td class="name">角色描述：</td><td class="munber"><a href="#">{$admininfo['role_desc']}</a></td></tr>
+           <tr><td class="name">添加时间：</td><td class="munber"><a href="#">{$admininfo['add_time']|date="Y-m-d H:i:s",###}</a></td></tr>
+           <tr><td class="name">上次登录：</td><td class="munber"><a href="#">{$admininfo['last_login']|date="Y-m-d H:i:s",###}</a></td></tr>
+           <tr><td class="name">上次登录IP：</td><td class="munber"><a href="#">{$admininfo['last_ip']}</a></td></tr>
            </tbody>
           </table>
          </div> 
              <!--<div class="t_Record">
                <div id="main" style="height:300px; overflow:hidden; width:100%; overflow:auto" ></div>     
               </div> -->
-         <div class="news_style">
-            <div class="title_name">最新消息</div>
+         <div class="news_style" style="width: 310px">
+            <div class="title_name">操作日志</div>
             <ul class="list">
-             <li><i class="icon-bell red"></i><a href="#">后台系统找那个是开通了。</a></li>
-             <li><i class="icon-bell red"></i><a href="#">6月共处理订单3451比，作废为...</a></li>
-             <li><i class="icon-bell red"></i><a href="#">后台系统找那个是开通了。</a></li>
-             <li><i class="icon-bell red"></i><a href="#">后台系统找那个是开通了。</a></li>
-             <li><i class="icon-bell red"></i><a href="#">后台系统找那个是开通了。</a></li>
+            {foreach $log as $v}
+             <li ><i class="icon-bell red"></i><a href="#" >{$v['log_info']}</a> <span style="float: right;">{$v['log_time']|date="m-d H:i",###}</span style="float: right;"></li>
+            {/foreach}
+            
             </ul>
            </div> 
          </div>
@@ -110,23 +110,20 @@
  <div class="clearfix">
   <div class="home_btn">
      <div>
-     <a href="picture-add.html"  title="添加商品" class="btn  btn-info btn-sm no-radius">
+     <a href="{:url('Goods/addgoods')}"  title="添加商品" class="btn  btn-info btn-sm no-radius">
      <i class="bigger-200"><img src="__ADMIN__/images/icon-addp.png" /></i>
      <h5 class="margin-top">添加商品</h5>
      </a>
-     <a href="Category_Manage.html"  title="产品分类" class="btn  btn-primary btn-sm no-radius">
+     <a href="{:url('spec/specmanage')}"  title="产品分类" class="btn  btn-primary btn-sm no-radius">
      <i class="bigger-200"><img src="__ADMIN__/images/icon-cpgl.png" /></i>
      <h5 class="margin-top">产品分类</h5>
      </a>
-     <a href="admin_info.html"  title="个人信息" class="btn  btn-success btn-sm no-radius">
-     <i class="bigger-200"><img src="__ADMIN__/images/icon-grxx.png" /></i>
-     <h5 class="margin-top">个人信息</h5>
-     </a>
-     <a href="Systems.html"  title="系统设置" class="btn  btn-info btn-sm no-radius">
+    
+     <a href="{:url('index/systems')}"  title="系统设置" class="btn  btn-info btn-sm no-radius">
      <i class="bigger-200"><img src="__ADMIN__/images/xtsz.png" /></i>
      <h5 class="margin-top">系统设置</h5>
      </a>
-     <a href="Order_handling.html"  title="商品订单" class="btn  btn-purple btn-sm no-radius">
+     <a href="{:url('order/orderForm')}"  title="商品订单" class="btn  btn-purple btn-sm no-radius">
      <i class="bigger-200"><img src="__ADMIN__/images/icon-gwcc.png" /></i>
      <h5 class="margin-top">商品订单</h5>
      </a>
@@ -134,9 +131,13 @@
      <i class="bigger-200"><img src="__ADMIN__/images/icon-ad.png" /></i>
      <h5 class="margin-top">添加广告</h5>
      </a>
-      <a href="article_add.html"  title="添加文章" class="btn  btn-info btn-sm no-radius">
+      <a href="{:url('article/addarticle')}"  title="添加文章" class="btn  btn-info btn-sm no-radius">
      <i class="bigger-200"><img src="__ADMIN__/images/icon-addwz.png" /></i>
      <h5 class="margin-top">添加文章</h5>
+     </a>
+      <a  title="清理缓存" class="btn  btn-danger btn-sm no-radius" onclick="cleartemp()">
+       <i class="bigger-200"><img src="__ADMIN__/images/icon-clean.png" width="36" /></i>
+       <h5 class="margin-top">清理缓存</h5>
      </a>
      </div>
   </div>
@@ -147,6 +148,13 @@
 </body>
 </html>
 <script type="text/javascript">
+/*
+function cleartemp() {
+  //alert(123);
+  layer.alert('你好');
+}
+*/
+
 //面包屑返回值
 var index = parent.layer.getFrameIndex(window.name);
 parent.layer.iframeAuto(index);

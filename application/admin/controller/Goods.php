@@ -74,6 +74,7 @@ class Goods extends Base
 		$goods['goods_content'] = htmlspecialchars($goods['goods_content']);
 		$result = $goodsModel->save($goods,$goods['goods_id']);
 		if ($result == 1 || $result == 0) {
+			$this->setAdminLog('修改商品'.get_goods_name_by_id($goods['goods_id']));
 			return 1;
 		}
 		return 0;
@@ -112,6 +113,7 @@ class Goods extends Base
 		rename($oldname, $newname.'/'.$imgpath);
 		$resultimg = $goodsModel->save(['original_img' => WEB_PATH.substr($newname,1).'/'.$imgpath],['goods_id' =>$goodsModel->goods_id]);
 		if ($resultimg == 0 || $resultimg == 1) {
+			$this->setAdminLog('添加商品'.get_goods_name_by_id($goodsModel->goods_id));
 			return 1;
 		} else {
 			return '新增商品图片失败，请重新添加';die;
@@ -141,6 +143,7 @@ class Goods extends Base
 		$goods = new GoodsModel();
 		$action = input('get.action');
 		$goodid = input('get.id');	
+		$this->setAdminLog('修改商品'.get_goods_name_by_id($goodid).' =>'.$action);
 		switch ($action) {
 
 			case 'news':
@@ -178,7 +181,9 @@ class Goods extends Base
 			case 'delete':
 				$goods->destroy($goodid);
 				return '删除商品成功';
+
 		}
+
 	}
 
 	//接受长传的图片
@@ -311,7 +316,9 @@ class Goods extends Base
 		$data = input('post.');
 		$goodsid = input('get.id');
 		//更改商品的类别
-		Db::name('goods')->where('goods_id='.$goodsid)->update(['goods_type' => $data['gtype_id']]);
+
+		$res = Db::name('goods')->where('goods_id='.$goodsid)->update(['spec_type'=>$data['gtype_id'],'goods_type' => $data['gtype_id']]);
+			
 		$addattr = [];
 		$addspec = [];
 		$flag = true;
@@ -336,6 +343,7 @@ class Goods extends Base
 			$flag = Db::name('spec_goods')->insertAll($addspec);
 		}
 		if ($flag || $flag == 0) {
+			$this->setAdminLog('修改商品'.get_goods_name_by_id($goodsid).'的模型');
 			return 1;
 		} else {
 			return 0;

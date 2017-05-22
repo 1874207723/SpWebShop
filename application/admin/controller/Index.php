@@ -29,19 +29,67 @@
 
 namespace app\admin\controller;
 use think\Request;
+use app\admin\model\Order as OrderModel;
+use app\admin\model\Goods;
 use think\Db;
 class Index extends Base
 {
 	 
     public function index()
     {
+    	$sonlist = Db::name('system_module')->order('orderby')->where('level<>1')->select();
+    	$parent_id = [];
+    	foreach ($sonlist as $key => $value) {
+    		if (session('role_id') != 1 && !in_array(ucfirst($value['ctl'].'@'.$value['act']),$this->autharr)) {
+    			unset($sonlist[$key]);
+    		} else{
+    			$parent_id[] = $value['parent_id'];
+    		}
+    	}
+    	$parent_id = join(',',array_unique($parent_id));
+    	$parentlist = Db::name('system_module')->order('orderby')->where('level=1 and mod_id in ('.$parent_id.')')->select();
+
+    	$this->assign(['parent' => $parentlist,'son' => $sonlist]);
     	return $this->fetch();
 	}
-
+	//home主页页面 获取到相关的数量的信息
 	public function home ()
 	{
+		$order = new OrderModel();
+		$goods = new Goods;
 		$usercount = Db::name('user')->count();
-		$this->assign(['usercount' => $usercount]);
+		$artcount = Db::name('article')->count();
+		$log = Db::name('admin_log')->where('admin_id='.session('admin_uid'))->order('log_id desc')->limit(5)->select();
+
+		$ordercount = $order->count();
+		$goodscount = $goods->count();
+		$sumprice = $order->sum('order_amount');
+		$admininfo = Db::table('qb_admin')->join('qb_admin_role r','r.role_id=qb_admin.role_id')->where('admin_id='.session('admin_uid'))->find();
+		$orderinfo = [];
+		$goodsinfo = [];
+		$orderinfo['wait'] = $order->where('order_status=1 and pay_status=1')->count();
+		$orderinfo['shipping'] = $order->where('shipping_status=0 and pay_status=1')->count();
+		$orderinfo['success'] = $order->where('shipping_status=1 and order_status=4 and pay_status=1')->count();
+		$orderinfo['jiesuan'] = $order->where('order_status=0')->count();
+		$orderinfo['faild'] = $order->where('order_status=5')->count();
+		
+		$goodsinfo['hui'] = $goods->where('delete_time <> null')->count();
+		$goodsinfo['sale'] = $goods->where('is_on_sale=1')->count();
+		$goodsinfo['nosale'] = $goods->where('is_on_sale=0')->count();
+		$goodsinfo['reply'] = Db::name('comment')->count();
+	
+		$this->assign([
+				'log' => $log,
+				'usercount' => $usercount,
+				'artcount' => $artcount,
+				'ordercount' => $ordercount,
+				'goodscount' => $goodscount,
+				'sumprice' => $sumprice,
+				'admininfo' => $admininfo,
+				'orderinfo' => $orderinfo,
+				'goodsinfo' => $goodsinfo
+
+			]);
 		return $this->fetch();
 	}
 	//渲染系统设置页面 将系统设置传递过去
@@ -75,6 +123,7 @@ class Index extends Base
 		    $data['logo_img'] = $logo_img;
 	    }
 		$result = Db::name('config')->where('id',1)->update($data);
+		$this->setAdminLog('修改商城配置信息');
 	    return $result;die;
 	}
 

@@ -64,7 +64,7 @@ class Cate extends Base
 		return json($result);
 	}
 
-
+	//展示板块列表
 	public function catelist ()
 	{
 		return $this->fetch();

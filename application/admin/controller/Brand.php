@@ -54,6 +54,7 @@ class Brand extends Base
 		$goods = new BrandModel();
 		$action = input('get.action');
 		$goodid = input('get.id');	
+		$this->setAdminLog('修改品牌');
 		switch ($action) {
 			case 'delete':
 				$goods->destroy($goodid);
@@ -123,12 +124,11 @@ class Brand extends Base
 	    }
 	    //查询到数据表中的logo信息 然后删掉 注意 http://后面加上路径 是不能操作的
 	    $oldImgUrl = Db::name('brand')->find($brandid)['logo'];
-	    if ($oldImgUrl != $logo_img) {
+	    if ($oldImgUrl != $logo_img && file_exists(str_replace(WEB_PATH, '',$oldImgUrl))) {
 	    	unlink('.'.str_replace(WEB_PATH, '',$oldImgUrl));
 	    }
 	    
 		$result = Db::name('brand')->where('id',$brandid)->update(['logo' => htmlspecialchars($logo_img)]);
-
 		return json(['path' => $logo_img,
 		'width' => '200',
 		'height' => '100']);
@@ -191,6 +191,7 @@ class Brand extends Base
 		$resultimg = $brand->save(['logo' => WEB_PATH.substr($newname,1).'/'.$imgpath],['id' =>$brand->id]);
 		
 		if ($resultimg == 0 || $resultimg == 1) {
+			$this->setAdminLog('增加品牌'.data['name']);
 			return 1;
 		} else {
 			return '新增商品图片失败，请重新添加';die;
@@ -212,6 +213,7 @@ class Brand extends Base
 
 		$result = $brand->save($data,['id' => $data['id']]);
 		if ($result == 1 || $result == 0) {
+			$this->setAdminLog('修改品牌'.$data['name']);
 			return 1;
 		} else {
 			return 0;

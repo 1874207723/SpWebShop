@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link href="__ADMIN__/order/css/main.css" rel="stylesheet" type="text/css">
+<link href="__ADMIN__/order/css/page.css" rel="stylesheet" type="text/css">
+<link href="__ADMIN__/order/css/font-awesome.min.css" rel="stylesheet" />
+<!--[if IE 7]>
+  <link rel="stylesheet" href="css/font-awesome-ie7.min.css">
+<![endif]-->
+<link href="__ADMIN__/order/css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+<link href="__ADMIN__/order/css/perfect-scrollbar.min.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">html, body { overflow: visible;}</style>
+
+<script type="text/javascript" src="__ADMIN__/order/js/jquery.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/layer.js"></script><!-- 弹窗js 参考文档 http://layer.layui.com/-->
+<script type="text/javascript" src="__ADMIN__/order/js/admin.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/assets/laydate/laydate.js""></script>
+<script type="text/javascript" src="__ADMIN__/order/js/flexigrid.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/jquery.validation.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/common.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/order/js/jquery.mousewheel.js"></script>
+<script src="__ADMIN__/order/js/myformvalidate.js"></script>
+<script src="__ADMIN__/order/js/myajax2.js"></script>
+<script src="__ADMIN__/order/js/global.js"></script>
+<script src="__ADMIN__/order/js/laydate.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="__ADMIN__/Widget/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__ADMIN__/Widget/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="__ADMIN__/Widget/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+
+
+
+</head>
+
+
+<style type="text/css">
+html, body {
+	overflow: visible;
+}
+</style>  
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>公告管理 - 新增公告</h3>
+        <h5>网站系统公告索引与管理</h5>
+      </div>
+    </div>
+  </div>
+  <form class="form-horizontal" action="/index.php/admin/article/dealeditarticle" id="add_post" method="post">    
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>标题</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" value="{$info['title']}" name="title" class="input-txt">
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      
+	     
+      <dl class="row">
+        <dt class="tit">
+          <label for="articleForm">链接</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" name="link"  value="{$info['link']}" class="input-txt">
+          <span class="err"></span>
+          <p class="notic">当填写"链接"后点击公告标题将直接跳转至链接地址，不显示公告内容。链接格式请以http://开头</p>
+        </dd>
+      </dl>
+	  <dl class="row">
+        <dt class="tit">
+          <label for="articleForm">发布时间</label>
+        </dt>
+        <dd class="opt">
+            <input type="text" class="input-txt" id="publish_time" name="publish_time"  value="{$info['publish_time']|date='Y/m/d H:i:s',###}">        
+            <span class="add-on input-group-addon">
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+            </span> 
+          <span class="err"></span>
+        </dd>
+      </dl>       
+      <dl class="row">
+        <dt class="tit">
+          <label>显示</label>
+        </dt>
+        <dd class="opt">
+          <div class="onoff">
+            <label for="article_show1" class="cb-enable {if $info['is_open']}selected{/if}">是</label>
+            <label for="article_show0" class="cb-disable {if !$info['is_open']}selected{/if}">否</label>
+            <input id="article_show1" name="is_open" value="1" type="radio" {if $info['is_open']} checked="checked"{/if}>
+            <input id="article_show0" name="is_open" value="0" type="radio" {if !$info['is_open']} checked="checked"{/if}>
+          </div>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">公告摘要</dt>
+        <dd class="opt">
+	     	 <textarea class="input-txt" id="post_description" name="description" title="">{$info['description']}</textarea><span class="err"></span>
+         	<p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>公告内容</label>
+        </dt>
+        <dd class="opt">
+       	 <script id="editor" type="text/plain" style="width:900px;height:500px;" name="content">{$info['content']}</script>          
+                 
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+       
+      <div class="bot"><a href="JavaScript:void(0);" onClick="checkForm()" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+    </div>
+        <input type="hidden" name="article_id" value="{$info['article_id']}"></label>    
+  </form>
+</div>
+
+<script type="text/javascript">
+
+function checkForm () {
+	$('#add_post').submit();
+}
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    var ue = UE.getEditor('editor');
+
+
+    function isFocus(e){
+        alert(UE.getEditor('editor').isFocus());
+        UE.dom.domUtils.preventDefault(e)
+    }
+    function setblur(e){
+        UE.getEditor('editor').blur();
+        UE.dom.domUtils.preventDefault(e)
+    }
+    function insertHtml() {
+        var value = prompt('插入html代码', '');
+        UE.getEditor('editor').execCommand('insertHtml', value)
+    }
+    function createEditor() {
+        enableBtn();
+        UE.getEditor('editor');
+    }
+    function getAllHtml() {
+        alert(UE.getEditor('editor').getAllHtml())
+    }
+    function getContent() {
+        var arr = [];
+        arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+        arr.push("内容为：");
+        arr.push(UE.getEditor('editor').getContent());
+        alert(arr.join("\n"));
+    }
+    function getPlainTxt() {
+        var arr = [];
+        arr.push("使用editor.getPlainTxt()方法可以获得编辑器的带格式的纯文本内容");
+        arr.push("内容为：");
+        arr.push(UE.getEditor('editor').getPlainTxt());
+        alert(arr.join('\n'))
+    }
+    function setContent(isAppendTo) {
+        var arr = [];
+        arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
+        UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
+        alert(arr.join("\n"));
+    }
+    function setDisabled() {
+        UE.getEditor('editor').setDisabled('fullscreen');
+        disableBtn("enable");
+    }
+
+    function setEnabled() {
+        UE.getEditor('editor').setEnabled();
+        enableBtn();
+    }
+
+    function getText() {
+        //当你点击按钮时编辑区域已经失去了焦点，如果直接用getText将不会得到内容，所以要在选回来，然后取得内容
+        var range = UE.getEditor('editor').selection.getRange();
+        range.select();
+        var txt = UE.getEditor('editor').selection.getText();
+        alert(txt)
+    }
+
+    function getContentTxt() {
+        var arr = [];
+        arr.push("使用editor.getContentTxt()方法可以获得编辑器的纯文本内容");
+        arr.push("编辑器的纯文本内容为：");
+        arr.push(UE.getEditor('editor').getContentTxt());
+        alert(arr.join("\n"));
+    }
+    function hasContent() {
+        var arr = [];
+        arr.push("使用editor.hasContents()方法判断编辑器里是否有内容");
+        arr.push("判断结果为：");
+        arr.push(UE.getEditor('editor').hasContents());
+        alert(arr.join("\n"));
+    }
+    function setFocus() {
+        UE.getEditor('editor').focus();
+    }
+    function deleteEditor() {
+        disableBtn();
+        UE.getEditor('editor').destroy();
+    }
+    function disableBtn(str) {
+        var div = document.getElementById('btns');
+        var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            if (btn.id == str) {
+                UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+            } else {
+                btn.setAttribute("disabled", "true");
+            }
+        }
+    }
+    function enableBtn() {
+        var div = document.getElementById('btns');
+        var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+        }
+    }
+
+    function getLocalData () {
+        alert(UE.getEditor('editor').execCommand( "getlocaldata" ));
+    }
+
+    function clearLocalData () {
+        UE.getEditor('editor').execCommand( "clearlocaldata" );
+        alert("已清空草稿箱")
+    }
+</script>
+
+</body>
+</html>

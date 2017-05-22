@@ -27,10 +27,9 @@
  *　　　　　　　　　 ┗┻┛　 ┗┻┛+ + + +
  */
 
-namespace app\admin\controller;
+namespace app\mobile\controller;
 use think\Controller;
 use think\Db;
-use app\admin\model\Admin;
 class Base extends Controller
 {
 	protected $allowMthod = ['admin_login','verlogin'];
