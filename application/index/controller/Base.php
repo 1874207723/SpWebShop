@@ -44,6 +44,9 @@ class Base extends Controller
 		}
 
 		$config = Db::table('qb_config')->where('id', 1)->find();
+		if (session('?userInfo')) {
+			$this->assign('userDataInfo', session('userInfo'));
+		}
 		$this->assign([
 			'configName' => $config['name'],
 			'configIco' => $config['ico_img'],

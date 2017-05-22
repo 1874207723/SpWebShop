@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
-    <title>[title]</title>
+    <title>{$title}</title>
     <link rel="Shortcut Icon" type="image/x-icon" href="__STATIC__/images/shoplogo.ico" />
     <meta http-equiv="x-ua-compatible" content="IE=edge" >
 
@@ -20,6 +20,7 @@
 <script type = "text/javascript" src="__STATIC__/js/le.jquery.min.js"></script>
 <script type = "text/javascript" src="__STATIC__/js/le.vue.js"></script>
 <script type = "text/javascript" src="__STATIC__/js/le.static.constant.js"></script>
+<script type = "text/javascript" src="__STATIC__/js/shopCart.js"></script>
 
 <!-- 中林项目 -->
 <link rel="stylesheet" type="text/css" href="__STATIC__/css/style.css" />
@@ -216,27 +217,98 @@ function le_navigation(par, li, arr, arr_tit, Complete) {
                   <div class="hotwords"></div>
 
             </div>
+
+            {if !empty($userInfo)}
+            <input id="userMsg" type="hidden" value="{userInfo['id']}" />
+            {/if}
+
+            <!-- <script>
+              // if($('#userMsg').length > 0)) {
+                  var pd=cart.getproductlist();
+                  // if (pd.length > 0) {
+                    $.post("{:url('shop/addCart')}", {"productlist" : pd}, function(data) {
+                      console.log(data.checkAddCart);
+                   })
+                  // }
+              //}
+            </script> -->
+
             <div class="btn_cart">
-              <a href="/cart.html" id="cartcar" target="_blank"><span><i class="fonticon fonticon-cart"> </i> <label class="le-label-num" id="productNumInCart">99</label>购物车</span></a>
+              <a href="javascript:;" id="cartcar"  onclick="skipto()"><span><i class="fonticon fonticon-cart"> </i> <label class="le-label-num" id="productNumInCart">99</label>购物车</span></a>
               <div id="showcartgoods">
                 <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
                 <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
                 <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
                 <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
+
                 <li><div><img src="__STATIC__/images/xiaoitheme.jpg"> <p id="goodsinfo">小米MIX <br />全网通 4GB内存＋128GB容量 <br />黑色 128GB</p><p id="price">1499元 x 1</p></div></li>
                 <li><div style="border: 0px;">
                 <p id="goodscount">共 2 件商品</p><p id="sumpirce">4998.00元</p><button id="jiesuan">去购物车结算</button></div></li>
               </div>
             </div>
+
+            {if !empty($userDataInfo)}
+            <input type="hidden" id="userdatainfo" value="{$userDataInfo['id']}" />
+            {/if}
+
               <script type="text/javascript">
 
-                $('#cartcar').on('mouseenter',function () {
-                    $('#showcartgoods').show(400);
-                  });
+              function f(num,n){
+                return parseInt(num*Math.pow(10,n)+0.5,10)/Math.pow(10,n);
+              }
 
-                $('#showcartgoods').on('mouseleave',function () {
-                     $('#showcartgoods').hide(400);
-                  });
+              //获取session信息。
+              var udi = $('#userdatainfo').val();
+
+              //如果session存在，从数据库中取出信息，展示。
+              if (udi) {
+                $.post("{:url('index/shop/querycart')}", {'userid' : udi}, function(data) {
+                  var userList = JSON.parse(data);
+
+                  $('#showcartgoods').empty();
+
+                  var totalNumber = 0;
+                  var totalAmount = 0;
+
+                  for (var p in userList) {
+
+                    totalNumber = totalNumber + userList[p]['goods_num'];
+                    totalAmount = totalAmount + userList[p]['goods_num']*userList[p]['goods_price'];
+
+                    $('#showcartgoods').append("<li><div><img src='"+ userList[p].image +"' style='width:30%;' /> <p  id='goodsinfo'>"+ userList[p].goods_name +"<br />"+ userList[p].spec_key_name +"</p><p id='price'>"+ userList[p].goods_price +"元 x "+ userList[p].goods_num +"</p></div></li>")
+                  }
+
+                  $('#showcartgoods').append("<p id='goodscount'>共 "+ totalNumber +" 件商品</p><p id='sumpirce'>"+ totalAmount +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+
+                  $('#productNumInCart').html(totalNumber);
+
+                })
+              //如果session不存在，从shoreage中提取信息，展示。
+              } else {
+                var pdtlist=cart.getproductlist();
+
+
+                function skipto()
+                {
+                  window.location.href="http://www.wntp.com/index/shop/shopcart";
+                }
+
+                $('#productNumInCart').html(pdtlist.length);
+
+                $('#showcartgoods').empty();
+                for (var p in pdtlist) {
+                  $('#showcartgoods').append("<li><div><img src='"+ pdtlist[p].image +"' style='width:30%;' /> <p  id='goodsinfo'>"+ pdtlist[p].name +"<br />"+ pdtlist[p].spec +"</p><p id='price'>"+ pdtlist[p].price +"元 x "+ pdtlist[p].num +"</p></div></li>")
+                }
+                $('#showcartgoods').append("<p id='goodscount'>共 "+ orderdetail.totalNumber +" 件商品</p><p id='sumpirce'>"+ f(orderdetail.totalAmount,2) +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+              }
+
+              $('#cartcar').on('mouseenter',function () {
+                    $('#showcartgoods').show(400);
+               });
+
+              $('#showcartgoods').on('mouseleave',function () {
+                   $('#showcartgoods').hide(400);
+              });
 
               </script>
 
