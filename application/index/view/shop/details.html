@@ -1,4 +1,4 @@
-{include file="public/link1" title="$title"}
+{include file="public/link1" }
 {include file="public/navigation"}
     <!--内容开始-->
     <div class="details w1200">
@@ -75,8 +75,11 @@
 
                     <dd>
                     	<a class="box3-left" href="JavaScript:;">-</a>
-                        <input type="text" value="1">
+                        <input id="gdCount" type="text" value="1">
                     	<a class="box3-right" href="JavaScript:;">+</a>
+
+
+
                         <span id="numberCheck" style="color:red;margin-left:20px;font-size:1.5em;"></span>
                     </dd>
 
@@ -84,10 +87,159 @@
                 </dl>
                 <div class="dt-ifm-box4">
                 	<button class="btn1" id="btn1">立即购买</button>
-                	<button class="btn2">加入购物车</button>
-                	<button class="btn3">收藏</button>
+                	<button class="btn2" id="btn2">加入购物车</button>
+                	<button class="btn3" id="btn3">收藏</button>
                 </div>
             </div>
+            <input type="hidden" id="gdId" value="{$goodsInfo['goods_id']}" />
+            <input type="hidden" id="gdImage" value="{$goodsInfo['original_img']}" />
+            <input type="hidden" id="gdName" value="{$goodsInfo['goods_name']}" />
+            <input type="hidden" id="gdPrice" value="{$goodsInfo['shop_price']}" />
+
+            <script>
+                var arr = [];
+                var num = $('.dt-ifm-box6 dt').length;
+                var goodsid = $('#gdId').val();
+                var numberCheck  = false;
+
+
+                function getthisval(obj) {
+                   arr[$(obj).attr('val')] = $(obj).attr('index');
+                   arr2  = getSpec(arr);
+                    if (arr2.length == num) {
+                        $.post("{:url('checkplate')}",{'spec':arr2.join('_'),'goods':goodsid},function (data) {
+                            if (data.checkPlate) {
+                                numberCheck = true;
+                                $('#numberCheck').html('库存数量' + data.checkPlate);
+                            } else {
+                                numberCheck = false;
+                                $('#numberCheck').html('库存不足，请选择其他型号');
+                            }
+                        })
+                    }
+                }
+
+                function getSpec (arr)
+                {
+                var arr2 = [];
+                   for (var i in arr){
+                        arr2.push(arr[i]) ;
+                    }
+                    return arr2;
+                }
+
+                //按钮1点击添加订单
+                $('#btn1').on('click',function () {
+                    i = 0;
+                    var arr3 = []
+                    //console.log(arr);
+                    for (var r in arr) {
+                        arr3[i] = r;
+                        i++;
+                    }
+
+                    if ( num != 0) {
+                        if (arr3.length != num || !numberCheck) {
+                            layer.alert('请添加足够的规格',{'icon':0});
+                        } else {
+                            layer.alert('购买成功',{'icon':1});
+                        }
+                    } else {
+
+                        layer.alert('购买成功',{'icon':1});
+                    }
+                });
+
+                //按钮2点击添加购物车
+                $('#btn2').on('click', function () {
+                    i = 0;
+                    var arr3 = []
+                    for (var r in arr) {
+                        arr3[i] = r;
+                        i++;
+                    }
+
+                    //得到规格码
+                    j = 0;
+                    var arr4 = []
+                    for (var rc in arr3) {
+                        arr4[j] = arr[parseInt(arr3[rc])];
+                        j++;
+                    }
+
+                    if ( num != 0) {
+                        if (arr3.length != num || !numberCheck) {
+                            layer.alert('请先选择产品规格',{'icon':0});
+                        } else {
+                            var spec = new String;
+                            $("a[class='current']").each(function() {
+                                spec = spec + ' ' + $(this).html();
+                            })
+                            var product =
+                              {
+                                  'id': $('#gdId').val(),        //属性名用引号括起来，属性间由逗号隔开
+                                  'name': $('#gdName').val(),
+                                  'num': $('#gdCount').val(),
+                                  'price': $('#gdPrice').val(),
+                                  'image' : $('#gdImage').val(),
+                                  'spec' : spec,
+                                  'specNumber' : arr4
+                              };
+                            //商品加入到购物车
+                            cart.addproduct(product);
+
+                            //取出购物车商品
+                            var pdtlist=cart.getproductlist();
+                            $('#productNumInCart').html(pdtlist.length);
+
+                            $('#showcartgoods').empty();
+                            for (var p in pdtlist) {
+                              console.log('123456');
+                              $('#showcartgoods').append("<li><div><img src='"+ pdtlist[p].image +"' style='width:30%;' /> <p>"+ pdtlist[p].name +"<br />"+ pdtlist[p].spec +"</p><p>"+ pdtlist[p].price +"元 x "+ pdtlist[p].num +"</p></div></li>")
+                            }
+                            $('#showcartgoods').append("<p id='goodscount'>共 "+ orderdetail.totalNumber +" 件商品</p><p id='sumpirce'>"+ parseInt(orderdetail.totalAmount) +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+
+                            layer.alert('添加成功',{'icon':1});
+                        }
+
+                    } else {
+                        var spec = new String;
+                        $("a[class='current']").each(function() {
+                            spec = spec + ' ' + $(this).html();
+                        })
+
+                        var product =
+                          {
+                              'id': $('#gdId').val(),        //属性名用引号括起来，属性间由逗号隔开
+                              'name': $('#gdName').val(),
+                              'num': $('#gdCount').val(),
+                              'price': $('#gdPrice').val(),
+                              'image' : $('#gdImage').val(),
+                              'spec' : spec,
+                              'specNumber' : arr4
+                          };
+                          //商品加入到购物车
+                          cart.addproduct(product);
+
+                        var pdtlist=cart.getproductlist();
+                        $('#productNumInCart').html(pdtlist.length);
+
+                        $('#showcartgoods').empty();
+                        for (var p in pdtlist) {
+                          console.log('123456');
+                          $('#showcartgoods').append("<li><div><img src='"+ pdtlist[p].image +"' style='width:30%;' /> <p>"+ pdtlist[p].name +"<br />"+ pdtlist[p].spec +"</p><p>"+ pdtlist[p].price +"元 x "+ pdtlist[p].num +"</p></div></li>")
+                        }
+                        $('#showcartgoods').append("<p id='goodscount'>共 "+ orderdetail.totalNumber +" 件商品</p><p id='sumpirce'>"+ parseInt(orderdetail.totalAmount) +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+                        layer.alert('添加成功',{'icon':1});
+                    }
+                })
+
+                $('#btn3').on('click', function () {
+                    cart.deleteproduct(1," 16G 触屏 黑色");
+                    //orderdetail.totalAmount = 0;
+                    console.log(cart.getproductlist());
+                })
+            </script>
 
         	<div class="dt-if1-r f-r">
                 <div class="dt-ifr-fd">
@@ -252,56 +404,7 @@
             <div style="clear:both;"></div>
         </div>
     </div>
-    <input id="goodsId" type="hidden" value="{$goodsInfo['goods_id']}" />
 
-    <script>
-    var arr = [];
-    var num = $('.dt-ifm-box6 dt').length;
-    var goodsid = $('#goodsId').val();
-    var numberCheck  = false;
 
-    function getthisval(obj) {
-       arr[$(obj).attr('val')] = $(obj).attr('index');
-       arr2  = getSpec(arr);
-        if (arr2.length == num) {
-            $.post("{:url('checkplate')}",{'spec':arr2.join('_'),'goods':goodsid},function (data) {
-                if (data.checkPlate) {
-                    numberCheck = true;
-                    $('#numberCheck').html('库存数量' + data.checkPlate);
-                } else {
-                    numberCheck = false;
-                    $('#numberCheck').html('库存不足，请选择其他型号');
-                }
-            })
-        }
-    }
-
-    function getSpec (arr)
-    {
-    var arr2 = [];
-       for (var i in arr){
-            arr2.push(arr[i]) ;
-        }
-        return arr2;
-    }
-
-    $('#btn1').on('click',function () {
-        i = 0;
-        var arr3 = []
-        console.log(arr);
-        for (var r in arr) {
-            arr3[i] = r;
-            i++;
-        }
-        console.log(arr3);
-        console.log(num);
-        console.log(numberCheck);
-        if (arr3.length != num || !numberCheck) {
-            layer.alert('请添加足够的规格',{'icon':0});
-        } else {
-            layer.alert('购买成功',{'icon':1});
-        }
-    });
-    </script>
 
 {include file="public/footer"}

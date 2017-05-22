@@ -32,6 +32,8 @@ use think\Db;
 
 class Shop extends Base
 {
+
+    //商品列表页筛选、展示
     public function list()
     {
 
@@ -57,6 +59,8 @@ class Shop extends Base
 
             //判断是id为几级分类。
             $idCheck = Db::table('qb_goods_cate')->field('level,name,id,parent_id,parent_id_path')->where('id', $cateid)->find();
+
+            $this->assign('title', $idCheck['name']);
 
             //取得父级id，name。
             if ($idCheck) {
@@ -170,6 +174,7 @@ class Shop extends Base
             //取得品牌信息
             $brandCheck = Db::table('qb_brand')->field('name,cat_id')->where('id', $brand)->find();
             $this->assign('brandCheck', $brandCheck);
+            $this->assign('title', $brandCheck['name']);
 
             //取得品牌父板块信息
             $parent = Db::table('qb_goods_cate')->where('id', $brandCheck['cat_id'])->find();
@@ -223,6 +228,8 @@ class Shop extends Base
         return $this->fetch();
 
     }
+
+    //商品详情页面展示
     public function details()
     {
         $headCate = $this->headcate();
@@ -237,7 +244,6 @@ class Shop extends Base
             //得到商品相关信息。
             $goodsInfo = Db::table('qb_goods')->where('goods_id', $goodsid)->find();
             $title = $goodsInfo['goods_name'];
-            //dump($goodsInfo);
             $this->assign('goodsInfo', $goodsInfo);
             $this->assign('title', $title);
 
@@ -249,7 +255,6 @@ class Shop extends Base
                 $goodsPth[$gdp] = Db::table('qb_goods_cate')->field('name')->where('id', $gdp)->find()['name'];
             }
             $this->assign('goodsPth', $goodsPth);
-
 
             //查询商品图片
             $goodsImage = Db::table('qb_goods_images')->field('image_url')->where('goods_id', $goodsid)->select();
@@ -298,6 +303,7 @@ class Shop extends Base
         return $this->fetch();
     }
 
+    //查询查询标签库中的库存，返回是否有货
     public function checkplate()
     {
         $data = input('post.');
@@ -309,6 +315,7 @@ class Shop extends Base
         }
     }
 
+    //查询等级
     public function checklevel($data)
     {
         $level2 = Db::table('qb_goods_cate')->where('parent_id', $data)->limit(5)->select();
@@ -320,6 +327,7 @@ class Shop extends Base
         return $this->fetch();
     }
 
+    //头部板块
     public function headcate()
     {
         //查询板块分类，1,2,3级。
@@ -345,6 +353,66 @@ class Shop extends Base
             'level2Limit' => $level2Limit,
             'hotCate' => $hotCate
         ];
+    }
+
+    //登录状态下，购物车商品入库。
+    public function addcart()
+    {
+        $pdtlist = $_POST['shoplist'];
+        foreach ($pdtlist as $i) {
+            $specNumber = join('_', $i['specNumber']);
+            $data = [
+                'user_id' => input('session.userInfo.id'),
+                'goods_id' => $i['id'],
+                'goods_name' => $i['name'],
+                'goods_price' => $i['price'],
+                'goods_num' => $i['num'],
+                'spec_key' => $specNumber,
+                'spec_key_name' => $i['spec'],
+                'image' => $i['image'],
+                'add_time' => time()
+            ];
+            Db::table('qb_cart')->insert($data);
+        }
+        return json(['checkCart'=>true]);
+    }
+
+    //展示购物车页面
+    public function shopcart()
+    {
+        //头部目录
+        $headCate = $this->headcate();
+        foreach ($headCate as $h=>$c) {
+            $this->assign($h, $c);
+        }
+
+        //标题
+        $this->assign('title', 'shopcart');
+
+        //遍历购物车页面
+        return $this->fetch();
+    }
+
+    //登录状态下，查询购物车数据
+    public function querycart()
+    {
+        $userId = $_POST['userid'];
+        $userlist = Db::table('qb_cart')->where('user_id', $userId)->select();
+        return json_encode($userlist);
+    }
+
+    //登录状态下，删除购物车数据
+    public function deletecart()
+    {
+        $userId = $_POST['id'];
+        Db::table('qb_cart')->where('id', $userId)->delete();
+    }
+
+     //登录状态下，清空购物车数据
+    public function clearcart()
+    {
+        $userId = $_POST['userid'];
+        Db::table('qb_cart')->where('user_id', $userId)->delete();
     }
 
 }

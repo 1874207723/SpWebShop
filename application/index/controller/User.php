@@ -54,7 +54,7 @@ class User extends Base
                 $data['checkCaptcha'] = null;
             } else {
                 $user = new UserModel();
-                $user->insert(["username"=>input('post.username'),"password"=>md5(input('post.password')),"mobile"=>input('post.mobile'),"ret_time"=>time()]);
+                $user->insert(["username"=>input('post.username'),"password"=>md5(input('post.password')),"mobile"=>input('post.mobile'),"reg_time"=>time()]);
                 $userInfo = $user->field('user_id,level')->where('mobile', input('post.mobile'))->find();
                 //设置session
                 session('userInfo', ['id'=>$userInfo['user_id'], 'level'=>$userInfo['level'], 'mobile'=>input('post.mobile')]);
