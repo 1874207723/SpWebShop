@@ -339,93 +339,31 @@ $('.change_Password').on('click', function(){
 					</div><!-- #sidebar-shortcuts -->
 					<div id="menu_style" class="menu_style">
 					<ul class="nav nav-list" id="nav_list">
-				     <li class="home"><a href="javascript:void(0)" name="home.html" class="iframeurl" title=""><i class="icon-home"></i><span class="menu-text"> 系统首页 </span></a></li>
-                     <li><a href="#" class="dropdown-toggle"><i class="icon-desktop"></i><span class="menu-text"> 商品管理 </span><b class="arrow icon-angle-down"></b></a>
-					   <ul class="submenu">
-                         <li class="home"><a  href="javascript:void(0)" name="{:url('cate/shoplist')}"  title="商品类表" class="iframeurl"><i class="icon-double-angle-right"></i>商品类表</a></li>
-                          <li class="home"><a href="javascript:void(0)" name="{:url('cate/catelist')}" title="板块管理"  class="iframeurl"><i class="icon-double-angle-right"></i>板块管理</a></li>
-						 <li class="home"><a  href="javascript:void(0)" name="{:url('brand/brandmanage')}" title="品牌管理"  class="iframeurl"><i class="icon-double-angle-right"></i>品牌管理</a></li>
-						 <li class="home"><a href="javascript:void(0)" name="{:url('spec/specmanage')}" title="分类管理"  class="iframeurl"><i class="icon-double-angle-right"></i>分类管理</a></li>
-						 <li class="home"><a href="javascript:void(0)" name="{:url('spec/spmanage')}" title="规格管理"  class="iframeurl"><i class="icon-double-angle-right"></i>规格管理</a></li>
-
-						</ul>
-					</li>
-					<li>
-					<a href="#" class="dropdown-toggle"><i class="icon-picture "></i><span class="menu-text"> 图片管理 </span><b class="arrow icon-angle-down"></b></a>
-						<ul class="submenu">
-						<li class="home"><a href="javascript:void(0)" name="{:url('ad/sortads')}" title="广告管理" class="iframeurl"><i class="icon-double-angle-right"></i>广告管理</a></li>
-						
+				     	<li class="home"><a href="javascript:void(0)" name="home.html" class="iframeurl" title=""><i class="icon-home"></i><span class="menu-text"> 系统首页 </span></a></li>
+                     	{foreach $parent as $p}
+                     	<li><a href="#" class="dropdown-toggle"><i class="icon-{$p['icon']}"></i><span class="menu-text"> {$p['title']} </span><b class="arrow icon-angle-down"></b></a>
+					    	<ul class="submenu">
+					    	{foreach $son as $v}
+								{if $v['parent_id'] == $p['mod_id']}
+                         		<li class="home"><a  href="javascript:void(0)" name='{:url($v['ctl'].'/'.$v['act'])}'  title="{$v['title']}" class="iframeurl"><i class="icon-double-angle-right"></i>{$v['title']}</a></li>
+                          		
+						 		{/if}
+						 	{/foreach}
 							</ul>
 						</li>
-					<li>
-					<a href="#" class="dropdown-toggle"><i class="icon-list"></i><span class="menu-text"> 订单管理 </span><b class="arrow icon-angle-down"></b></a>
-                    <ul class="submenu">
-                    <li class="home"><a href="javascript:void(0)" name="{:url('order/transaction')}" title="交易信息"  class="iframeurl"><i class="icon-double-angle-right"></i>交易信息</a></li>
-					<li class="home"><a href="javascript:void(0)" name="{:url('order/orderchart')}" title="交易订单（图）"  class="iframeurl"><i class="icon-double-angle-right"></i>交易订单(图)</a></li>
-                    <li class="home"><a href="javascript:void(0)" name="{:url('order/orderform')}" title="订单管理"  class="iframeurl"><i class="icon-double-angle-right"></i>订单管理</a></li>
-                    <li class="home"><a href="javascript:void(0)" name="{:url('order/waitorder')}" title="发货管理"  class="iframeurl"><i class="icon-double-angle-right"></i>发货管理</a></li>
-                    <li class="home"><a href="javascript:void(0)" name="{:url('order/orderlog')}" title="订单日志"  class="iframeurl"><i class="icon-double-angle-right"></i>订单日志</a></li>
-					  <li class="home"><a href="javascript:void(0)" name="Refund.html" title="退款管理"  class="iframeurl"><i class="icon-double-angle-right"></i>退款管理</a></li>
-                   </ul>
-				  </li>
-                   <li>
-				   <a href="#" class="dropdown-toggle"><i class="icon-credit-card"></i><span class="menu-text"> 支付管理 </span><b class="arrow icon-angle-down"></b></a>
-				     <ul class="submenu">
-						<li class="home"><a href="javascript:void(0)" name="Cover_management.html" title="账户管理" class="iframeurl"><i class="icon-double-angle-right"></i>账户管理</a></li>
-						 <li class="home"><a href="javascript:void(0)" name="payment_method.html" title="支付方式" class="iframeurl"><i class="icon-double-angle-right"></i>支付方式</a></li>
-						  <li class="home"><a href="javascript:void(0)" name="Payment_Configure.html" title="支付配置" class="iframeurl"><i class="icon-double-angle-right"></i>支付配置</a></li>
-							</ul>
-						</li>
-                  <li>
-					<a href="#" class="dropdown-toggle"><i class="icon-user"></i><span class="menu-text"> 会员管理 </span><b class="arrow icon-angle-down"></b></a>
-                    <ul class="submenu">
-                    <li class="home"><a href="javascript:void(0)" name="{:url('user/userlist')}" title="会员列表"  class="iframeurl"><i class="icon-double-angle-right"></i>会员列表</a></li>
-                    <li class="home"><a href="javascript:void(0)" name="{:url('user/memberGrading')}" title="等级管理"  class="iframeurl"><i class="icon-double-angle-right"></i>等级管理</a></li>
-                    <li class="home"><a href="javascript:void(0)" name="integration.html" title="会员记录管理"  class="iframeurl"><i class="icon-double-angle-right"></i>会员记录管理</a></li>
-
-                   </ul>
-				  </li>
-				 
-						<li><a href="#" class="dropdown-toggle"><i class="icon-comments-alt"></i><span class="menu-text"> 消息管理 </span><b class="arrow icon-angle-down"></b></a>
-							<ul class="submenu">
-								<li class="home"><a href="javascript:void(0)" name="Guestbook.html" title="留言列表" class="iframeurl"><i class="icon-double-angle-right"></i>留言列表</a></li>
-                                <li class="home"><a href="javascript:void(0)" name="Feedback.html" title="意见反馈" class="iframeurl"><i class="icon-double-angle-right"></i>意见反馈</a></li>
-							</ul>
-						</li>
-						<li><a href="#" class="dropdown-toggle"><i class="icon-bookmark"></i><span class="menu-text"> 文章管理 </span><b class="arrow icon-angle-down"></b></a>
-							<ul class="submenu">
-								<li class="home"><a href="javascript:void(0)" name="article_list.html" title="文章列表" class="iframeurl"><i class="icon-double-angle-right"></i>文章列表</a></li>
-                                <li class="home"><a href="javascript:void(0)" name="article_Sort.html" title="分类管理" class="iframeurl"><i class="icon-double-angle-right"></i>分类管理</a></li>
-							</ul>
-						</li>
-                        	<li><a href="#" class="dropdown-toggle"><i class="icon-cogs"></i><span class="menu-text"> 系统管理 </span><b class="arrow icon-angle-down"></b></a>
-							<ul class="submenu">
-								<li class="home"><a href="javascript:void(0)" name="systems.html" title="系统设置" class="iframeurl"><i class="icon-double-angle-right"></i>系统设置</a></li>
-								<li class="home"><a href="javascript:void(0)" name="System_section.html" title="系统栏目管理" class="iframeurl"><i class="icon-double-angle-right"></i>系统栏目管理</a></li>
-							
-                                <li class="home"><a href="javascript:void(0)" name="System_Logs.html" title="系统日志" class="iframeurl"><i class="icon-double-angle-right"></i>系统日志</a></li>
-							</ul>
-						</li>
-                        <li><a href="#" class="dropdown-toggle"><i class="icon-group"></i><span class="menu-text"> 管理员管理 </span><b class="arrow icon-angle-down"></b></a>
-							<ul class="submenu">
-							
-								<li class="home"><a href="javascript:void(0)" name="admin_Competence.html" title="权限管理"  class="iframeurl"><i class="icon-double-angle-right"></i>权限管理</a></li>
-                                <li class="home"><a href="javascript:void(0)" name="administrator.html" title="管理员列表" class="iframeurl"><i class="icon-double-angle-right"></i>管理员列表</a></li>
-								  <li class="home"><a href="javascript:void(0)" name="admin_info.html" title="个人信息" class="iframeurl"><i class="icon-double-angle-right"></i>个人信息</a></li>
-							</ul>
-						</li>
+						{/foreach}
 					</ul>
 					</div>
-					<script type="text/javascript">
-           $("#menu_style").niceScroll({  
-	        cursorcolor:"#888888",  
-	        cursoropacitymax:1,  
-         	touchbehavior:false,  
-	        cursorwidth:"5px",  
-	        cursorborder:"0",  
-	        cursorborderradius:"5px"  
-            }); 
-          </script>
+				<!-- 	<script type="text/javascript">
+				           $("#menu_style").niceScroll({  
+					        cursorcolor:"#888888",  
+					        cursoropacitymax:1,  
+				         	touchbehavior:false,  
+					        cursorwidth:"5px",  
+					        cursorborder:"0",  
+					        cursorborderradius:"5px"  
+				            }); 
+				          </script> -->
 					<div class="sidebar-collapse" id="sidebar-collapse">
 						<i class="icon-hand-left" data-icon1="icon-hand-left" data-icon2=" icon-hand-right"></i>
 					</div>

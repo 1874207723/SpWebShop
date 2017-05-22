@@ -270,7 +270,9 @@ function article_save_submit ()
           processData: false,  
           success: function (data) {
           	if (data == '1') {
-          		layer.alert('添加商品成功呦~',{icon: 1,time:1000});
+          		layer.alert('添加商品成功呦~',{icon: 1,time:1000},function () {
+          			parent.location.reload();
+          		});
           	} else {
           		layer.alert(data,{icon: 2,time:1000});
           	}

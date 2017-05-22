@@ -382,13 +382,13 @@
                 var str = '<tr>';
                     str += '<td> '+type[i].attr_name+'</td>';
                     if(type[i].attr_input_type == 1){
-                        str += '<td><select name="attr_id['+type[i].attr_id+']">';
+                        str += '<td><select name="attr_values['+type[i].attr_id+']">';
                         for(var j in type[i].attr_values){
                             str += '<option value="'+type[i].attr_values[j]+'">'+type[i].attr_values[j]+'</option>';
                         }
                         str += '</select></td>';
                     } else {
-                        str += '<td><input type="text" size="40" value="" name="attrid['+type[i].attr_id+']"></td>';
+                        str += '<td><input type="text" size="40" value="" name="attr_values['+type[i].attr_id+']"></td>';
                     } 
                     str += '</tr>';
                  $('#tbodyaddtype').append(str); 

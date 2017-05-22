@@ -30,16 +30,14 @@
 namespace app\mobile\controller;
 use think\Request;
 use think\Db;
-class Index extends Base
+class Goods extends Base
 {
 
-    public function index()
+    public function goodsinfo()
     {
-    	$newgoods = Db::name('goods')->where('is_new=1 and is_on_sale')->order('sort ,goods_id')->limit(6)->select();
-    	$commegoods = Db::name('goods')->where('is_recommend=1 and is_on_sale')->order('sort ,goods_id')->limit(4)->select();
-    	$hotgoods = Db::name('goods')->where('is_hot=1 and is_on_sale')->order('sort ,goods_id')->limit(4)->select();
-    	$round = Db::name('goods')->where('is_on_sale=1')->order('rand()')->limit(3)->select();
-        $this->assign(['round' => $round,'newgoods' => $newgoods,'commegoods' => $commegoods,'hotgoods' => $hotgoods]);
+    	$goodsid = input()['id'];
+    	$res = Db::name('goods')->where('goods_id='.$goodsid)->find();
+        $this->assign(['info' => $res]);
         return $this->fetch();
     }
 
