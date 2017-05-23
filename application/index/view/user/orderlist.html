@@ -1,0 +1,114 @@
+
+{include file="public/link1" title='我的订单'}
+    <!--内容开始-->
+    <div class="personal w1200">
+    	<div class="personal-left f-l" style="margin-top:20px;">
+        	<div class="personal-l-tit" style="background-color:#c60000">
+            	<h3>个人中心</h3>
+            </div>
+            <ul>
+            	<li class="per-li1"><a href="{:url('user/usermessage')}">消息中心<span>></span></a></li>
+                <li class="per-li2"><a href="{:url('user/personaldata')}">个人资料<span>></span></a></li>
+                <li class="current-li per-li3"><a href="{:url('user/orderlist')}">我的订单<span>></span></a></li>
+                <li class="per-li5"><a href="{:url('shop/shopcart')}">购物车<span>></span></a></li>
+                <li class="per-li6"><a href="{:url('user/deliveryaddress')}">管理收货地址<span>></span></a></li>
+                <li class="per-li7"><a href="{:url('user/collectgoods')}">宝贝收藏<span>></span></a></li>
+                <li class="per-li10"><a href="{:url('user/usergrade')}">会员积分<span>></span></a></li>
+            </ul>
+        </div>
+    	<div class="order-right f-r">
+            <div class="order-hd" style="margin-top: 20px;">
+                <dl class="f-l">
+                    <dt style="border-radius: 100px;" >
+                        <a href="#" ><img src="{$userinfo['head_pic']}" width="70" style="border-radius: 100px;" /></a>
+                    </dt>
+                    <dd>
+                        <h3><a href="#">{$userinfo['username']}</a></h3>
+                        <p>{$userinfo['mobile']}</p>
+                    </dd>
+                    <div style="clear:both;"></div>
+                </dl>
+                <div class="ord-dai f-l">
+                    <p>待付款<span>{$pay}</span></p>
+                    <p>待发货<span>{$shipping}</span></p>
+                    <p>待收货<span>{$shou}</span></p>
+                    <p>待评价<span>{$ping}</span></p>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="order-md">
+                <div class="md-tit">
+                    <h3 style="margin-top: -0px;">我的订单</h3>
+                </div>
+                <div class="md-hd">
+                    <P class="md-p1"><input type="checkbox" name="hobby" value=""></input><span>全选</span></P>
+                    <p class="md-p2">商品信息</p>
+                    <p class="md-p3">规格</p>
+                    <p class="md-p4">单价（元）</p>
+                    <p class="md-p5">金额（元）</p>
+                    <p class="md-p6">操作</p>
+                </div>
+                {foreach $list as $k => $v}
+                <p style="padding-left: 20px;color: #358;" >
+                    <span>{$v['add_time']|date="Y-m-d H:i:s",###} &ensp;&ensp;<font>{$arr[$k]}</font> &ensp;&ensp;订单号：{$v['order_sn']}</span><span style="float: right;margin-right: 50px;color: #f00; font-size: 17px;">￥{$v['order_amount']}</span></p>
+                  {foreach $goods as $s}
+                    {if $s['order_id'] == $v['order_id']}
+                    <div class="md-info">
+                    <div class="dai">
+                      
+                    </div>
+                    <div class="dai-con">
+                        <dl class="dl1">
+                            <dt>
+                                <a href="#" class="f-l"><img src="{$s['goods_id']|get_goodsinfo_by_id}" width="85" /></a>
+                                <div style="clear:both;"></div>
+                            </dt>
+                            <dd>
+                                <p style="font-size: 13px;"><a href="{:url('index/shop/details',['goodsid'=>$s['goods_id']])}">{$s['goods_name']}</a></p>
+                                <span>X {$s['goods_num']}</span>
+                            </dd>
+                            <div style="clear:both;"></div>
+                        </dl>
+                        <div class="dai-right f-l">
+                            <P class="d-r-p1">{$s['spec_key_name']}</P>
+                            <p class="d-r-p2">¥ {$s['member_goods_price']}</p>
+                            <p class="d-r-p3">¥ {$s['member_goods_price']*$s['goods_num']}</p>
+                            {if $arr[$k] == '未付款'}
+                            <p class="d-r-p4"><a href="#">移入收藏夹</a><br /><a href="#">删除</a><br /><a href="#">付款</a></p>
+                            {elseif $arr[$k] == '待发货'}
+                            <p class="d-r-p4"><a href="#">移入收藏夹</a><br /><a href="#">删除</a><br /><a href="#">确认收货</a><br /><a href="JavaScript:;" ckwl="">查看物流</a></p>    
+                            {elseif $arr[$k] == '待评价'}
+                                 <p class="d-r-p4"><a href="#">移入收藏夹</a><br /><a href="#">删除</a><br /><a href="#">确认收货</a><br /><a href="JavaScript:;" ckwl="">去评价</a></p>   
+                            {else}
+                                <p class="d-r-p4" style="margin-top:20px;"><a href="#">移入收藏夹</a><br /><a href="#">删除</a></p>
+                            {/if}
+                        </div>
+
+
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+                {/if}
+                {/foreach}
+            {/foreach}
+            <style type="text/css">
+                #page .pagination{margin-top: 30px; margin-left: 250px; height: 50px;line-height: 50px;}
+                #page .pagination li { float: left;width: 30px;height: 30px;border: 1px solid #000;line-height: 30px;text-align: center;}
+                #page .pagination a {font-size: 15px;}
+                #page .pagination .active{background: #18f;color: #fff;}  
+            </style>
+                               <!--分页-->
+            <div id="page">{$list->render()}</div>
+                <div class="md-ft">
+                    <P class="md-p1"><input type="checkbox" name="hobby" value=""></input><span>全选</span></P>
+                    <a href="#">删除</a>
+                    <a href="#">加入收藏夹<span>（此处始终在屏幕下方）</span></a>
+                    <button>结算</button>
+                </div>
+            </div>
+            
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
+{include file="public/footer"}

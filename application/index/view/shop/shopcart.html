@@ -67,6 +67,9 @@
     </div>
 <script>
     var userlist = $('#userdatainfo').val();
+    function f(num,n){
+        return parseInt(num*Math.pow(10,n)+0.5,10)/Math.pow(10,n);
+      };
 
     //用户登录状态下
     if (udi) {
@@ -149,17 +152,24 @@
 
     //用户未登录状态下
     } else {
-        var goodslist = cart.getproductlist();
-        if(goodslist.length >= 0) {
+
+        if (utils.getParam("ShoppingCart") == null) {
+            $('.cart-con-info').empty();
+             //console.log('1234');
+            $('#totalPrice').html("总共￥"+ 0 +"元");
+            //console.log('765');
+            $('#productNum').html("全部商品   "+ 0);
+        }else {
             addCartList();
         }
+
 
         //添加购物车商品
         function addCartList() {
             var glt = cart.getproductlist();
             console.log(glt);
             for(var i in glt) {
-                $('.cart-con-info').append("<div class='info-mid' style='padding-top:0px;height:100px;'><div class='mid-tu f-l' style='border:none;margin-left:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ glt[i]['id'] +"'><img src='"+ glt[i]['image'] +"' style='width:80px;height:80px;margin-top:15px;' /></a></div><div class='mid-font f-l' style='margin-top:25px;width:232px;height:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ glt[i]['id'] +"'>"+ glt[i]['name'] +"</div><div class='mid-guige f-l' style='border:1px solid white;margin-top:20px;'><p>"+ glt[i]['spec'] +"</p></div><div class='mid-sl f-l' style='margin-top:30px;width:40px;'><input style='border:none;' type='text' value='"+ glt[i]['num'] +"' /></div><p class='mid-dj f-l' style='margin-top:40px;margin-left:30px;width:70px;'>¥ "+ glt[i]['price'] +"</p><p class='mid-je f-l' style='margin-top:40px;width:60px;'>¥ "+ glt[i]['num'] * glt[i]['price'] +"</p><div class='mid-chaozuo f-l' style='margin-top:40px;'><a href='javascript:;' onclick='deleteCart("+ i +")' style='color:#c60000'>删除</a></div><div style='clear:both;'></div></div>");
+                $('.cart-con-info').append("<div class='info-mid' style='padding-top:0px;height:100px;'><div class='mid-tu f-l' style='border:none;margin-left:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ glt[i]['id'] +"'><img src='"+ glt[i]['image'] +"' style='width:80px;height:80px;margin-top:15px;' /></a></div><div class='mid-font f-l' style='margin-top:25px;width:232px;height:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ glt[i]['id'] +"'>"+ glt[i]['name'] +"</div><div class='mid-guige f-l' style='border:1px solid white;margin-top:20px;'><p>"+ glt[i]['spec'] +"</p></div><div class='mid-sl f-l' style='margin-top:30px;width:40px;'><input style='border:none;' type='text' value='"+ glt[i]['num'] +"' /></div><p class='mid-dj f-l' style='margin-top:40px;margin-left:30px;width:70px;'>¥ "+ glt[i]['price'] +"</p><p class='mid-je f-l' style='margin-top:40px;width:60px;'>¥ "+ f(glt[i]['num'] * glt[i]['price'],2) +"</p><div class='mid-chaozuo f-l' style='margin-top:40px;'><a href='javascript:;' onclick='deleteCart("+ i +")' style='color:#c60000'>删除</a></div><div style='clear:both;'></div></div>");
             }
             //console.log('1234');
             $('#totalPrice').html("总共￥"+ f(orderdetail.totalAmount,2) +"元")

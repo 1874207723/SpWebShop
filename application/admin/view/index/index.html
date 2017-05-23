@@ -339,7 +339,7 @@ $('.change_Password').on('click', function(){
 					</div><!-- #sidebar-shortcuts -->
 					<div id="menu_style" class="menu_style">
 					<ul class="nav nav-list" id="nav_list">
-				     	<li class="home"><a href="javascript:void(0)" name="home.html" class="iframeurl" title=""><i class="icon-home"></i><span class="menu-text"> 系统首页 </span></a></li>
+				     	<li class="home"><a href="javascript:void(0)" name="{:url('index/home')}" class="iframeurl" title=""><i class="icon-home"></i><span class="menu-text"> 系统首页 </span></a></li>
                      	{foreach $parent as $p}
                      	<li><a href="#" class="dropdown-toggle"><i class="icon-{$p['icon']}"></i><span class="menu-text"> {$p['title']} </span><b class="arrow icon-angle-down"></b></a>
 					    	<ul class="submenu">

@@ -9,592 +9,103 @@
             <div class="nav_shopall_btn"><span><i class="fonticon fonticon-menu"></i> 生态品类</span></div>
             <div class="nav_shopall_cateMenu">
                 <ul>
-                    <li data-groupid="1"><a target="" href="{:url('shop/list')}"><span class="t">超级电视</span> <i class="fonticon fonticon-aright"></i></a></li>
-                    <li data-groupid="2"><a target="_blank" href="/phone.html" ><span class="t">超级手机</span> <i class="fonticon fonticon-aright"></i></a></li>
-                    <li data-groupid="3"><a target="_blank" href="/cn/phone/cool1.html?alys_id=head" ><span class="t">酷派手机</span> <i class="fonticon fonticon-aright"></i></a></li>
-                    <li data-groupid="4"><a target="_blank" href="/product/search.html?level=1&cid1=1018"><span class="t">智能硬件</span> <i class="fonticon fonticon-aright"></i></a></li>
-                    <li data-groupid="5"><a target="_blank" href="/product/search.html?level=1&cid1=1022" ><span class="t">配件</span> <i class="fonticon fonticon-aright"></i></a></li>
+
                     <li data-groupid="6"><a target="_blank" href="/product/search.html?level=1&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid1=1043"><span class="t">娱乐周边</span> <i class="fonticon fonticon-aright"></i></a></li>
-                    <li data-groupid="7"><a target="_blank" href="/product/search.html?level=1&cid1=1054"><span class="t">体育周边</span> <i class="fonticon fonticon-aright"></i></a></li>
-                    <li data-groupid="8"><a target="_blank" href="http://t.cn/R5u9QJE" rel="nofollow"><span class="t">网酒网</span> <i class="fonticon fonticon-aright"></i></a></li>
-                    <li data-groupid="9"><a target="_blank" href="https://jr.lemall.com/finance/index.html?src=11070231&source=11070231" rel="nofollow" ><span class="t">金融</span> <i class="fonticon fonticon-aright"></i></a></li>
+                    {foreach $level1 as $le}
+                        <li data-groupid="{$le['id']}"><a href="{:url('index/shop/shopList',['cateid'=>$le['id']])}"><span class="t">{$le['name']}</span> <i class="fonticon fonticon-aright"></i></a></li>
+                    {/foreach}`
+
                 </ul>
             </div>
             <div class="nav_shopall_pop fontcion_1">
-                <!-- 超级电视 -->
-                <div class="popBox popStyle2 popBox1" data-index="1">
-                <div class="popL">
-                  <div class="popLcen">
-                    <div class="list_texttv">
-                        <h4>爆款推荐 <i class="Licon_15 icon-word_hot"></i></h4>
-                        <ul class="le_list_t5 lcl-1">
-                            <li><a href="/chao4/x55new.html" webtrekkparam="{ct:'dh2_cjds_c4x55'}" target="_blank"><span class="">超4 X55</span></a></li>
-                            <li><a href="/chao4/x50pro.html" webtrekkparam="{ct:'dh2_cjds_c4x50pro'}" target="_blank"><span class="">超4 X50 Pro</span></a></li>
-                            <li><a href="/chao4/x50m.html" webtrekkparam="{ct:'dh2_cjds_c4x50m'}" target="_blank"><span class="">超4 X50M</span></a></li>
-                            <li><a href="/chao4/x43.html" webtrekkparam="{ct:'dh2_cjds_c4x43'}" target="_blank"><span class="">超4 X43</span></a></li>
-                            <li><a href="/chao4/x40.html" webtrekkparam="{ct:'dh2_cjds_c4x40'}" target="_blank"><span class="">超4 X40</span></a></li>
-                            <li><a href="/x65s.html" webtrekkparam="{ct:'dh2_cjds_X65S'}" target="_blank"><span class="">X65S</span></a></li>
-                            <li><a href="/max65new.html" webtrekkparam="{ct:'dh2_cjds_c4Max65'}" target="_blank"><span class="">超4 Max65</span></a></li>
-                            <li><a href="/chao4max70.html" webtrekkparam="{ct:'dh2_cjds_c4Max703D'}" target="_blank"><span class="">超4 Max70 3D</span></a></li>
 
-                        </ul>
-                    </div>
-                    <div class="list_texttv list_texttv_h">
-                        <h4>电视系列</h4>
-                        <ul class="le_list_t5 lcl-1">
-                            <li><a href="/product/search.html?level=1&cid1=1002&cid2=300205" target="_blank" webtrekkparam="{ct:'dh2_cjds_maxxl'}">Max系列<br><span class="mcl-3">分体，正在流行的未来</span></a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&cid2=300059" target="_blank" webtrekkparam="{ct:'dh2_cjds_uniquexl'}">Unique系列<br><span class="mcl-3">生来孤独求败</span></a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&cid2=300214" target="_blank" webtrekkparam="{ct:'dh2_cjds_umaxlx'}">uMax系列<br><span class="mcl-3">只为人生赢家</span></a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&cid2=300202" target="_blank" webtrekkparam="{ct:'dh2_cjds_xlx'}">X系列<br><span class="mcl-3">体价比主宰者</span></a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&cid2=300211" target="_blank" webtrekkparam="{ct:'dh2_cjds_stdzxl'}">生态定制系列<br><span class="mcl-3">共享大屏生态世界</span></a></li>
-                        </ul>
-                    </div>
-                    <div class="list_texttv">
-                        <h4>电视类型</h4>
-                        <ul class="le_list_t5 lcl-1">
-                            <li><a href="/product/search.html?level=1&cid1=1002&filter=275_1217_分体电视@" target="_blank" webtrekkparam="{ct:'dh2_cjds_ftds'}">分体电视</a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&filter=275_6708_全面屏电视@" target="_blank" webtrekkparam="{ct:'dh2_cjds_qmpds'}">全面屏电视</a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&filter=275_1220_曲面电视@" target="_blank" webtrekkparam="{ct:'dh2_cjds_qmds'}">曲面电视</a></li>
-                            <li><a href="/product/search.html?level=1&keyword=%E8%B6%85%E7%BA%A7%E7%94%B5%E8%A7%86&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid1=1002&filter=275_6658_%E8%B6%85%E8%96%84%E7%94%B5%E8%A7%86%20(%3C1..._%E7%94%B5%E8%A7%86%E7%B1%BB%E5%9E%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_cbds'}">超薄电视(<10mm)</a></li>
-                            <li><a href="/product/search.html?level=1&keyword=%E8%B6%85%E7%BA%A7%E7%94%B5%E8%A7%86&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid1=1002&filter=275_6660_%E9%AB%98%E8%89%B2%E5%9F%9F%20(%E2%89%A585..._%E7%94%B5%E8%A7%86%E7%B1%BB%E5%9E%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_gsy85'}">高色域(>85%)</a></li>
-                            <li><a href="/product/search.html?level=1&keyword=%E8%B6%85%E7%BA%A7%E7%94%B5%E8%A7%86&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid1=1002&filter=275_6663_HDR_%E7%94%B5%E8%A7%86%E7%B1%BB%E5%9E%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_hdr'}">HDR</a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&filter=275_1205_4K超清电视@" target="_blank" webtrekkparam="{ct:'dh2_cjds_4kcqds'}">4K超清电视</a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&filter=275_1211_3D电视@" target="_blank" webtrekkparam="{ct:'dh2_cjds_3dds'}">3D电视</a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&filter=275_1223_智能全高清@" target="_blank" webtrekkparam="{ct:'dh2_cjds_znqgq'}">智能全高清</a></li>
-
-                        </ul>
-                    </div>
-                    <div class="list_texttv">
-                        <h4>屏幕尺寸</h4>
-                        <ul class="le_list_t5 lcl-1">
-                            <li><a href="/product/search.html?level=1&keyword=%E7%94%B5%E8%A7%86&cid1=1002&filter=1_929_120%E5%90%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_120c'}">120吋</a></li>
-                            <li><a href="/product/search.html?level=1&cid1=1002&filter=1_4431_85%E5%90%8B_%E5%B0%BA%E5%AF%B8@" target="_blank" webtrekkparam="{ct:'dh2_cjds_85c'}">85吋</a></li>
-                            <li><a href="/product/search.html?level=1&keyword=%E7%94%B5%E8%A7%86&cid1=1002&filter=1_860_70%E5%90%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_70c'}">70吋</a></li>
-                            <li><a href="/product/search.html?level=1&keyword=%E7%94%B5%E8%A7%86&cid1=1002&filter=1_921_65%E5%90%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_65c'}">65吋</a></li>
-                            <li><a href="/product/search.html?level=1&keyword=%E7%94%B5%E8%A7%86&cid1=1002&filter=1_913_55%E5%90%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_55c'}">55吋</a></li>
-                            <li><a href="/product/search.html?level=1&keyword=%E7%94%B5%E8%A7%86&cid1=1002&filter=1_870_50%E5%90%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_50c'}">50吋</a></li>
-                            <li><a href="/product/search.html?level=1&keyword=%E7%94%B5%E8%A7%86&cid1=1002&filter=1_909_43%E5%90%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_43c'}">43吋</a></li>
-                            <li><a href="/product/search.html?level=1&keyword=%E7%94%B5%E8%A7%86&cid1=1002&filter=1_863_40%E5%90%8B@" target="_blank" webtrekkparam="{ct:'dh2_cjds_40c'}">40吋</a></li>
-                        </ul>
-                    </div>
-                  </div>
-
-                </div>
-                    <!-- 超级电视广告位 开始 -->
-                    <div class="popR">
-                        <ul class="piclist">
-                            <li> <a href="/cn/sale/tvzn.html" target="_blank" webtrekkparam="{ct:'dh2_cjds_t1'}"> <img alt="导航电视" src="__STATIC__/picture/78476cf2f64445ae82e91293ab138b0c.gif"> </a> </li>
-                        </ul>
-                    </div>
-                    <!-- 超级电视广告位 结束 -->
-                </div>
-                <!-- /超级电视 -->
-                <!-- 超级手机 -->
-                <div class="popBox popStyle3 popBox2" data-index="2">
-                    <div class="popL">
-                        <div class="list_phones1">
-                            <h4> 第3代超级手机 </h4>
-                            <ul class="list_pictext_4">
-                                <li>
-                                    <div class="pic"> <a href="/cn/phone/lepro3/ai.html" target="_blank" webtrekkparam="{ct:'dh2_cjsj_lpro3aiss_pic'}"> <img class="bzb_img js_bzb_img" alt="乐Pro3" src="__STATIC__/picture/31de7ec5c42a4f15b3e46f444dd9e287.gif" /> </a> </div>
-                                    <div class="text">
-                                        <div class="tit3"><a href="/cn/phone/lepro3/ai.html" target="_blank" webtrekkparam="{ct:'dh2_cjsj_lpro3aiss'}">乐Pro3 双摄AI版</a></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pic"> <a href="/cn/phone/lepro3.html" target="_blank" webtrekkparam="{ct:'dh2_cjsj_lpro3_pic'}"> <img class="bzb_img js_bzb_img" alt="乐Pro3" src="__STATIC__/picture/20170307-4d67ef14-0542-44c6-920a-2562a9e3cfcc.jpg" /> </a> </div>
-                                    <div class="text">
-                                        <div class="tit"><a href="/cn/phone/lepro3.html" target="_blank" webtrekkparam="{ct:'dh2_cjsj_lpro3'}">乐Pro3</a></div>
-                                        <div class="category"> <a href="/cn/phone/lepro3.html" target="_blank" class="item" data-img="http://image3.lecloud.com/lemallus/20170307-4d67ef14-0542-44c6-920a-2562a9e3cfcc.jpg" webtrekkparam="{ct:'dh2_cjsj_lpro3_jy'}">精英版</a>  <a href="/cn/phone/lepro3.html" target="_blank" class="item selected" data-img="http://image1.lecloud.com/lemallus/20161222-3556bfc4-04bd-4dee-9133-04e83a478fd9.jpg" webtrekkparam="{ct:'dh2_cjsj_lpro3_bz'}">标准版</a> <a href="/cn/phone/lepro3/zymb.html" target="_blank" class="item" data-img="http://image1.lecloud.com/lemallus/20161223-a1bea510-ca8e-445d-bd5a-31a2e98e6071.jpg" webtrekkparam="{ct:'dh2_cjsj_lpro3_zym'}">张艺谋版</a> </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pic"> <a href="/cn/phone/les3.html" target="_blank" webtrekkparam="{ct:'dh2_cjsj_ls3_pic'}"> <img class="bzb_img js_bzb_img" alt="乐S3" src="__STATIC__/picture/20161222-a6a6587f-6905-45ef-b78d-bdf9537f60d1.jpg" /> </a> </div>
-                                    <div class="text">
-                                        <div class="tit"><a href="/cn/phone/les3.html" target="_blank" webtrekkparam="{ct:'dh2_cjsj_ls3'}">乐S3</a></div>
-                                        <div class="category"> <a href="/cn/phone/les3.html" target="_blank" class="item selected" webtrekkparam="{ct:'dh2_cjsj_ls3_bz'}"  data-img="http://image1.lecloud.com/lemallus/20161222-a6a6587f-6905-45ef-b78d-bdf9537f60d1.jpg" >标准版</a> <a href="/cn/phone/les3/jjb.html" target="_blank" class="item selected" webtrekkparam="{ct:'dh2_cjsj_ls3_jj'}"  data-img="http://image3.lecloud.com/lemallus/20170317-dca4f266-9077-45ed-928f-338e66b09a51.jpg" >爵迹版</a></div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="list_phones1">
-                            <h4> 第2代超级手机 </h4>
-                            <ul class="list_pictext_4">
-                                <li>
-                                    <div class="pic"> <a href="/le_2.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_cjsj_le2_pic'}"><img src="__STATIC__/picture/20161223-ac3803d2-7b5b-4787-b37d-5d8e13231d9b.jpg" alt=""></a> </div>
-                                    <div class="text">
-                                        <div class="tit"><a href="/le_2.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_cjsj_le2'}">乐2 <!--<i class="Licon_15 icon-word_hot"></i>--></a></div>
-                                        <div class="category">
-                                            <a href="/le_2.html?alys_id=head" target="_blank" class="item selected" data-img="http://image3.lecloud.com/lemallus/20161223-ac3803d2-7b5b-4787-b37d-5d8e13231d9b.jpg" webtrekkparam="{ct:'dh2_cjsj_le2_bz'}">标准版</a> <a
-                                            href="/le_2/jjb.html" target="_blank" class="item" data-img="http://image3.lecloud.com/lemallus/20161223-b1e093a3-be21-4c47-a036-ced384b12431.jpg" webtrekkparam="{ct:'dh2_cjsj_le2_jj'}">爵迹版</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pic"> <a href="/le_2pro.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_cjsj_le2pro_pic'}"><img src="__STATIC__/picture/20161222-e5b29d70-1749-40c1-8f27-786b818d8bdd.jpg" alt="乐2Pro标准版"></a> </div>
-                                    <div class="text">
-                                        <div class="tit"><a href="/le_2pro.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_cjsj_le2pro'}">乐2 Pro</a></div>
-                                        <div class="category">
-                                            <a href="/le_2pro.html?alys_id=head" target="_blank" class="item selected" data-img="http://image2.lecloud.com/lemallus/20161222-e5b29d70-1749-40c1-8f27-786b818d8bdd.jpg" webtrekkparam="{ct:'dh2_cjsj_le2pro_bz'}">标准版</a>
-                                            <a href="/le_2pro/jjb.html" target="_blank" class="item" data-img="http://image4.lecloud.com/lemallus/20161223-f0c41fec-dc30-48e4-8742-158494538b7e.jpg" webtrekkparam="{ct:'dh2_cjsj_le2pro_jj'}">爵迹版</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pic"> <a href="/le_max2.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_cjsj_lemax2_pic'}"><img src="__STATIC__/picture/20161222-78475b13-e2d0-4e27-aff4-e40747ef96f7.jpg" alt=""></a> </div>
-                                    <div class="text">
-                                        <div class="tit"><a href="/le_max2.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_cjsj_lemax2'}">乐Max 2</a></div>
-                                        <div class="category">
-                                            <a href="/le_max2.html?alys_id=head" target="_blank" class="item selected"  data-img="http://image2.lecloud.com/lemallus/20161222-78475b13-e2d0-4e27-aff4-e40747ef96f7.jpg" webtrekkparam="{ct:'dh2_cjsj_lemax2_bz'}">标准版</a>
-                                            <a href="/le_max2/dmbj.html" target="_blank" class="item" data-img="http://img3.hdletv.com/file/20160920/default/454241927777468" webtrekkparam="{ct:'dh2_cjsj_lemax2_dmbj'}">盗墓笔记版</a>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- 超级手机广告位 开始 -->
-                    <div class="popR">
-                        <ul class="piclist">
-                            <li> <a href="/cn/phone/lepro3.html" target="_blank"  webtrekkparam="{ct:'dh2_cjsj_t1'}"><img alt="手机414导航" src="__STATIC__/picture/5bde504fc680455ebc3600486a878799.gif"> </a> </li>
-                        </ul>
-                    </div>
-                    <!-- 超级手机广告位 结束 -->
-                </div>
-                <!-- /超级手机 -->
-                <!-- 酷派手机 -->
-                <div class="popBox popStyle1 popBox3" data-index="3">
-                    <div class="popL">
-                        <!-- 酷派手机 -->
-                        <div class="popLcen">
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li>
-                                    <span class="pic"><a href="/cn/phone/cool1.html?alys_id=head"  target="_blank" webtrekkparam="{ct:'dh2_kpsj_coll1dual_pic'}"><img alt="cool1 dual（双摄）" src="__STATIC__/picture/4fad50ecc50f408581fe705a1e689302.gif" /></a></span>
-                                    <span class="text">
-                                        <a href="/cn/phone/cool1.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_kpsj_coll1dual'}">cool1 dual（双摄）</a>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="pic"><a href="/cn/phone/coolchanger1c.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_kpsj_coll1changer1c_pic'}"><img alt="Cool Changer 1C" src="__STATIC__/picture/e4f8bd8f12ac4096b013844ec6cf1b50.gif" /></a></span>
-                                    <span class="text">
-                                        <a href="/cn/phone/coolchanger1c.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_kpsj_coll1changer1c'}">Cool Changer 1C</a>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="pic"><a href="/coolchangers1.html?alys_id=head"  target="_blank" webtrekkparam="{ct:'dh2_kpsj_coolchangers1_pic'}"><img alt="Cool Changer S1" src="__STATIC__/picture/bb195e3be72249d9a794e4854f5e0226.gif" /></a></span>
-                                    <span class="text">
-                                        <a href="/coolchangers1.html?alys_id=head" target="_blank" webtrekkparam="{ct:'dh2_kpsj_coolchangers1'}">Cool Changer S1</a>
-                                    </span>
-                                </li>
-                            </ul>
-                            <ul class="list_pictext_3 ul3 clearfix">
-                              <li>
-                                  <span class="pic"><a href="/fsmax.html"  target="_blank" webtrekkparam="{ct:'dh2_kpsj_coolsfmax_pic'}"><img alt="酷派锋尚MAX" src="__STATIC__/picture/20170321-03ceaad0-73b3-4d44-bc75-cb22f7c84e0e.jpg" /></a></span>
-                                  <span class="text">
-                                      <a href="/fsmax.html" target="_blank" webtrekkparam="{ct:'dh2_kpsj_coolsfmax'}">锋尚MAX</a>
-                                  </span>
-                              </li>
-                            </ul>
-                        </div>
-                        <!-- /酷派手机 -->
-                    </div>
-                    <!-- 酷派手机广告位 开始 -->
-                    <div class="popR">
-                        <ul class="piclist">
-                            <li> <a href="/cn/phone/cool1.html" target="_blank" webtrekkparam="{ct:'dh2_kpsj_t1'}"><img alt="导航Cool降150" src="__STATIC__/picture/c674064b12c447ad802a3624ae570251.gif"> </a> </li>
-                        </ul>
-                    </div>
-                    <!-- 酷派手机广告位 结束 -->
-                </div>
-                <!-- /酷派手机 -->
-                <!-- 智能硬件 -->
-                <div class="popBox popStyle1 popBox4" data-index="4">
-                    <div class="popL">
-                        <!-- 4智能硬件 -->
-                        <div class="popLcen">
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li class="clearfix">
-                                    <div class="pic">
-                                        <a href="/product/u4.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_lshzu4_pic'}"><img  alt="乐视盒子"  src="__STATIC__/picture/20161220-2cdef6ed-9189-4f31-b54d-0362a267ce33.jpg" style=""/></a>
-                                    </div>
-                                    <div class="text"> <a href="/product/u4.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_lshzu4'}">乐视盒子U4</a> </div>
-                                </li>
-                                <li class="clearfix rows">
-                                    <div class="pic"><a href="/product/pb.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_pb_pic'}"><img  alt="屏霸"  src="__STATIC__/picture/20161221-38309e8b-ff25-45ed-9487-ebd73fe10b5d.jpg" style=""/></a></div>
-                                    <div class="text"> <a href="/product/pb.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_pb'}">屏霸</a> <br><a href="/product/pb.html" target="_blank" webtrekkparam="{ct:'h2_znyj_pb_jt'}">智能家庭中心</a></div>
-                                </li>
-                                <li class="clearfix rows">
-                                    <div class="pic"><a href="/product/products-pid-1000095.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_leme_pic'}"><img alt="Leme蓝牙耳机"  src="__STATIC__/picture/20161212-9d6e6472-5a4a-47b2-9a5a-6494d8121df7.jpg" /></a></div>
-                                    <div class="text">
-                                        <a href="/product/products-pid-1000095.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_leme'}">Leme蓝牙耳机</a><br>
-                                        <a href="/product/products-pid-1000095.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_eb30'}">EB30</a><span class="line">|</span><a href="/product/products-pid-1003962.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_eb40'}">EB40</a>
-                                    </div>
-                                </li>
-                                <li class="clearfix">
-                                    <div class="pic"><a href="/product/products-pid-1001133.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_xcjly1s_pic'}"><img  alt="乐视行车记录仪1S"  src="__STATIC__/picture/20161212-a5dacdf7-c63b-4ebd-ac4f-34b349b89ad8.jpg" style=""/></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1001133.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_xcjly1s'}">行车记录仪1S</a> </div>
-                                </li>
-                                <li class="clearfix">
-                                    <div class="pic"><a href="/product/products-pid-1002722.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_kgmkf_pic'}"><img  alt="乐视K歌智能麦克风"  src="__STATIC__/picture/20161212-7e83d8d8-d70a-4c83-80f6-e98d397e3cf1.jpg" style=""/></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1002722.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_kgmkf'}">乐视K歌智能麦克风</a> </div>
-                                </li>
-                            </ul>
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li class="clearfix">
-                                    <div class="pic"><a href="/product/products-pid-1005180.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_lyq_pic'}"><img alt="乐视路由器" src="__STATIC__/picture/20161212-759e4fb3-ad4e-4ba8-a75a-0c59b3c2aad2.jpg" /></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1005180.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_lyq'}">乐视路由器</a> </div>
-                                </li>
-                                <li class="clearfix rows">
-                                    <div class="pic"><a href="//product/products-pid-1001071.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_ssk_pic'}"><img alt="乐视随身看"  src="__STATIC__/picture/20161212-4d6cec9a-e34b-4e3f-af4d-4acc0ebb98fa.jpg" /></a></div>
-                                    <div class="text">
-                                        <a href="/product/products-pid-1001071.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_ssk'}">乐视随身看</a><br>
-                                        <a href="/product/products-pid-1001609.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_ssk_fyg'}">翻译官版</a><span class="line">|</span><a href="/product/products-pid-1002952.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_ssk_hc'}">幻城版</a>
-                                    </div>
-                                </li>
-                                <li class="clearfix rows">
-                                    <div class="pic"> <a href="/product/products-pid-1000308.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_lxb_pic'}"><img alt="乐小宝" src="__STATIC__/picture/20161212-8be53a12-04db-45c5-8426-a4f9b527b0d2.jpg" /></a> </div>
-                                    <div class="text"> <a href="/product/products-pid-1000308.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_lxb'}">乐小宝<br>口袋动画屋1S</a> </div>
-                                </li>
-                                <li class="clearfix">
-                                    <div class="pic"><a href="/product/products-pid-1001138.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_qcj1s_pic'}"><img  alt="乐视轻车机套装1S"  src="__STATIC__/picture/20161212-fa5ae3f9-37c3-4678-b917-899a710bb713.jpg" style=""/></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1001138.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_qcj1s'}">轻车机套装1S</a> </div>
-                                </li>
-                                <li class="clearfix rows">
-                                    <div class="pic"><a href="/product/search.html?level=1&keyword=VR&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid1=1018" target="_blank" webtrekkparam="{ct:'dh2_znyj_levr_pic'}"><img alt="LeVR"  src="__STATIC__/picture/20161212-8bbf9c3f-c1ea-4489-8514-fbd1a122d934.jpg" /></a></div>
-                                    <div class="text">
-                                        <a href="/product/search.html?level=1&keyword=VR&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid1=1018" target="_blank" webtrekkparam="{ct:'dh2_znyj_levr'}">LeVR</a><br>
-                                        <a href="/product/products-pid-MSTZS00009.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_levr_pro'}">小白1升级版</a><span class="line">|</span><a href="/product/products-pid-1001552.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_levr_ty'}">体验版</a>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li class="clearfix">
-                                    <div class="pic"><a href="/product/search.html?level=1&keyword=%E6%99%BA%E8%83%BD%E7%A9%BF%E6%88%B4" target="_blank" webtrekkparam="{ct:'dh2_znyj_zncd_pic'}"><img alt="智能穿戴" src="__STATIC__/picture/20161213-bb853c70-6fe5-499a-b19a-baef5b81ab60.jpg" /></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&keyword=%E6%99%BA%E8%83%BD%E7%A9%BF%E6%88%B4" target="_blank" webtrekkparam="{ct:'dh2_znyj_zncd'}">智能穿戴</a> </div>
-                                </li>
-                                <li class="clearfix">
-                                    <div class="pic"><a href="/product/search.html?level=1&keyword=%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85" target="_blank" webtrekkparam="{ct:'dh2_znyj_znjj_pic'}"><img alt="智能家居" src="__STATIC__/picture/20161213-9a258281-baaf-4bec-a4fb-3e4f542c0f16.jpg" /></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&keyword=%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85" target="_blank" webtrekkparam="{ct:'dh2_znyj_znjj'}">智能家居</a> </div>
-                                </li>
-                                <li class="clearfix">
-                                    <div class="pic"><a href="/product/search.html?level=1&keyword=%E6%99%BA%E8%83%BD%E5%81%A5%E5%BA%B7" target="_blank" webtrekkparam="{ct:'dh2_znyj_znjk_pic'}"><img  alt="乐视智能健康"  src="__STATIC__/picture/20161213-cdbb1a9f-9cca-4b06-8fef-8c6636f211cc.jpg" style=""/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&keyword=%E6%99%BA%E8%83%BD%E5%81%A5%E5%BA%B7" target="_blank" webtrekkparam="{ct:'dh2_znyj_znjk'}">智能健康</a> </div>
-                                </li>
-                                <li class="clearfix">
-                                    <div class="pic"><a href="/product/search.html?level=1&keyword=%E6%99%BA%E8%83%BD%E4%BA%B2%E5%AD%90" target="_blank" webtrekkparam="{ct:'dh2_znyj_znqz_pic'}"><img alt="智能亲子" src="__STATIC__/picture/20161212-36760158-2ce8-4070-9ea7-62c0f632b0de.jpg" /></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&keyword=%E6%99%BA%E8%83%BD%E4%BA%B2%E5%AD%90" target="_blank" webtrekkparam="{ct:'dh2_znyj_znqz'}">智能亲子</a> </div>
-                                </li>
-                                <li class="more"> <a href="/product/search.html?level=1&cid1=1018" target="_blank" webtrekkparam="{ct:'dh2_znyj_more'}"> <i class="fonticon fonticon-circle-right"></i> 更多 </a> </li>
-                            </ul>
-                        </div>
-                        <!-- /4智能硬件 -->
-                    </div>
-                    <!-- 智能硬件广告位 开始 -->
-                    <div class="popR">
-                        <ul class="piclist">
-                            <li>
-                                <a href="/product/products-pid-1002722.html" target="_blank" webtrekkparam="{ct:'dh2_znyj_t1'}"><img alt="配件导航" src="__STATIC__/picture/3c7e37945b924b3b84d8c4813aa2289d.gif"> </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- 智能硬件广告位 结束 -->
-                </div>
-                <!-- /智能硬件 -->
-                <!-- 配件 -->
-                <div class="popBox popStyle1 popBox5" data-index="5">
-                    <div class="popL">
-                        <!-- 5、配件 -->
-                        <div class="popLcen">
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=2&cid2=20022" target="_blank" webtrekkparam="{ct:'dh2_pj_bhm_pic'}"><img  alt="乐视手机保护套"  src="__STATIC__/picture/f722d3d2cc4d4f538b0dcaf8a3e76819.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=2&cid2=20022" target="_blank" webtrekkparam="{ct:'dh2_pj_bhm'}">保护套/贴膜</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=2&cid2=20025" target="_blank" webtrekkparam="{ct:'dh2_pj_cdqyddy_pic'}"><img  alt="乐视充电器"  src="__STATIC__/picture/ab7ce8cff0234bf1a4592dc6d2a01460.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=2&cid2=20025" target="_blank" webtrekkparam="{ct:'dh2_pj_cdqyddy'}">充电器/移动电源</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=2&cid2=20028" target="_blank" webtrekkparam="{ct:'dh2_pj_dsgjdz_pic'}"><img  alt="乐视电视底座"  src="__STATIC__/picture/f21239fe1f6d4111a6beab2fe7cbecf3.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=2&cid2=20028" target="_blank" webtrekkparam="{ct:'dh2_pj_dsgjdz'}">电视挂架/底座</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=2&cid2=20031" target="_blank" webtrekkparam="{ct:'dh2_pj_ejyx_pic'}"><img  alt="音响"  src="__STATIC__/picture/3b21c62d2d924debab719491627aedbd.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=2&cid2=20031" target="_blank" webtrekkparam="{ct:'dh2_pj_ejyx'}">耳机/音响</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1022&cid2=20035" target="_blank" webtrekkparam="{ct:'dh2_pj_ykq_pic'}"><img  alt="遥控器"  src="__STATIC__/picture/92836eabf25f498188c2c2b9ed1491eb.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=2&cid2=20035" target="_blank" webtrekkparam="{ct:'dh2_pj_ykq'}">遥控器/线材</a> </div>
-                                </li>
-                            </ul>
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=2&cid2=20039" target="_blank" webtrekkparam="{ct:'dh2_pj_yxyl_pic'}"><img  alt="游戏娱乐"  src="__STATIC__/picture/5ffdaf1308114635ba9633273be05803.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=2&cid2=20039" target="_blank" webtrekkparam="{ct:'dh2_pj_yxyl'}">游戏娱乐</a> </div>
-                                </li>
-                                <li class="more"> <a href="/product/search.html?level=1&cid1=1022" target="_blank" webtrekkparam="{ct:'dh2_pj_more'}"> <i class="fonticon fonticon-circle-right"></i> 更多 </a> </li>
-                            </ul>
-                        </div>
-                        <!-- /5、配件 -->
-                    </div>
-                    <!-- 配件广告位 开始 -->
-                    <div class="popR">
-                        <ul class="piclist">
-                            <li> <a href="/product/products-pid-1007372.html" target="_blank" webtrekkparam="{ct:'dh2_pj_t1'}"><img alt="无线音箱" src="__STATIC__/picture/83950f89246a4c1ab3ce7d08545dd707.gif"> </a> </li>
-
-                        </ul>
-                    </div>
-                    <!-- 配件广告位 结束 -->
-                </div>
-                <!-- /配件 -->
-                <!-- 娱乐周边 -->
-                <div class="popBox popStyle1 popBox6" data-index="6">
+                {foreach $level1 as $lev}
+                <div class="popBox popStyle1 popBox6" data-index="{$lev['id']}">
                     <div class="popL">
                         <!-- 6、娱乐周边 -->
                         <div class="popLcen">
+
                             <ul class="list_pictext_3 ul3 clearfix">
+                            {if !empty($product[$lev['id']][0])}
+                                {foreach $product[$lev['id']][0] as $pdt}
                                 <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid1=1043&cid2=300406" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz_pic'}"><img  alt="迪士尼公主"  src="__STATIC__/picture/20170331-6c7219e2-be29-484c-abf8-168d3ac2d372.jpg"/></a></div>
+                                    <div class="pic"><a href="{:url('index/shop/details',['goodsid'=>$pdt['goods_id']])}" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz_pic'}"><img  alt="{$pdt['goods_name']}"  src="{$pdt['original_img']}"/></a></div>
                                     <div class="text">
-                                        <div class="title clearfix"><a href="/product/search.html?level=1&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid1=1043&cid2=300406" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz'}">迪士尼公主 </a></div>
+                                        <div class="title clearfix"><a href="{:url('index/shop/details',['goodsid'=>$pdt['goods_id']])}" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz'}">{$pdt['goods_name']|mb_substr=0,5}</a></div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&keyword=%E8%90%8C%E8%B6%A3%E8%B6%A3&event_action=32&event_category=83&suggestId=10567622560316472591&moduleName=suggest_list&clickArea=search_button&action_code=0" target="_blank" webtrekkparam="{ct:'dh2_ylzb_mqq_pic'}"><img  alt="萌趣趣"  src="__STATIC__/picture/20161214-a4f39499-1d45-4217-a82f-0410ae7ff9c3.jpg"/></a></div>
-                                    <div class="text">
-                                        <div class="title clearfix"><a href="/product/search.html?level=1&keyword=%E8%90%8C%E8%B6%A3%E8%B6%A3&event_action=32&event_category=83&suggestId=10567622560316472591&moduleName=suggest_list&clickArea=search_button&action_code=0" target="_blank" webtrekkparam="{ct:'dh2_ylzb_mqq'}">萌趣趣 <i class="Licon_15 icon-word_new"></i></a></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300494" target="_blank" webtrekkparam="{ct:'dh2_ylzb_cjfx_pic'}"><img  alt="超级飞侠"  src="__STATIC__/picture/959c5da02b0c44b6b7d284ffc5ce150a.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300494" target="_blank" webtrekkparam="{ct:'dh2_ylzb_cjfx'}">超级飞侠</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&ref=cn:cn:sale:jzgwj:184&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300491" target="_blank" webtrekkparam="{ct:'dh2_ylzb_xcm_pic'}"><img  alt="熊出没"  src="__STATIC__/picture/8924ab5e16ca4306828245c437ae8c8a.gif"/></a></div>
-                                    <div class="text">
-                                        <div class="title clearfix"><a href="/product/search.html?level=1&cid1=1043&ref=cn:cn:sale:jzgwj:184&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300491" target="_blank" webtrekkparam="{ct:'dh2_ylzb_xcm'}">熊出没 <i class="Licon_15 icon-word_new"></i></a></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&ref=cn:cn:sale:jzgwj:184&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300488" target="_blank" webtrekkparam="{ct:'dh2_ylzb_jj_pic'}"><img  alt="爵迹"  src="__STATIC__/picture/a9ccc3bd77594db38513552982064cd2.gif"/></a></div>
-                                    <div class="text">
-                                        <div class="title clearfix"><a href="/product/search.html?level=1&cid1=1043&ref=cn:cn:sale:jzgwj:184&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300488" target="_blank" webtrekkparam="{ct:'dh2_ylzb_jj'}">爵迹</a></div>
-                                    </div>
-                                </li>
+                                {/foreach}
+                            {/if}
                             </ul>
+
                             <ul class="list_pictext_3 ul3 clearfix">
+                            {if !empty($product[$lev['id']][1])}
+                                {foreach $product[$lev['id']][1] as $pdt}
                                 <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&cid2=300220" target="_blank" webtrekkparam="{ct:'dh2_ylzb_bxjg_pic'}"><img  alt="变形金刚" src="__STATIC__/picture/28641c6623db414bab291d97a7756613.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&cid1=1043&cid2=300220" target="_blank" webtrekkparam="{ct:'dh2_ylzb_bxjg'}">变形金刚 <i class="Licon_15 icon-word_hot"></i></a></div>
+                                    <div class="pic"><a href="{:url('index/shop/details',['goodsid'=>$pdt['goods_id']])}" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz_pic'}"><img  alt="{$pdt['goods_name']}"  src="{$pdt['original_img']}"/></a></div>
+                                    <div class="text">
+                                        <div class="title clearfix"><a href="{:url('index/shop/details',['goodsid'=>$pdt['goods_id']])}" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz'}">{$pdt['goods_name']|mb_substr=0,5}</a></div>
+                                    </div>
                                 </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=2&cid2=20046" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsn_pic'}"><img  alt="迪士尼" src="__STATIC__/picture/cb1232d3afc6464291447ae88bac038c.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=2&cid2=20046" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsn'}">迪士尼 <i class="Licon_15 icon-word_hot"></i></a></div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300497" target="_blank" webtrekkparam="{ct:'dh2_ylzb_kjrs_pic'}"><img  alt="铠甲勇士"  src="__STATIC__/picture/962363358ca044b599b724e1bae8a34c.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300497" target="_blank" webtrekkparam="{ct:'dh2_ylzb_kjrs'}">铠甲勇士</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300503" target="_blank" webtrekkparam="{ct:'dh2_ylzb_abyyewj_pic'}"><img  alt="澳贝婴幼儿玩具"  src="__STATIC__/picture/4d629371979141179d06d4b311f7f4d2.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300503" target="_blank" webtrekkparam="{ct:'dh2_ylzb_abyyewj'}">澳贝婴幼儿玩具</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&ref=cn:cn:sale:jzgwj:184&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300426" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dmbj_pic'}"><img  alt="盗墓笔记"  src="__STATIC__/picture/17f225b2b9574174a39a75e79d9d3f78.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&cid1=1043&ref=cn:cn:sale:jzgwj:184&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300426" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dmbj'}">盗墓笔记</a> </div>
-                                </li>
+                                {/foreach}
+                            {/if}
                             </ul>
+
                             <ul class="list_pictext_3 ul3 clearfix">
+                            {if !empty($product[$lev['id']][2])}
+                                {foreach $product[$lev['id']][2] as $pdt}
                                 <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=20047" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dlam_pic'}"><img  alt="哆啦A梦"  src="__STATIC__/picture/1602558dfbb34449a3df43fa09a870c3.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=20047" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dlam'}">哆啦A梦</a> </div>
+                                    <div class="pic"><a href="{:url('index/shop/details',['goodsid'=>$pdt['goods_id']])}" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz_pic'}"><img  alt="{$pdt['goods_name']}"  src="{$pdt['original_img']}"/></a></div>
+                                    <div class="text">
+                                        <div class="title clearfix"><a href="{:url('index/shop/details',['goodsid'=>$pdt['goods_id']])}" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz'}">{$pdt['goods_name']|mb_substr=0,5}</a></div>
+                                    </div>
                                 </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300193" target="_blank" webtrekkparam="{ct:'dh2_ylzb_xbx_pic'}"><img  alt="熊本熊"  src="__STATIC__/picture/d84cc01e6de644bbafcb5513c57c3509.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300193" target="_blank" webtrekkparam="{ct:'dh2_ylzb_xbx'}">熊本熊</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=1&cid1=1043&ref=cn:cn:sale:jzgwj:184&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300223" target="_blank" webtrekkparam="{ct:'dh2_ylzb_mgdz_pic'}"><img  alt="美国队长"  src="__STATIC__/picture/442fe356efc446a9ae80accc9dbe7cf2.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=1&cid1=1043&ref=cn:cn:sale:jzgwj:184&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300223" target="_blank" webtrekkparam="{ct:'dh2_ylzb_mgdz'}">美国队长</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/search.html?level=2&cid2=300199&ref=cn:cn:sale:jzgwj:163" target="_blank" webtrekkparam="{ct:'dh2_ylzb_fkdwc_pic'}"><img  alt="疯狂动物城"  src="__STATIC__/picture/17f9b0beafd2410089df2d6c7cfe9014.gif"/></a></div>
-                                    <div class="text"> <a href="/product/search.html?level=2&cid2=300199&ref=cn:cn:sale:jzgwj:163" target="_blank" webtrekkparam="{ct:'dh2_ylzb_fkdwc'}">疯狂动物城</a> </div>
-                                </li>
-                                <li class="more"> <a href="/product/search.html?level=1&cid1=1043" target="_blank" webtrekkparam="{ct:'dh2_ylzb_more'}"> <i class="fonticon fonticon-circle-right"></i> 更多 </a> </li>
+                                {/foreach}
+                            {/if}
                             </ul>
+
+                            <ul class="list_pictext_3 ul3 clearfix">
+                            {if !empty($product[$lev['id']][3])}
+                                {foreach $product[$lev['id']][3] as $pdt}
+                                <li>
+                                    <div class="pic"><a href="{:url('index/shop/details',['goodsid'=>$pdt['goods_id']])}" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz_pic'}"><img  alt="{$pdt['goods_name']}"  src="{$pdt['original_img']}"/></a></div>
+                                    <div class="text">
+                                        <div class="title clearfix"><a href="{:url('index/shop/details',['goodsid'=>$pdt['goods_id']])}" target="_blank" webtrekkparam="{ct:'dh2_ylzb_dsngz'}">{$pdt['goods_name']|mb_substr=0,5}</a></div>
+                                    </div>
+                                </li>
+                                {/foreach}
+                            {/if}
+
+                            </ul>
+
                         </div>
-                        <!-- 6、娱乐周边-->
                     </div>
                     <!-- 娱乐周边广告位 开始 -->
                     <div class="popR">
                         <ul class="piclist">
-                            <li>
+                            <!-- <li>
                                 <a href="/product/search.html?level=1&cid1=1043&event_action=38&event_category=83&moduleName=search_rst_page&clickArea=search_condition&action_code=0&cid2=300199" target="_blank" webtrekkparam="{ct:'dh2_ylzb_t1'}"><img alt="娱乐周边414导航" src="__STATIC__/picture/b523d93b71b547e7a0d6359f759f4a3a.gif"> </a>
-                            </li>
+                            </li> -->
+                            <li class="more"> <a href="{:url('index/shop/shopList',['cateid'=>$lev['id']])}" target="_blank" webtrekkparam="{ct:'dh2_ylzb_more'}"> <i class="fonticon fonticon-circle-right"></i> 更多 </a> </li>
                         </ul>
                     </div>
                     <!-- 娱乐周边广告位 结束 -->
+
                 </div>
-                <!-- /娱乐周边 -->
-                <!-- 体育周边 -->
-                <div class="popBox popStyle1 popBox7" data-index="7">
-                    <div class="popL">
-                        <!-- 7、体育周边 -->
-                        <div class="popLcen">
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li>
-                                    <div class="pic"><a href="/product/products-pid-1000149.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_cjzxc_pic'}"><img  alt="乐视超级自行车"  src="__STATIC__/picture/fa71ed542b2849559b1272fcd72af3e0.gif"/></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1000149.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_cjzxc'}">超级自行车</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/products-pid-1005224.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_ddhbc_pic'}"><img  alt="乐视电动滑板车"  src="__STATIC__/picture/25a34210dde848e5a83bfda4165f1f27.gif"/></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1005224.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_ddhbc'}">乐视电动滑板车</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/products-pid-1002699.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_geneydzbxj_pic'}"><img  alt="GENE运动直播相机"  src="__STATIC__/picture/557b2744a4094959be6a055e08e66329.gif"/></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1002699.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_geneydzbxj'}">GENE运动直播相机</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/products-pid-1005325.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_gene4kydzbxj_pic'}"><img  alt="GENE 4K运动直播相机"  src="__STATIC__/picture/d7b4cfec1e8f4f6f86d05cab1142a2bc.gif"/></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1005325.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_gene4kydzbxj'}">GENE 4K运动直播相机</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/products-pid-1005327.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_genezpbl_pic'}"><img  alt="GENE自拍伴侣"  src="__STATIC__/picture/bf840bd0865d4a70bd30a28b6416bc03.gif"/></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1005327.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_genezpbl'}">GENE自拍伴侣</a> </div>
-                                </li>
-                            </ul>
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li>
-                                    <div class="pic"><a href="/product/products-pid-1001775.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_djjl4wrj_pic'}"><img alt="大疆精灵4无人机" src="__STATIC__/picture/325c4b9b53d442d79b978e2c067cf33c.gif" /></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1001775.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_djjl4wrj'}">大疆精灵4无人机</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/products-pid-1002057.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_garminydpbwb_pic'}"><img alt="GARMIN运动跑步腕表" src="__STATIC__/picture/cddf14df1d7c44aab3dc5a9698e920af.gif" /></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1002057.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_garminydpbwb'}">GARMIN运动跑步腕表</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="/product/products-pid-1003973.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_nsjsamy_pic'}"><img alt="南山颈舒按摩仪" src="__STATIC__/picture/6af072a6c71149e18353fc92e34feaf4.gif" /></a></div>
-                                    <div class="text"> <a href="/product/products-pid-1003973.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_nsjsamy'}">南山颈舒按摩仪</a> </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /7、体育周边 -->
-                    </div>
-                    <!-- 体育广告位 开始 -->
-                    <div class="popR">
-                        <ul class="piclist">
-                            <li> <a href="http://www.lemall.com/product/products-pid-1005224.html" target="_blank" webtrekkparam="{ct:'dh2_tyzb_t1'}"><img alt="乐视滑板车品类" src="__STATIC__/picture/18e4e0c24f2c43198b1a09ce760699a2.gif"> </a> </li>
-                        </ul>
-                    </div>
-                    <!-- 体育广告位 结束 -->
-                </div>
-                <!-- /体育周边 -->
-                <!-- 网酒网 -->
-                <div class="popBox popStyle1 popBox8" data-index="8">
-                    <div class="popL">
-                        <!-- 8、网酒优选 -->
-                        <div class="popLcen">
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li>
-                                    <div class="pic"><a href="http://t.cn/RJDPhwn" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_rmbbuy_pic'}"><img alt="入门必BUY"  src="__STATIC__/picture/20170215-5c4ffb75-bef8-4119-9d1e-24bb75d17057.png"/></a>
-                                    </div>
-                                    <div class="text"> <a href="http://t.cn/RJDPhwn" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_rmbbuy'}">入门必BUY</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="http://t.cn/R5u9QXP" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_wpdd_pic'}"><img  alt="玩啤到底"  src="__STATIC__/picture/bc29a75c068a408c96ea46aa92ce32fd.gif"/></a></div>
-                                    <div class="text"> <a href="http://t.cn/R5u9QXP" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_wpdd'}">玩“啤”到底</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="http://t.cn/R5u9QS9" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_szjj_pic'}"><img  alt="宿醉计划"  src="__STATIC__/picture/7aedee5c565042a18ea50e91038417ab.gif"/></a></div>
-                                    <div class="text"> <a href="http://t.cn/R5u9QS9" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_szjj'}">宿醉“计划”</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="http://t.cn/R5u9QKg" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_nsdndxjj_pic'}"><img  alt="女生的那点小酒酒"  src="__STATIC__/picture/8880fc73760a4ea88816063506139d6b.gif"/></a></div>
-                                    <div class="text"> <a href="http://t.cn/R5u9QKg" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_nsdndxjj'}">女生的那点“小酒酒”</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="http://t.cn/R5u9Q0t" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_yqyd_pic'}"><img  alt="洋腔洋调"  src="__STATIC__/picture/fb11602e66244750a2e841c406ca72be.gif"/></a></div>
-                                    <div class="text"> <a href="http://t.cn/R5u9Q0t" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_yqyd'}">洋腔洋调</a> </div>
-                                </li>
-                            </ul>
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li>
-                                    <div class="pic"><a href="http://t.cn/RJDPMsN" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_mzll_pic'}"><img  alt="名庄来了"  src="__STATIC__/picture/20170215-c0881cf6-8039-43fa-8fd2-ddd9af12b57d.png"/></a></div>
-                                    <div class="text"> <a href="http://t.cn/RJDPMsN" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_mzll'}">名庄来了</a> </div>
-                                </li>
+                {/foreach}
 
 
-                                <li>
-                                    <div class="pic"><a href="http://t.cn/RJDPofY" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_zghgch_pic'}"><img  alt="做个合格吃货"  src="__STATIC__/picture/20170215-00fcaa8a-2db7-4f97-8e81-879ac813c5a7.png"/></a></div>
-                                    <div class="text"> <a href="http://t.cn/RJDPofY" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_zghgch'}">做个合格吃货</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic"><a href="http://t.cn/RJDPCKa" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_khcy_pic'}"><img  alt="开怀畅饮"  src="__STATIC__/picture/20170215-127886e7-97a3-4ee3-8930-8459bc10c150.png"/></a></div>
-                                    <div class="text"> <a href="http://t.cn/RJDPCKa" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_wjw_khcy'}">开怀畅饮</a> </div>
-                                </li>
-                                <li class="more"> <a href="http://www.wangjiu.com/" target="_blank" webtrekkparam="{ct:'dh2_wjw_more'}"> <i class="fonticon fonticon-circle-right"></i> 更多 </a> </li>
-                            </ul>
-                        </div>
-                        <!-- /8、网酒优选 -->
-                    </div>
-                    <!-- 网酒广告位 开始 -->
-                    <div class="popR">
-                        <ul class="piclist">
-                            <li> <a href="http://www.wangjiu.com/ztyzhengxianggoux.html?cps_id=lemall" target="_blank" webtrekkparam="{ct:'dh2_wjw_t1'}"><img alt="骄洋正好" src="__STATIC__/picture/2f6075c9338f4162a4587e62b4551ae7.gif"> </a> </li>
-                        </ul>
-                    </div>
-                    <!-- 网酒广告位 结束 -->
-                </div>
-                <!-- /网酒网 -->
-                <!-- 金融 -->
-                <div class="popBox popStyle1 popBox9" data-index="9">
-                    <div class="popL">
-                        <!-- 9、金融 -->
-                        <div class="popLcen">
-                            <ul class="list_pictext_3 ul3 clearfix">
-                                <li>
-                                    <div class="pic">
-                                        <a href="https://jr.lemall.com/finance/index.html?src=11070221&source=11070221" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_jr_lcyx_pic'}"><img alt="理财优选" src="__STATIC__/picture/20161214-8f0d6c01-4c11-40e7-99ba-34cea12f6d1c.png" /></a>
-                                    </div>
-                                    <div class="text"> <a href="https://jr.lemall.com/finance/index.html?src=11070221&source=11070221" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_jr_lcyx'}">理财优选</a> </div>
-                                </li>
-                                <li>
-                                    <div class="pic">
-                                        <a href="https://jr.letv.com/leplatformweb/myloan.html?src=11070230&source=11070230" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_jr_xffq_pic'}"><img alt="消费分期" src="__STATIC__/picture/20161214-7baa41ed-a157-44b0-a6b8-57b73a1a270c.png" /></a>
-                                    </div>
-                                    <div class="text"> <a href="https://jr.letv.com/leplatformweb/myloan.html?src=11070230&source=11070230" target="_blank" rel="nofollow" webtrekkparam="{ct:'dh2_jr_xffq'}">消费分期</a> </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /9、金融 -->
-                    </div>
-                    <!-- 金融广告位 开始 -->
-                    <div class="popR">
-                        <ul class="piclist">
-                            <li> <a href="https://jr.lemall.com/finance/xianjinquan.html?source= 41070201" target="_blank" webtrekkparam="{ct:'dh2_jr_t1'}"><img alt="现金券任性送" src="__STATIC__/picture/99a4ba6af8834c7d9bfb1bca47dcfed3.gif"> </a> </li>
-                        </ul>
-                        <!-- 金融广告位 结束 -->
-                    </div>
-                </div>
-                <!-- /金融 -->
+
             </div>
         </div>
         <div class="navKeyword1">
             <ul class="clearfix">
-                <li><a target="_blank"  href="/leshivip/index.html?alys_id=top" webtrekkparam="{ct:'syspvip'}">乐视会员</a></li>
-                <!-- <li><a href="/ticket.html?alys_id=top" target="_blank">电影票务</a></li> -->
-                <li><a href="/huishou.html?alys_id=top" target="_blank" webtrekkparam="{ct:'sysphx'}">以旧换新</a></li>
-                <li><a href="http://bbs.letv.com/?alys_id=top" target="_blank" webtrekkparam="{ct:'syspsq'}">乐迷社区</a></li>
-                <li><a href="/lesee/pro.html?alys_id=top" target="_blank" webtrekkparam="{ct:'syspqc'}">超级汽车</a></li>
+            {foreach $hotCate as $hc}
+                <li><a target="_blank"  href="{:url('index/shop/shopList',['cateid'=>$hc['id']])}" webtrekkparam="{ct:'syspvip'}">{$hc['name']}</a></li>
+            {/foreach}
             </ul>
         </div>
-        <div class="navKeyword2">
-            <ul class="clearfix">
-                <li><a target="_blank" href="/biyibi/" webtrekkparam="{ct:'syspb'}">比一比 </a></li>
-                <li><a target="_blank" href="/wenwen/" webtrekkparam="{ct:'syspw'}">问一问 </a></li>
-            </ul>
-        </div>
+
     </div>
 </div>
     <!-- /头部导航 -->
@@ -786,105 +297,58 @@ function nav_shopall(obj) {
                               <!-- 5块图片广告 开始 -->
                               <div class="P_index_0_3">
                                   <ul class="list_pic_1 clearfix">
+                                    {foreach $hotData as $htd}
                                       <li>
-                                          <a href="/cn/phone/lepro3.html" target="_blank" webtrekkparam="{ct:'syspdf_1'}"><img alt="乐Pro3豆腐块" src="__STATIC__/picture/3550030d1e3b4c69add071b48f07a442.gif"></a>
+                                          <a href="{:url('index/shop/details', ['goodsid' => $htd['goods_id']])}" target="_blank" webtrekkparam="{ct:'syspdf_1'}"><img alt="{$htd['goods_name']}" src="{$htd['original_img']}" style="width:147px;"></a>
                                       </li>
-                                      <li>
-                                          <a href="/chao4/x43.html" target="_blank" webtrekkparam="{ct:'syspdf_2'}"><img alt="超4 X43豆腐块" src="__STATIC__/picture/f8075ccf132b46fc9f2685efa8e06c11.gif"></a>
-                                      </li>
-                                      <li>
-                                          <a href="/product/products-pid-1002974-sku-400501000039.html" target="_blank" webtrekkparam="{ct:'syspdf_3'}"><img alt="运动蓝牙耳机豆腐块" src="__STATIC__/picture/1989a93274364dbaaa6927317ce1f6b0.gif"></a>
-                                      </li>
-                                      <li>
-                                          <a href="/cn/sale/wuyuehy.html" target="_blank" webtrekkparam="{ct:'syspdf_4'}"><img alt="51会员豆腐块" src="__STATIC__/picture/99d9ab59b0584c0ca87ab1bd86adf911.gif"></a>
-                                      </li>
-                                      <li>
-                                          <a href="/product/products-pid-1000243.html" target="_blank" webtrekkparam="{ct:'syspdf_5'}"><img alt="3D摄像头d" src="__STATIC__/picture/006dfd2203c943c4994c55580f6ee66b.gif"></a>
-                                      </li>
+                                    {/foreach}
                                   </ul>
                               </div>
                               <!-- 5块图片广告 结束 -->
                               <div class="P_index_0_4">
                 <div class="le_box_3 P_index_0_4a">
                     <div class="le_box_3_hd">
-                        <h3 class="mcl-1"><a class="more lcl-2" href="/toutiao/info.html" target="_blank" webtrekkparam="{ct:'sysptt_logo'}"><i class="Licon icon-tit_ecology"></i></a></h3><a class="more lcl-2" href="/toutiao/info.html" target="_blank" webtrekkparam="{ct:'sysptt_more'}">更多></a></div>
+                        <a class="more lcl-2" href="{:url('index/shop/shopList',['cateid'=>1])}" target="_blank" webtrekkparam="{ct:'sysptt_more'}">更多最新商品></a></div>
                     <div class="le_box_3_bd">
   <!-- /生态头条 图文列表 -->
                                           <ul class="list_pictext_7">
 
-
-
-                                              <li><a href="http://www.lemall.com/toutiao/info_details-id-3199.html" target="_blank" webtrekkparam="{ct:'sysptt_1'}"><span class="pic"><img alt="贾跃亭：历史转折！易到获北京首张C2C网约车牌照" src="__STATIC__/picture/8e8c07162b2c46b697f33936880e3a37.gif"></span><span class="text">贾跃亭：历史转折！易到获北京首张C2C网约车牌照</span></a></li>
-
-
-
-                                              <li><a href="http://www.lemall.com/toutiao/info_details-id-3202.html" target="_blank" webtrekkparam="{ct:'sysptt_2'}"><span class="pic"><img alt="超级电视生日快乐！5.16准备好迎接 4U 发布会的生日惊喜" src="__STATIC__/picture/2cd2b36f5cbd4bdeb8680f9a421d361c.gif"></span><span class="text">超级电视生日快乐！5.16准备好迎接 4U 发布会的生日惊喜</span></a></li>
-
-
-
+                                            {foreach $lastData as $ld}
+                                              <li><a href="{:url('index/shop/details',['goodsid'=>$ld['goods_id']])}" target="_blank" webtrekkparam="{ct:'sysptt_1'}"><span class="pic"><img alt="{$ld['goods_name']}" src="{$ld['original_img']}"></span><span class="text">{$ld['goods_name']|mb_substr=0,10}...</span></a></li>
+                                            {/foreach}
 
                                           </ul>
                                           <!-- 生态头条 文字列表 -->
-                                          <ul class="le_list_t5b">
 
-<li><a href="http://www.lemall.com/toutiao/info_details-id-3201.html" target="_blank" webtrekkparam="{ct:'sysptt_3'}"><span>贾跃亭这个月都在想些啥？这里有迹可循</span></a></li>
-
-
-
-<li><a href="http://www.lemall.com/toutiao/info_details-id-3200.html" target="_blank" webtrekkparam="{ct:'sysptt_4'}"><span>专访乐视4核心高管：乐视向死而生</span></a></li>
-
-
-
-<li><a href="http://www.lemall.com/toutiao/info_details-id-3186.html" target="_blank" webtrekkparam="{ct:'sysptt_5'}"><span>零派乐享：又没摇上号？分时租赁来了！</span></a></li>
-
-
-
-<li><a href="http://www.lemall.com/toutiao/info_details-id-3175.html" target="_blank" webtrekkparam="{ct:'sysptt_6'}"><span>AI技术起底 探秘乐Pro3双摄AI版乐乐语音助手 </span></a></li>
-
-                             </ul>
 
 
                     </div>
                 </div>
                 <div class="le_box_3 P_index_0_4b">
                     <div class="le_box_3_hd">
-                        <h3 class="mcl-1">商城公告</h3><a class="more lcl-2" href="/xinwen/zixun.html" target="_blank" webtrekkparam="{ct:'syspgg_more}'}">更多></a></div>
+                        <h3 class="mcl-1">商城公告</h3><a class="more lcl-2" href="#" target="_blank" webtrekkparam="{ct:'syspgg_more}'}">更多></a></div>
                     <div class="le_box_3_bd">
                       <ul class="le_list_t3 clearfix">
-
+                                            {foreach $lastArtical as $la}
                                               <li>
-                                                  <a href="/xinwen/zixunDetail-aid-355.html" target="_blank" webtrekkparam="{ct:'syspgg_1'}">【公告】电视安装服务费用标准</a>
+                                                  <a href="#" target="_blank" webtrekkparam="{ct:'syspgg_1'}">{$la['title']}</a>
                                               </li>
+                                            {/foreach}
 
-                                              <li>
-                                                  <a href="https://sojump.com/jq/12271279.aspx" target="_blank" webtrekkparam="{ct:'syspgg_2'}">【调研】乐视商城用户调研</a>
-                                              </li>
-
-                                              <li>
-                                                  <a href="/xinwen/zixunDetail-aid-354.html" target="_blank" webtrekkparam="{ct:'syspgg_3'}">【公告】414用户调研奖品发放通知</a>
-                                              </li>
-
-                                              <li>
-                                                  <a href="/xinwen/zixunDetail-aid-344.html" target="_blank" webtrekkparam="{ct:'syspgg_4'}">【公告】防诈骗声明</a>
-                                              </li>
                                                                        </ul>
 
                     </div>
                 </div>
                 <div class="le_box_3 P_index_0_4c">
                     <div class="le_box_3_hd">
-                        <h3 class="mcl-1">生活服务</h3></div>
+                        <h3 class="mcl-1">品牌认证</h3></div>
                     <div class="le_box_3_bd">
                         <ul class="list_life three clearfix">
+                                            {foreach $lastBrand as $lb}
                                               <li>
-                                                  <a href="/leshivip/lsyshy.html" target="_blank" webtrekkparam="{ct:'syspfw_2}'}"> <i class="Licon_36 icon-service_movies"> </i> <span class="text">影视会员</span></a>
+                                                  <a href="{:url('index/shop/shopList',['brand'=>$lb['id']])}" target="_blank" webtrekkparam="{ct:'syspfw_2}'}"> <div style="height:50px;"><img src="{$lb['logo']}" style="width:50px;height:25px;margin-top:15px;margin-left:8px;" /></div> <span class="text">{$lb['name']|mb_substr=0,5}</span></a>
                                               </li>
-                                              <li>
-                                                  <a href="/leshivip/lstyhy.html" target="_blank" webtrekkparam="{ct:'syspfw_3}'}"> <i class="Licon_36 icon-service_sports"> </i> <span class="text">体育会员</span></a>
-                                              </li>
-                                              <li>
-                                                  <a href="/game/pay.html" target="_blank" webtrekkparam="{ct:'syspfw_1}'}"> <i class="Licon_36 icon-service_game"> </i> <span class="text">游戏充值</span></a>
-                                              </li>
+                                            {/foreach}
                         </ul>
                     </div>
                 </div>
@@ -897,750 +361,91 @@ function nav_shopall(obj) {
           </div>
       </div>
       <!-- /0 -->
-      <!-- 1家居生活馆 -->
-      <a class="P_anchor" id="P_anchor_1" name="P_anchor_1"></a>
-      <div class="P_index_1" id="P_index_1">
-        <div class="le_tit_1 clearfix">
-            <h3 class="mcl-0"><i class="Licon_36 icon-ft36_daping"></i>家居生活馆</h3>
-        </div>
-          <div class="P_main clearfix">
-          <div class="list_commodity_3">
-                  <ul>
-                    <li class="li1Img">
-                        <a href="/cn/sale/tvzn.html" target="_blank" webtrekkparam="{ct:'dp_1'}">
 
-
-                            <img src="__STATIC__/picture/daa129dcbde44f4f8313ef6b49214d38.gif" alt="/cn/sale/tvzn.html"></a>
-                    </li>
-
-
-
-
-  <li class="li1">
-      <a href="/chao4/x55new.html" target="_blank" webtrekkparam="{ct:'dp_2'}">
-
-<div class="commodityIcon"><i class="le_icon1 le_icon1_1 le_icon1_big">热卖</i></div>
-          <div class="Box">
-              <div class="Pic"><img src="__STATIC__/picture/cc29ea99c6ba478ab94298b8b1b83172.gif" alt="/chao4/x55new.html"></div>
-              <div class="Text">
-                  <div class="name">超4 X55</div>
-                  <div class="config mcl-3">含1年超级影视会员</div>
-                  <div class="price">￥3889 起</div>
-              </div>
-          </div>
-      </a>
-  </li>
-
-
-
-  <li class="li1">
-      <a href="/chao4/x43.html" target="_blank" webtrekkparam="{ct:'dp_3'}">
-
-
-          <div class="Box">
-              <div class="Pic"><img src="__STATIC__/picture/95a0654ff31546f8b77c2dfa033e8799.gif" alt="/chao4/x43.html"></div>
-              <div class="Text">
-                  <div class="name">超4 X43</div>
-                  <div class="config mcl-3">含1年超级影视会员</div>
-                  <div class="price">￥2399 起</div>
-              </div>
-          </div>
-      </a>
-  </li>
-
-
-
-  <li class="li1">
-      <a href="/product/u4.html" target="_blank" webtrekkparam="{ct:'dp_4'}">
-
-
-          <div class="Box">
-              <div class="Pic"><img src="__STATIC__/picture/b85e223b6f174e87bc5f94386c560b67.gif" alt="/product/u4.html"></div>
-              <div class="Text">
-                  <div class="name">乐视盒子</div>
-                  <div class="config mcl-3">大屏生态第一步</div>
-                  <div class="price">￥349 起</div>
-              </div>
-          </div>
-      </a>
-  </li>
-
-
-
-  <li class="li2">
-      <a href="/chao4/x40.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'dp_5'}">
-
-
-          <div class="Box">
-              <div class="Pic"><img src="__STATIC__/picture/1f914f433a0a43359ac335d9edca3920.gif" alt="/chao4/x40.html"></div>
-              <div class="Text">
-                  <div class="name">超4 X40</div>
-                  <div class="price">￥2249 起</div>
-              </div>
-          </div>
-      </a>
-  </li>
-
-
-
-  <li class="li2">
-      <a href="/product/products-pid-1007372.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'dp_6'}">
-
-
-          <div class="Box">
-              <div class="Pic"><img src="__STATIC__/picture/debd4d6de4834b9eb23033e7bb18cd43.gif" alt="/product/products-pid-1007372.html"></div>
-              <div class="Text">
-                  <div class="name">乐视无线家庭音响</div>
-                  <div class="price">￥1299</div>
-              </div>
-          </div>
-      </a>
-  </li>
-
-
-
-  <li class="li2">
-      <a href="/product/products-pid-1003208.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'dp_7'}">
-
-
-          <div class="Box">
-              <div class="Pic"><img src="__STATIC__/picture/47f1e2dce2e1454abda9278e37583d70.gif" alt="/product/products-pid-1003208.html"></div>
-              <div class="Text">
-                  <div class="name">乐视三合一体感摄像头</div>
-                  <div class="price">￥899</div>
-              </div>
-          </div>
-      </a>
-  </li>
-
-
-
-  <li class="li2">
-      <a href="/product/products-pid-1002558.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'dp_8'}">
-
-
-          <div class="Box">
-              <div class="Pic"><img src="__STATIC__/picture/cf6197f1578544deac3465e575aa2148.gif" alt="/product/products-pid-1002558.html"></div>
-              <div class="Text">
-                  <div class="name">乐视体感手枪</div>
-                  <div class="price">￥299</div>
-              </div>
-          </div>
-      </a>
-  </li>
-
-
-
-  <li class="li3">
-      <div class="video">
-          <a href="/chao4max70.html?ref=cn:246" target="_blank" webtrekkparam="{ct:'dp_9'}">
-              <div class="Pic"><img src="__STATIC__/picture/67c5335936fd4877b2c117810068844d.gif" alt="/chao4max70.html?ref=cn:246"></div>
-              <div class="btminfo">超4 Max70</div>
-          </a>
-          <a href="javascript:void(0);" class="iconPlay le_icon icon-enlarg-gray" videoid= "24252601"  webtrekkparam="{ct:'dp_9_video'}"></a>
-      </div>
-  </li>
-
-                  </ul>
-              </div>
-          </div>
-      </div>
-      <!-- /1家居生活馆 -->
-      <!-- 2移动生活馆 -->
-      <a class="P_anchor" id="P_anchor_2" name="P_anchor_2"></a>
-      <div class="P_index_2" id="P_index_2">
-        <div class="le_tit_1 clearfix">
-          <h3 class="mcl-0"><i class="Licon_36 icon-ft36_mobile"></i>移动生活馆</h3>
-        </div>
-
-          <div class="P_main clearfix">
-            <div class="list_commodity_3">
-                <ul>
-                                    <li class="li1Img">
-                                        <a href="/cn/phone/lepro3/ai.html" target="_blank" webtrekkparam="{ct:'yd_1'}">
-
-
-                                            <img src="__STATIC__/picture/8b7cc569b9bb459f9683e1ae5e4b6086.gif" alt="/cn/phone/lepro3/ai.html"></a>
-                                    </li>
-
-
-
-
-
-                                        <li class="li1">
-                                            <a href="/cn/phone/lepro3.html" target="_blank" webtrekkparam="{ct:'yd_2'}">
-
-<div class="commodityIcon"><i class="le_icon1 le_icon1_1 le_icon1_big">热卖</i></div>
-                                                <div class="Box">
-                                                    <div class="Pic"><img src="__STATIC__/picture/e671f06cbd3c426c971d3f39d8f20c7d.gif" alt="/cn/phone/lepro3.html"></div>
-                                                    <div class="Text">
-                                                        <div class="name">乐Pro3 精英版</div>
-                                                        <div class="config mcl-3">直降200元</div>
-                                                        <div class="price">￥1499 起</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-
-
-
-                                        <li class="li1">
-                                            <a href="/cn/phone/cool1.html" target="_blank" webtrekkparam="{ct:'yd_3'}">
-
-
-                                                <div class="Box">
-                                                    <div class="Pic"><img src="__STATIC__/picture/15ad738ce4f84d12a407333d74cc4d36.gif" alt="/cn/phone/cool1.html"></div>
-                                                    <div class="Text">
-                                                        <div class="name">cool1 dual</div>
-                                                        <div class="config mcl-3">3+32G银直降200元</div>
-                                                        <div class="price">￥899起</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-
-
-
-                                        <li class="li1">
-                                            <a href="/product/products-pid-1000095.html" target="_blank" webtrekkparam="{ct:'yd_4'}">
-
-
-                                                <div class="Box">
-                                                    <div class="Pic"><img src="__STATIC__/picture/d294c34e99584f39b0f6cd875e395892.gif" alt="/product/products-pid-1000095.html"></div>
-                                                    <div class="Text">
-                                                        <div class="name">Leme耳机EB30</div>
-                                                        <div class="config mcl-3">音乐既能好听更能好看</div>
-                                                        <div class="price">￥99</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-
-
-
-                                        <li class="li2">
-                                            <a href="/coolchangers1.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'yd_5'}">
-
-
-                                                <div class="Box">
-                                                    <div class="Pic"><img src="__STATIC__/picture/6ae02b532f0d407eb1b255bb713be882.gif" alt="/coolchangers1.html"></div>
-                                                    <div class="Text">
-                                                        <div class="name">Cool S1</div>
-                                                        <div class="price">￥2599起</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-
-
-
-                                        <li class="li2">
-                                            <a href="/product/products-pid-1005126.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'yd_6'}">
-
-
-                                                <div class="Box">
-                                                    <div class="Pic"><img src="__STATIC__/picture/66055ef9d55e423c928251884d225a91.gif" alt="/product/products-pid-1005126.html"></div>
-                                                    <div class="Text">
-                                                        <div class="name">乐Pro3 双摄AI版钢化膜</div>
-                                                        <div class="price">￥29</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-
-
-
-                                        <li class="li2">
-                                            <a href="/product/products-pid-1000288.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'yd_7'}">
-
-
-                                                <div class="Box">
-                                                    <div class="Pic"><img src="__STATIC__/picture/df8a9e27255441f4b5c5ed57f5509614.gif" alt="/product/products-pid-1000288.html"></div>
-                                                    <div class="Text">
-                                                        <div class="name">乐视超级移动电源</div>
-                                                        <div class="price">￥99</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-
-
-
-                                        <li class="li2">
-                                            <a href="/product/products-pid-409900002875.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'yd_8'}">
-
-
-                                                <div class="Box">
-                                                    <div class="Pic"><img src="__STATIC__/picture/eb878e84dba248a9b6f17e454c515c83.gif" alt="/product/products-pid-409900002875.html"></div>
-                                                    <div class="Text">
-                                                        <div class="name">乐视反戴式耳机</div>
-                                                        <div class="price">￥39</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-
-
-
-
-                                    <li class="li3">
-                                        <div class="video">
-                                            <a href="/cn/phone/lepro3.html?ref=cn:67" target="_blank" webtrekkparam="{ct:'yd_9'}">
-                                                <div class="Pic"><img src="__STATIC__/picture/0a725b30c2314aae9fc7d1e90d0c805d.gif" alt="/cn/phone/lepro3.html?ref=cn:67"></div>
-                                                <div class="btminfo">乐Pro3</div>
-                                            </a>
-                                            <a href="javascript:void(0);" class="iconPlay le_icon icon-enlarg-gray" videoid="26605754" webtrekkparam="{ct:'yd_9_video'}"></a>
-                                        </div>
-                                    </li>
-
-                </ul>
-            </div>
-        </div>
-      </div>
-      <!-- /2移动生活馆 -->
-        <!-- 8配件 -->
-        <a class="P_anchor" id="P_anchor_8" name="P_anchor_8"></a>
+        {foreach $hotProduct as $htpKey=>$htpValue}
+        <!-- {$level1Name[$htpKey]} -->
+        <a class="P_anchor" id="P_anchor_{$htpKey}" name="P_anchor_{$htpKey}"></a>
         <div class="P_index_3" id="P_index_8">
           <div class="le_tit_1 clearfix">
-              <h3 class="mcl-0"><i class="Licon_36 icon-ft36_peijian"></i>精品配件馆</h3>
+              <h3 class="mcl-0"><i class="Licon_36 icon-ft36_peijian"></i>{$level1Name[$htpKey]}</h3>
           </div>
 
       <div class="P_main clearfix">
         <div class="list_commodity_3">
             <ul>
-
-
+                                    {if !empty($hotProduct[$htpKey][0])}
+                                    {foreach $hotProduct[$htpKey][0] as $htp1}
                                     <li class="li4">
-                                        <a href="/product/products-pid-1000799.html" target="_blank" webtrekkparam="{ct:'pj_1'}">
+                                        <a href="{:url('index/shop/details',['goodsid'=>$htp1['goods_id']])}" target="_blank" webtrekkparam="{ct:'pj_1'}">
 
 
                                             <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/1082f27fa6b04ad98a3e7a81aee29f83.gif" alt="/product/products-pid-1000799.html"></div>
+                                                <div class="Pic"><img src="{$htp1['original_img']}"></div>
                                                 <div class="Text">
-                                                    <div class="name">乐视超级无线音箱S</div>
-                                                    <div class="config mcl-3">提供不同寻常的视听享受</div>
-                                                    <div class="price">￥1499</div>
+                                                    <div class="name">{$htp1['goods_name']|mb_substr=0,10}</div>
+                                                    <div class="config mcl-3">{$htp1['goods_name']|mb_substr=10,30}</div>
+                                                    <div class="price">￥{$htp1['shop_price']}</div>
                                                 </div>
                                             </div>
                                         </a>
                                     </li>
+                                    {/foreach}
+                                    {/if}
 
 
 
-                                    <li class="li4">
-                                        <a href="/product/products-pid-1002974.html" target="_blank" webtrekkparam="{ct:'pj_2'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/a704338888ff477692b49af2249d992a.gif" alt="/product/products-pid-1002974.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视运动蓝牙耳机</div>
-                                                    <div class="config mcl-3">炫彩时尚 佩戴舒适 全身水洗</div>
-                                                    <div class="price">￥179</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-
-                                    <li class="li4">
-                                        <a href="/product/products-pid-1007372.html" target="_blank" webtrekkparam="{ct:'pj_3'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/1dd05a8fe4ed41f1b988e500e89071ca.gif" alt="/product/products-pid-1007372.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视无线家庭音响</div>
-                                                    <div class="config mcl-3">令人沉醉的影院级音质</div>
-                                                    <div class="price">￥1299</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-
+                                    {if !empty($hotProduct[$htpKey][1])}
+                                    {foreach $hotProduct[$htpKey][1] as $htp2}
                                     <li class="li2b">
-                                        <a href="/product/products-pid-1002722.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'pj_4'}">
+                                        <a href="{:url('index/shop/details',['goodsid'=>$htp2['goods_id']])}" target="_blank" class="lcl-1" webtrekkparam="{ct:'pj_4'}">
 
 
                                             <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/6698820ea9ed40fab98bbc24dc7f873c.gif" alt="/product/products-pid-1002722.html"></div>
+                                                <div class="Pic"><img src="{$htp2['original_img']}"></div>
                                                 <div class="Text">
-                                                    <div class="name">乐视智能麦克风</div>
-                                                    <div class="price">￥449</div>
+                                                    <div class="name">{$htp2['goods_name']|mb_substr=0,10}</div>
+                                                    <div class="price">￥{$htp2['shop_price']}</div>
                                                 </div>
                                             </div>
                                         </a>
                                     </li>
+                                    {/foreach}
+                                    {/if}
 
-
-
-                                    <li class="li2b">
-                                        <a href="/product/products-pid-1001393.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'pj_5'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/dda624c252c847eb861ef392e5c97ac0.gif" alt="/product/products-pid-1001393.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视固定挂架LS698SFP</div>
-                                                    <div class="price">￥69</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-
-                                    <li class="li2b">
-                                        <a href="/product/products-pid-1004078.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'pj_6'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/8a95d05d5bd74ca9ac1aeb973a55b350.gif" alt="/product/products-pid-1004078.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视超级遥控器3</div>
-                                                    <div class="price">￥199</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-
+                                    {if !empty($hotProduct[$htpKey][2])}
+                                    {foreach $hotProduct[$htpKey][2] as $htp3}
                                     <li class="li2">
-                                        <a href="/product/products-pid-1005493.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'pj_7'}">
+                                        <a href="{:url('index/shop/details',['goodsid'=>$htp3['goods_id']])}" target="_blank" class="lcl-1" webtrekkparam="{ct:'pj_7'}">
 
 
                                             <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/81b5ac25d0cf43068930f467d0c1fc28.gif" alt="/product/products-pid-1005493.html"></div>
+                                                <div class="Pic"><img src="{$htp3['original_img']}"></div>
                                                 <div class="Text">
-                                                    <div class="name">乐视头戴蓝牙耳机C50</div>
-                                                    <div class="price">￥399</div>
+                                                    <div class="name">{$htp3['goods_name']|mb_substr=0,10}</div>
+                                                    <div class="price">￥{$htp3['shop_price']}</div>
                                                 </div>
                                             </div>
                                         </a>
                                     </li>
-
-
-
-                                    <li class="li2">
-                                        <a href="/product/products-pid-1006599.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'pj_8'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/5eef2a76faaa4be9995e9418d5c143d3.gif" alt="/product/products-pid-1006599.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视蓝牙音箱SMART</div>
-                                                    <div class="price">￥149</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-
-                                    <li class="li2">
-                                        <a href="/product/products-pid-1001894.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'pj_9'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/8c32ca5b67e944c589e3b31ee8bd97f3.gif" alt="/product/products-pid-1001894.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视USB2.0 Type数据线</div>
-                                                    <div class="price">￥39</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-
-                                    <li class="li2">
-                                        <a href="/product/products-pid-400700000002.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'pj_10'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/4a1fc74696044fe4bb269f29adcd8faa.gif" alt="/product/products-pid-400700000002.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视无线游戏手柄 尚酷版</div>
-                                                    <div class="price">￥149</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-
-                                <li class="li3">
-                                    <div class="video">
-                                        <a href="/product/pocketartifact.html" target="_blank" webtrekkparam="{ct:'pj_11'}">
-                                            <div class="Pic"><img src="__STATIC__/picture/ff8c894ed4cb460990d50663658c086e.gif" alt="/product/pocketartifact.html"></div>
-                                            <div class="btminfo">乐视随身看</div>
-                                        </a>
-                                        <a href="javascript:void(0);" class="iconPlay le_icon icon-enlarg-gray" videoid="24936296" webtrekkparam="{ct:'pj_11_video'}"></a>
-                                    </div>
-                                </li>
-
+                                    {/foreach}
+                                    {/if}
             </ul>
         </div>
       </div>
         </div>
-        <!-- /8配件 -->
-      <!-- 3智能生活馆 -->
-      <a class="P_anchor" id="P_anchor_3" name="P_anchor_3"></a>
-        <div class="P_index_3" id="P_index_3">
-          <div class="le_tit_1 clearfix">
-              <h3 class="mcl-0"><i class="Licon_36 icon-ft36_yingjian"></i>智能生活馆</h3>
-          </div>
-
-      <div class="P_main clearfix">
-        <div class="list_commodity_3">
-            <ul>
-
-                                    <li class="li4">
-                                        <a href="/product/products-pid-1005180.html" target="_blank" webtrekkparam="{ct:'zn_1'}">
+        <!-- /{$level1Name[$htpKey]} -->
+        {/foreach}
 
 
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/f595275dc12048b2820994cc7a3ee584.gif" alt="/product/products-pid-1005180.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视路由器</div>
-                                                    <div class="config mcl-3">会员共享路由器</div>
-                                                    <div class="price">￥99</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
 
-
-                                    <li class="li4">
-                                        <a href="/product/products-pid-1003357.html" target="_blank" webtrekkparam="{ct:'zn_2'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/6390fa5b7c504b338ce43505efd4e59a.gif" alt="/product/products-pid-1003357.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐心 体脂称S7</div>
-                                                    <div class="config mcl-3">只为成就更完美的你</div>
-                                                    <div class="price">￥249</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                    <li class="li4">
-                                        <a href="/product/products-pid-1001138.html" target="_blank" webtrekkparam="{ct:'zn_3'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/c27db1bb471b4095bcee2c7bc29dea27.gif" alt="/product/products-pid-1001138.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视轻车机套装1S</div>
-                                                    <div class="config mcl-3">手机变车机 爱车秒升级</div>
-                                                    <div class="price">￥199</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                    <li class="li2b">
-                                        <a href="/product/products-pid-1002700.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'zn_4'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/9a03870276cb4adea29ca81826afae97.gif" alt="/product/products-pid-1002700.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">Kido  4G儿童智能手表</div>
-                                                    <div class="price">￥698</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                    <li class="li2b">
-                                        <a href="/product/products-pid-1000308.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'zn_5'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/e51b188857c14dcc864b319d6cb36c2b.gif" alt="/product/products-pid-1000308.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐小宝口袋动画屋1S</div>
-                                                    <div class="price">￥999</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                    <li class="li2b">
-                                        <a href="/product/products-pid-1003817.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'zn_6'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/dc607a671c29480ba8d0040cf5aa38b4.gif" alt="/product/products-pid-1003817.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">爱耳目高清夜视智能摄像头</div>
-                                                    <div class="price">￥259</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                    <li class="li2">
-                                        <a href="/product/products-pid-1000149.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'zn_7'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/05b3e68bb0264c5e89d0607873558ab1.gif" alt="/product/products-pid-1000149.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">超级自行车</div>
-                                                    <div class="price">￥3999起</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                    <li class="li2">
-                                        <a href="/product/products-pid-1001516.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'zn_8'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/ba10808d7b794cdabd070df2c59e8369.gif" alt="/product/products-pid-1001516.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">新游智能游戏手柄</div>
-                                                    <div class="price">￥138</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                    <li class="li2">
-                                        <a href="/product/products-pid-1005224.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'zn_9'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/8442bf28ef2d4fbcb839be17683b207c.gif" alt="/product/products-pid-1005224.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">乐视电动滑板车</div>
-                                                    <div class="price">￥1599</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                    <li class="li2">
-                                        <a href="/product/products-pid-1007344.html" target="_blank" class="lcl-1" webtrekkparam="{ct:'zn_10'}">
-
-
-                                            <div class="Box">
-                                                <div class="Pic"><img src="__STATIC__/picture/14d72fec816449899de551ae7a997aea.gif" alt="/product/products-pid-1007344.html"></div>
-                                                <div class="Text">
-                                                    <div class="name">手机自拍杆支架麦克风</div>
-                                                    <div class="price">￥199</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                <li class="li3">
-                                    <div class="video">
-                                        <a href="/product/router.html" target="_blank" webtrekkparam="{ct:'zn_11'}">
-                                            <div class="Pic"><img src="__STATIC__/picture/776799ba113c4bf99d3c2d839bca9d67.gif" alt="/product/router.html"></div>
-                                            <div class="btminfo">乐视路由器</div>
-                                        </a>
-                                        <a href="javascript:void(0);" class="iconPlay le_icon icon-enlarg-gray" videoid="24385714" webtrekkparam="{ct:'zn_11_video'}"></a>
-                                    </div>
-                                </li>
-
-            </ul>
-        </div>
-      </div>
-    </div>
-      <!-- /3智能生活馆 -->
-
-      <!-- 5金融理财馆 -->
-      <a class="P_anchor" id="P_anchor_5" name="P_anchor_5"></a>
-      <div class="P_index_5" id="P_index_5">
-        <div class="le_tit_1 clearfix">
-            <h3 class="mcl-0"><i class="Licon_36 icon-ft36_jinrong"></i>金融理财馆</h3>
-        </div>
-      <div class="P_main clearfix">
-
-
-              <!-- 金融理财列表 -->
-              <div class="P_index_5_1">
-                  <ul class="list_pic_1 clearfix">
-                      <li>
-                          <a href="https://jr.letv.com/leplatformweb/myloan.html?src=11070230&source=11070230" target="_blank" webtrekkparam="{ct:'jr_1'}"><img src="__STATIC__/picture/a3b6dde62226450ebb6fcf3d7b7c3822.gif" alt=""></a>
-                      </li>
-
-                      <li>
-                          <a href="https://jr.lemall.com/leplatformweb/hqlicai.html" target="_blank" webtrekkparam="{ct:'jr_2'}"><img src="__STATIC__/picture/055845fb02cd4f4dbe107213eb56e975.gif" alt=""></a>
-                      </li>
-
-                      <li>
-                          <a href="https://jr.lemall.com/tradecenter/index.html?src=15070229&source=15070229" target="_blank" webtrekkparam="{ct:'jr_3'}"><img src="__STATIC__/picture/4ed9bbc311a34e3284abd461702fc274.gif" alt=""></a>
-                      </li>
-
-                      <li>
-                          <a href="https://jr.lemall.com/finance/xianjinquan.html?source=2041070202" target="_blank" webtrekkparam="{ct:'jr_4'}"><img src="__STATIC__/picture/e06462e055224e7ba833fb7ddb111aca.gif" alt=""></a>
-                      </li>
-                                         </ul>
-              </div>
-
-          <!-- /金融理财列表 -->
-      </div>
-      </div>
-      <!-- 5金融理财馆-->
-      <!-- 主题场馆 -->
-      <div class="P_cols clearfix P_index_7" id="P_index_7">
-          <div class="le_tit_1 clearfix">
-              <h3 class="mcl-0"><i class="Licon_36 icon-ft36_jidong"></i>主题场馆</h3>
-          </div>
-          <div class="list_pictext_2">
-              <ul class="list_pic_1 clearfix">
-                  <li>
-                      <a href="/cn/sale/transformers.html" target="_blank" class="lcl-7" webtrekkparam="{ct:'zt_1'}"><span class="pic"><img alt="汽车人体验馆" src="__STATIC__/picture/44aadf7203624c4981feba0622a294ad.gif"></span><span class="text">汽车人体验馆</span></a>
-                  </li>
-
-                  <li>
-                      <a href="/cn/sale/dsntyg.html" target="_blank" class="lcl-7" webtrekkparam="{ct:'zt_2'}"><span class="pic"><img alt="迪士尼体验馆" src="__STATIC__/picture/5e972d577dfd4d4f99e7de6e527ba244.gif"></span><span class="text">迪士尼体验馆</span></a>
-                  </li>
-                                 </ul>
-          </div>
-      </div>
-  <!-- 主题场馆 -->
       <!-- 左侧导航 -->
       <div class="le_navigation" id="le_navigation">
           <ul>
-              <li><a href="#P_anchor_1" class="bg1" point="P_index_1"><span class="text">家居<br>
-        大屏</span></a></li>
-              <li><a href="#P_anchor_2" class="bg2" point="P_index_2"><span class="text">移动<br>
-        生活</span></a></li>
-                <li><a href="#P_anchor_8" class="bg8" point="P_index_8"><span class="text">精品<br>配件
-      </span></a></li>
-              <li><a href="#P_anchor_3" class="bg3" point="P_index_3"><span class="text">智能<br>
-        生活</span></a></li>
-              <li><a href="#P_anchor_5" class="bg5" point="P_index_5"><span class="text">金融<br>
-        理财</span></a></li>
-              <li><a href="#P_anchor_7" class="bg7" point="P_index_7"><span class="text">主题<br>
-        场馆</span></a></li>
+            {foreach $hotProduct as $htpKey2=>$htpValue2}
+
+              <li><a href="#P_anchor_{$htpKey2}" ><span class="text">{$level1Name[$htpKey2]|mb_substr=0,3}<br>
+        {$level1Name[$htpKey]|mb_substr=3,2}</span></a></li>
+            {/foreach}
           </ul>
       </div>
       <!-- /左侧导航 -->

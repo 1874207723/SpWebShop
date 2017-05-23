@@ -199,6 +199,14 @@
                             }
                             $('#showcartgoods').append("<p id='goodscount'>共 "+ orderdetail.totalNumber +" 件商品</p><p id='sumpirce'>"+ parseInt(orderdetail.totalAmount) +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
 
+                            $('#cartcar').on('mouseenter',function () {
+                                    $('#showcartgoods').show(400);
+                               });
+
+                              $('#showcartgoods').on('mouseleave',function () {
+                                   $('#showcartgoods').hide(400);
+                              });
+
                             layer.alert('添加成功',{'icon':1});
                         }
 

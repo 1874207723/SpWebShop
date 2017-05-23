@@ -89,8 +89,9 @@ class Base extends Controller
 	//登陆界面
 	public function admin_login ()
 	{
-		Db::name('admin')->update(['last_login' => time(),'last_ip' => request()->ip(),'admin_id' => session('admin_uid')]);
-		session('admin_uid',null);
+		if (!empty(session('admin_uid'))) {
+			Db::name('admin')->update(['last_login' => time(),'last_ip' => request()->ip(),'admin_id' => session('admin_uid')]);
+		}
 		return $this->fetch('user/admin_login');
 	}
 
