@@ -33,7 +33,7 @@ use think\Db;
 use app\admin\model\Goods;
 class Article extends Base
 {
-	
+
 	public function articleList ()
 	{
 		$list = Db::name('article')->paginate(10);
@@ -78,7 +78,7 @@ class Article extends Base
 	//新增公告
 	public function addArticle ()
 	{
-		
+
 		return $this->fetch();
 	}
 
@@ -141,7 +141,7 @@ class Article extends Base
 		$res = Db::name('sysmsg')->insert(['message' => '商家给您的评论回复了~快去查看吧','uid' => $data['user_id'],'type' => 0]);
 		if ($res && $res) {
 			$this->setAdminLog('回复用户评论');
-			$this->success('回复用户成功',url('article/comment_id'));
+			$this->success('回复用户成功',url('article/comment'));
 		} else {
 			$this->error('回复用户失败');
 		}
@@ -156,4 +156,4 @@ class Article extends Base
 	}
 
 }
- 
+
