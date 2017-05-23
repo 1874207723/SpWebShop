@@ -21,6 +21,7 @@
 <script type = "text/javascript" src="__STATIC__/js/le.vue.js"></script>
 <script type = "text/javascript" src="__STATIC__/js/le.static.constant.js"></script>
 <script type = "text/javascript" src="__STATIC__/js/shopCart.js"></script>
+<script type = "text/javascript" src="__STATIC__/js/autocomplete_new.js"></script>
 
 <!-- 中林项目 -->
 <link rel="stylesheet" type="text/css" href="__STATIC__/css/style.css" />
@@ -285,22 +286,28 @@ function le_navigation(par, li, arr, arr_tit, Complete) {
                 })
               //如果session不存在，从shoreage中提取信息，展示。
               } else {
-                var pdtlist=cart.getproductlist();
+                if (utils.getParam("ShoppingCart") != null) {
 
+                  var pdtlist=cart.getproductlist();
+                  $('#productNumInCart').html(pdtlist.length);
 
-                function skipto()
+                  $('#showcartgoods').empty();
+                  for (var p in pdtlist) {
+                    $('#showcartgoods').append("<li><div><img src='"+ pdtlist[p].image +"' style='width:30%;' /> <p  id='goodsinfo'>"+ pdtlist[p].name +"<br />"+ pdtlist[p].spec +"</p><p id='price'>"+ pdtlist[p].price +"元 x "+ pdtlist[p].num +"</p></div></li>")
+                  }
+                  $('#showcartgoods').append("<p id='goodscount'>共 "+ orderdetail.totalNumber +" 件商品</p><p id='sumpirce'>"+ f(orderdetail.totalAmount,2) +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+
+                } else {
+                  $('#productNumInCart').html("0");
+                  $('#showcartgoods').empty();
+                  $('#showcartgoods').append("<p id='goodscount'>共 "+ 0 +" 件商品</p><p id='sumpirce'>"+ 0 +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+                }
+              }
+
+              function skipto()
                 {
                   window.location.href="http://www.wntp.com/index/shop/shopcart";
                 }
-
-                $('#productNumInCart').html(pdtlist.length);
-
-                $('#showcartgoods').empty();
-                for (var p in pdtlist) {
-                  $('#showcartgoods').append("<li><div><img src='"+ pdtlist[p].image +"' style='width:30%;' /> <p  id='goodsinfo'>"+ pdtlist[p].name +"<br />"+ pdtlist[p].spec +"</p><p id='price'>"+ pdtlist[p].price +"元 x "+ pdtlist[p].num +"</p></div></li>")
-                }
-                $('#showcartgoods').append("<p id='goodscount'>共 "+ orderdetail.totalNumber +" 件商品</p><p id='sumpirce'>"+ f(orderdetail.totalAmount,2) +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
-              }
 
               $('#cartcar').on('mouseenter',function () {
                     $('#showcartgoods').show(400);
@@ -311,6 +318,63 @@ function le_navigation(par, li, arr, arr_tit, Complete) {
               });
 
               </script>
+
+              <script type ="text/javascript">
+
+                //实时获取用户搜索词汇
+                var hotkeyList = [];
+                $("#txt_company").bind('input propertychange', function () {
+                    var searchText = $(this).val();
+                    if (searchText.length > 0) {
+                      $.post("{:url('index/shop/searchInTime')}", {'searchText' : searchText}, function(data) {
+                            hotkey_list =[{text:"",pc_url:""}]
+                          })
+                    }
+                 })
+
+              //搜索框热词默认词静态化数据暂时放在这里后续应该会调接口动态化
+              var hotkey_list = [{"pc_url":"http://www.wnphp.cn","text":"4元抵100元","phone_url_type":"1","m_url":"http://www.lemall.com/cn/sale/tvzn.html","phone_url":"http://www.lemall.com/cn/sale/tvzn.html"},{"pc_url":"http://www.lemall.com/phone.html","text":"超级手机","phone_url_type":"1","m_url":"http://m.lemall.com/huodong/phone.html","phone_url":"http://m.lemall.com/huodong/phone.html"},{"pc_url":"http://www.lemall.com/tv.html","text":"超级电视","phone_url_type":"1","m_url":"http://m.lemall.com/huodong/tv3xh0929.html","phone_url":"http://m.lemall.com/huodong/tv3xh0929.html"},{"pc_url":"/product/search.html?level=2&cid2=20031","text":"耳ddd机/音箱","phone_url_type":"1","m_url":"http://m.lemall.com/products/index/cid-20031.html","phone_url":"http://m.lemall.com/products/index/cid-20031.html"}];
+              if(hotkey_list == null ||  hotkey_list.length ==  0 ) { hotkey_list =[{text:"",pc_url:""}];}
+              var defaultkey_list =["超4dfdsfX40M","乐Pro3","运动蓝牙耳机","乐视盒子 U4","变形金刚"];
+              var timeOutList = {};
+              $(document).ready(function () {
+                  //为搜索框绑定自动补全事件
+                  $("#txt_company").autoComplete({ url:sendLink.mallcommon+"prouduct/getSuggest.jsonp", defaultData : defaultkey_list ,defaultKey :hotkey_list[0].text ,defaultUrl:hotkey_list[0].pc_url});
+                  $("#txt_company").val(hotkey_list[0].text);
+                  // initHotKey();
+              });
+               //初始化热词数据
+              function initHotKey(){
+                if(hotkey_list){
+                      for (var i = 1; i < hotkey_list.length; i++) {
+                        $(".hotwords ").append("<a href='"+hotkey_list[i].pc_url+"' target='_blank'  onclick=\"javascript:letvAlysSendAction(34,83,'module=hot_search&click_area=text&action_code=0&position="+(i+1)+"&query="+hotkey_list[i].text+"');\" >"+hotkey_list[i].text+"</a>");
+                      };
+                }
+              }
+
+                //顶托滑动效果
+                function header_links(){
+                         $header_links=$("#header_links");
+                         $header_links.timer="";
+
+                         $header_links.find("li[type=slide]").mouseenter(function(event) {
+                             var _this = this;
+                              clearTimeout($header_links.timer);
+                              $header_links.timer=setTimeout(function(){
+                                  $(_this).addClass('cur');
+                                  $(_this).find(".le-tips,dl").slideDown(150);
+                              },250)
+                         }).mouseleave(function(event) {
+                              clearTimeout($header_links.timer);
+                              $(this).removeClass('cur');
+                              $(this).find(".le-tips,dl").slideUp(100);
+                         })
+                }
+                header_links();
+
+
+
+            </script>
 
         </div>
     </div>

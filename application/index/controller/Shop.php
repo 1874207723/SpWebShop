@@ -34,7 +34,7 @@ class Shop extends Base
 {
 
     //商品列表页筛选、展示
-    public function list()
+    public function shopList()
     {
 
 
@@ -238,11 +238,11 @@ class Shop extends Base
         }
 
         //产品规格查询。
-        if (input('get.goodsid')) {
-            $goodsid = input('get.goodsid');
+        $getGoodsId = request()->param()['goodsid'];
+        if ($getGoodsId) {
 
             //得到商品相关信息。
-            $goodsInfo = Db::table('qb_goods')->where('goods_id', $goodsid)->find();
+            $goodsInfo = Db::table('qb_goods')->where('goods_id', $getGoodsId)->find();
             $title = $goodsInfo['goods_name'];
             $this->assign('goodsInfo', $goodsInfo);
             $this->assign('title', $title);
@@ -257,7 +257,7 @@ class Shop extends Base
             $this->assign('goodsPth', $goodsPth);
 
             //查询商品图片
-            $goodsImage = Db::table('qb_goods_images')->field('image_url')->where('goods_id', $goodsid)->select();
+            $goodsImage = Db::table('qb_goods_images')->field('image_url')->where('goods_id', $getGoodsId)->select();
             $this->assign('goodsImage', $goodsImage);
 
             //查询推荐商品
@@ -269,12 +269,12 @@ class Shop extends Base
             $this->assign('hotGoods', $hotGoods);
 
             //查询商品属性
-            $goodsAttr = Db::table('qb_goods_attr')->alias('a')->join('qb_goods_attribute b','a.attr_id=b.attr_id')->field('attr_value,attr_name')->order('b.order asc')->where('a.goods_id', $goodsid)->select();
+            $goodsAttr = Db::table('qb_goods_attr')->alias('a')->join('qb_goods_attribute b','a.attr_id=b.attr_id')->field('attr_value,attr_name')->order('b.order asc')->where('a.goods_id', $getGoodsId)->select();
 
             $this->assign('goodsAttr', $goodsAttr);
 
             //查询商品规格图谱等信息。
-            $goodsType = Db::table('qb_spec_goods')->where('goods_id', $goodsid)->select();
+            $goodsType = Db::table('qb_spec_goods')->where('goods_id', $getGoodsId)->select();
             //5  [11-14-23 ,11-14-24]\
 
             //遍历得到123级规格信息。
@@ -397,7 +397,7 @@ class Shop extends Base
     public function querycart()
     {
         $userId = $_POST['userid'];
-        $userlist = Db::table('qb_cart')->where('user_id', $userId)->select();
+        $userlist = Db::table('qb_cart')->where('user_id', $userId)->limit(5)->select();
         return json_encode($userlist);
     }
 
@@ -413,6 +413,30 @@ class Shop extends Base
     {
         $userId = $_POST['userid'];
         Db::table('qb_cart')->where('user_id', $userId)->delete();
+    }
+
+
+    //遍历展示搜索页面
+    public function search()
+    {
+        $brandid = input('get.brand');
+
+        $headCate = $this->headcate();
+        foreach ($headCate as $h=>$c) {
+            $this->assign($h, $c);
+        }
+
+        $this->assign('title', 'search');
+
+        return $this->fetch();
+    }
+
+    //搜索词汇实时刷新
+    public function searchInTime()
+    {
+        $searchText = $_POST['searchText'];
+        $searchValue = Db::table('qb_goods')->field('goods_name,goods_id')->where('goods_name', 'like', '%'. $searchText. '%')->limit(10)->select();
+        return json($searchValue);
     }
 
 }

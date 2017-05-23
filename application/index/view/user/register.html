@@ -4,8 +4,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Q-Buy 注册</title>
 <link rel="stylesheet" type="text/css" href="__STATIC__/css/style.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/layer.css" />
 <link rel="stylesheet" type="text/css" href="__STATIC__/css/shopping-mall-index.css" />
 <script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__STATIC__/js/layer.js"></script>
 <script type="text/javascript" src="__STATIC__/js/zhonglin.js"></script>
 <link  type='text/css' href='__STATIC__/css/global.css' rel='stylesheet'/>
 <link rel="stylesheet" type="text/css" href="__STATIC__/css/public_201703.css">
@@ -55,6 +57,7 @@
 	    	<div class="psw psw3">
 	        	<p class="psw-p1">手机验证码</p>
 	            <input type="text" placeholder="请输入手机验证码" name="phone" />
+                <span class=""></span><!-- 手机验证码不正确，请重新输入 -->
 	        </div>
 	    	<div class="psw psw3">
 	        	<p class="psw-p1">验证码</p>
@@ -90,25 +93,36 @@
 
         //手机验证码倒计时
         $('#sendyzm').on('click',function () {
-            var time;
-            var num = 60;
-
-            $('#sendyzm').attr('disabled',true);
-            $('#sendyzm').css('background','#ccc');
-            autojia();
-            time = setInterval(autojia,1000);
-            function autojia() {
-                if (num <= 0) {
-
-                    $('#sendyzm').attr('disabled',false);
-                    $('#sendyzm').css('background','#F09E0B');
-                    $('#sendyzm').html('重新发送');
-                    clearInterval(time);
+            var oMobile = $("input[name='mobile']").val();
+            if (oMobile.length == 0) {layer.msg('请输入手机号!',{'icon':5,'time':2000});return;}
+            $.post("{:url('user/sendphonemessage')}",{'phonenum':oMobile},function (data) {
+                if (data != 1) 
+                {
+                    layer.msg(data,{'icon':5});
                     return;
+                } else {
+                    var time;
+                    var num = 60;
+
+                    $('#sendyzm').attr('disabled',true);
+                    $('#sendyzm').css('background','#ccc');
+                    autojia();
+                    time = setInterval(autojia,1000);
+                    function autojia() {
+                        if (num <= 0) {
+
+                            $('#sendyzm').attr('disabled',false);
+                            $('#sendyzm').css('background','#F09E0B');
+                            $('#sendyzm').html('重新发送');
+                            clearInterval(time);
+                            return;
+                        }
+                        $('#sendyzm').html(num+'秒后再次发送');
+                        num--;
+                    } 
                 }
-                $('#sendyzm').html(num+'秒后再次发送');
-                num--;
-            }
+            });
+           
         });
 
         //设置立即注册按钮初始状态为不能点击。
@@ -240,11 +254,12 @@
             var oPwd = $("input[name='pwd']").val();
             var oMobile = $("input[name='mobile']").val();
             var oCaptcha = $("input[name='captcha']").val();
+            var oPhone = $("input[name='phone']").val();
 
             $.ajax({
                 "type" : "post",
                 "url" : "{:url('registerIn')}",
-                "data" : {"username":oInput, "password":oPwd, "mobile":oMobile, "captcha":oCaptcha},
+                "data" : {"username":oInput, "password":oPwd,"phone":oPhone, "mobile":oMobile, "captcha":oCaptcha},
                 "dataType" : "json",
                 "success" : success,
                 "async" : true
@@ -252,14 +267,22 @@
 
             function success(data)
             {
-                var check = JSON.parse(data);
-                console.log(check.checkCaptcha);
-                if (check.checkCaptcha) {
+                if (data == 3) {
                     window.location.href="{:url('index/index')}";
-                } else {
+                } else if (data == 1){
+                    $("input[name='phone']").siblings('span').removeClass('cuo');
+                    $("input[name='phone']").siblings('span').html('');
                     $("input[name='captcha']").siblings('span').removeClass('dui');
                     $("input[name='captcha']").siblings('span').addClass('cuo');
                     $("input[name='captcha']").siblings('span').html('<font color="#f78">验证码不正确</font>');
+                    huanyizhang ();
+                } else {
+                    $("input[name='captcha']").siblings('span').removeClass('cuo');
+                    $("input[name='captcha']").siblings('span').html('');
+                     $("input[name='phone']").siblings('span').removeClass('dui');
+                    $("input[name='phone']").siblings('span').addClass('cuo');
+                    $("input[name='phone']").siblings('span').html('<font color="#f78">手机验证码不正确</font>');
+                     huanyizhang ();
                 }
             }
     	});

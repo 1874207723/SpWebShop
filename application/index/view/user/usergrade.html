@@ -1,0 +1,117 @@
+
+{include file="public/link1" title='我的订单'}
+    <!--内容开始-->
+    <div class="personal w1200">
+        <div class="personal-left f-l" style="margin-top:20px;">
+            <div class="personal-l-tit" style="background-color:#c60000">
+                <h3>个人中心</h3>
+            </div>
+            <ul>
+                <li class="per-li1"><a href="{:url('user/usermessage')}">消息中心<span>></span></a></li>
+                <li class="per-li2"><a href="{:url('user/personaldata')}">个人资料<span>></span></a></li>
+                <li class="per-li3"><a href="{:url('user/orderlist')}">我的订单<span>></span></a></li>
+                <li class="per-li5"><a href="{:url('shop/shopcart')}">购物车<span>></span></a></li>
+                <li class="per-li6"><a href="{:url('user/deliveryaddress')}">管理收货地址<span>></span></a></li>
+                <li class="current-li per-li7"><a href="{:url('user/collectgoods')}">宝贝收藏<span>></span></a></li>
+                <li class="per-li10"><a href="{:url('user/usergrade')}">会员积分<span>></span></a></li>
+            </ul>
+        </div>
+    	<div class="member f-r">
+            <div class="mem-info1" style="margin-top: 20px;">
+            	<div class="title">
+                	<h3>会员积分</h3>
+                </div>
+                <div class="mem-con1">
+                	<dl class="f-l">
+                    	<dt><a href="#"><img src="__STATIC__/images/data-tu2.gif" /></a></dt>
+                        <dd>
+                        	<a href="#">{$info['username']}</a>
+                            <a href="#">{$info['mobile']}</a>
+                        </dd>
+                        <div style="clear:both;"></div>
+                    </dl>
+                    <ul class="f-l">;
+                    	<li style="width: 100px;">
+                            <p>用户等级</p>
+                            <span>{$info['level']}</span>
+                        </li>
+                        <li>
+                        	<p>累积分</p>
+                            <span id="leijifen">{$info['grade']}</span>
+                        </li>
+                    	<li>
+                        	<p>消费积分</p>
+                            <span>{$info['pay_grade']}</span>
+                        </li>
+
+                        <li style="border-right: none">
+                            <p>剩余积分</p>
+                            <span>{$info['grade']-$info['pay_grade']}</span>
+                        </li>
+                        <div style="clear:both;"></div>
+                    </ul>
+                  
+                </div>
+            </div>
+            <div class="mem-info2">
+            	<div class="title">
+                	<h3>积分获取</h3>
+                </div>
+                <ul>
+                	<li class="current" jfhq="qb"><a href="JavaScript:;">全部</a></li>
+                	<li jfhq="gmsp"><a href="JavaScript:;">购买商品</a></li>
+                	<li jfhq="qd"><a href="JavaScript:;">签到</a></li>
+                    <div style="clear:both;"></div>
+                </ul>
+                <div class="mem-con2" style="margin-top: 20px;">
+                	<dl hpjf="gmsp">
+                        <dt>
+                            <p>您可以通过购物下单获取积分</p>
+                        </dt>
+                        <dd>
+                            <a href="{:url('index/index')}">去商城购物</a>
+                        </dd>
+                        <div style="clear:both;"></div>
+                    </dl>
+                    
+                    <dl hpjf="qd">
+                        <dt>
+                            <p>您可以通过每天签到获取积分</p>
+                        </dt>
+                        <dd>
+                        {if $lastsign+60*60*24 <= time()}
+                            <a href="javascript:;" onclick="usersign(this)">签到</a>
+                        {else}
+                            <a href="javascript:;" style="background: #ccc">签到</a>
+                            <p style="margin-top: 20px; " id="lasttime">再次签到剩余时长: {$lasttime}</p>
+                        {/if}
+
+                        </dd>
+                        <div style="clear:both;"></div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <script type="text/javascript">
+
+        function usersign(obj) {
+            $.get("{:url('user/usersign')}",function (data) {
+                if (data) {
+                    var grade = $('#leijifen').html();
+                    console.log(grade);
+                    console.log(parseInt(grade)+5);
+                    $('#leijifen').html(parseInt(grade)+5);
+                    layer.msg('签到成功,积分加5',{'icon':1,'time':1500});
+                  
+                    $(obj).removeAttr('onClick');
+                    $(obj).css('background','#ccc');
+                } else {
+                    layer.alert('你今天已经签到了？',{'icon':5});
+                }
+            });
+        }
+    </script>
+    
+   {include file="public/footer"}

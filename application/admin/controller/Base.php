@@ -35,10 +35,10 @@ class Base extends Controller
 {
 	protected $allowMthod = ['admin_login','verlogin'];
 	protected $autharr = ['Index@index','Index@home'];
-	
+
 	public function _initialize()
 	{
-		
+
 		$ling = request()->controller().'@'.request()->action();
 		if(!$this->checkLogin() && !in_array(request()->action(),$this->allowMthod))
 		{
@@ -51,17 +51,17 @@ class Base extends Controller
 				if ($auth != 'all') {
 					$arr = Db::name('system_menu')->where('id in ('.$auth.')')->select();
 					foreach ($arr as $key => $value) {
-						$this->autharr = array_merge($this->autharr,explode(',',$value['right'])); 
-					}	
+						$this->autharr = array_merge($this->autharr,explode(',',$value['right']));
+					}
 					if (!in_array($ling,$this->autharr)) {
 						$this->error('对不起,您的权限不够');
 					}
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		$this->bindData();
 	}
 	//将商城的信息的配置
@@ -89,7 +89,10 @@ class Base extends Controller
 	//登陆界面
 	public function admin_login ()
 	{
-		Db::name('admin')->update(['last_login' => time(),'last_ip' => request()->ip(),'admin_id' => session('admin_uid')]);
+		if (!empty(session('admin_uid'))) {
+			Db::name('admin')->update(['last_login' => time(),'last_ip' => request()->ip(),'admin_id' => session('admin_uid')]);
+		}
+
 		session('admin_uid',null);
 		return $this->fetch('user/admin_login');
 	}
@@ -100,7 +103,7 @@ class Base extends Controller
 		$user = input('post.');
 		$username = $user['username'];
 		$password = md5($user['password']);
-		
+
 		$result = Admin::where(['username' => $username,'password' => $password])->find();
 		if (empty($result)) {
 			return 0;
@@ -110,7 +113,7 @@ class Base extends Controller
 		session('role_id' ,$result->role_id);
 		Db::name('admin_log')->insert(['admin_id' => $result->admin_id,'log_info' => '登录成功','log_ip' => request()->ip(),'log_url' => request()->pathinfo(),'log_time' => time()]);
 		return 1;
-		
+
 	}
 }
- 
+
