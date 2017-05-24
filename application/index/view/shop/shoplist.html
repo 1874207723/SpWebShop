@@ -8,7 +8,7 @@
         <ul class="f-l">
             {if !empty($brandData)}
             {foreach $brandData as $brData}
-            <li><a href="http://www.wntp.com/index/shop/list?brand={$brData['id']}"><img src="{$brData['logo']}" style="width:104px;height:50px;" /></a></li>
+            <li><a href="__PUBLIC__/index/shop/shopList?brand={$brData['id']}"><img src="{$brData['logo']}" style="width:104px;height:50px;" /></a></li>
             {/foreach}
             {/if}
             <div style="clear:both;"></div>
@@ -59,7 +59,7 @@
                 {if !empty($brand)}
                 {if !empty($recoData)}
                 {foreach $recoData as $reData}
-                <a href="http://www.wntp.com/index/shop/list?brand={$reData['id']}">{$reData['name']}</a>
+                <a href="__PUBLIC__/index/shop/shopList?brand={$reData['id']}">{$reData['name']}</a>
                 {/foreach}
                 {/if}
                 {/if}
@@ -71,7 +71,7 @@
             <dd>
                 {if !empty($hotData)}
                 {foreach $hotData as $hData}
-                <a href="http://www.wntp.com/index/shop/details?goodsid={$hData['goods_id']}">{$hData['goods_name']|mb_substr=0,8}</a>
+                <a href="__PUBLIC__/index/shop/details?goodsid={$hData['goods_id']}">{$hData['goods_name']|mb_substr=0,8}</a>
                 {/foreach}
                 {/if}
             </dd>
@@ -91,22 +91,14 @@
                     {foreach $recommendGoods as $recommend}
                 	<li>
                         <div class="li-top">
-                            <a href="http://www.wntp.com/index/shop/details?goodsid={$recommend['goods_id']}" class="li-top-tu"><img src="{$recommend['original_img']}" alt="{$recommend['goods_name']}"/></a>
+                            <a href="__PUBLIC__/index/shop/details?goodsid={$recommend['goods_id']}" class="li-top-tu"><img src="{$recommend['original_img']}" alt="{$recommend['goods_name']}"/></a>
                             <p class="jiage"><span class="sp1">￥{$recommend['market_price']}</span><span class="sp2">￥{$recommend['shop_price']}</span></p>
                         </div>
                         <p class="miaoshu" style="height:50px;overflow:hidden;"><a href="">{$recommend['goods_name']}</a></p>
                         <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1" onclick="window.location.href='http://www.wntp.com/index/shop/details?goodsid={$recommend['goods_id']}';">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
+
+                            <div class="md-r f-l" style="margin-left:30px;">
+                                <button style="width:150px;" class="md-l-btn1" onclick="window.location.href='__PUBLIC__/index/shop/details?goodsid={$recommend['goods_id']}';">立即购买</button>
                             </div>
                             <div style="clear:both;"></div>
                         </div>
@@ -124,21 +116,21 @@
                 	<li class="current">综合:</li>
 
                     {if !empty($cateid)}
-                    <li><a href="http://www.wntp.com/index/shop/list?cateid={$cateid}&salesum=2" {if !empty($salesum) && $salesum == ' desc'}style="color:red;";{/if}>销量 ↓</a></li>
-                    <li><a href="http://www.wntp.com/index/shop/list?cateid={$cateid}&salesum=1" {if !empty($salesum) && $salesum == ' asc'}style="color:red;";{/if}>销量 ↑</a></li>
-                    <li><a href="http://www.wntp.com/index/shop/list?cateid={$cateid}&ontime=2" {if !empty($ontime) && $ontime == ' desc'}style="color:red;";{/if}>新品 ↓</a></li>
-                    <li><a href="http://www.wntp.com/index/shop/list?cateid={$cateid}&ontime=1" {if !empty($ontime) && $ontime == " asc"}style="color:red;";{/if}>新品 ↑</a></li>
-                    <li><a href="http://www.wntp.com/index/shop/list?cateid={$cateid}&commentcount=2" {if !empty($commentcount) && $commentcount == ' desc'}style="color:red;";{/if}>评价 ↓</a></li>
-                    <li><a href="http://www.wntp.com/index/shop/list?cateid={$cateid}&commentcount=1" {if !empty($commentcount) && $commentcount == ' asc'}style="color:red;";{/if}>评价 ↑</a></li>
+                    <li><a href="__PUBLIC__/index/shop/shopList?cateid={$cateid}&salesum=2" {if !empty($salesum) && $salesum == ' desc'}style="color:red;";{/if}>销量 ↓</a></li>
+                    <li><a href="__PUBLIC__/index/shop/shopList?cateid={$cateid}&salesum=1" {if !empty($salesum) && $salesum == ' asc'}style="color:red;";{/if}>销量 ↑</a></li>
+                    <li><a href="__PUBLIC__/index/shop/shopList?cateid={$cateid}&ontime=2" {if !empty($ontime) && $ontime == ' desc'}style="color:red;";{/if}>新品 ↓</a></li>
+                    <li><a href="__PUBLIC__/index/shop/shopList?cateid={$cateid}&ontime=1" {if !empty($ontime) && $ontime == " asc"}style="color:red;";{/if}>新品 ↑</a></li>
+                    <li><a href="__PUBLIC__/index/shop/shopList?cateid={$cateid}&commentcount=2" {if !empty($commentcount) && $commentcount == ' desc'}style="color:red;";{/if}>评价 ↓</a></li>
+                    <li><a href="__PUBLIC__/index/shop/shopList?cateid={$cateid}&commentcount=1" {if !empty($commentcount) && $commentcount == ' asc'}style="color:red;";{/if}>评价 ↑</a></li>
                     {/if}
 
                     {if !empty($brand)}
-                    <li><a href="http://www.wntp.com/index/shop/list?brand={$brand}&salesum=2" {if !empty($salesum) && $salesum == ' desc'}style="color:red;";{/if}>销量 ↓</a></li>
-                	<li><a href="http://www.wntp.com/index/shop/list?brand={$brand}&salesum=1" {if !empty($salesum) && $salesum == ' asc'}style="color:red;";{/if}>销量 ↑</a></li>
-                    <li><a href="http://www.wntp.com/index/shop/list?brand={$brand}&ontime=2" {if !empty($ontime) && $ontime == ' desc'}style="color:red;";{/if}>新品 ↓</a></li>
-                	<li><a href="http://www.wntp.com/index/shop/list?brand={$brand}&ontime=1" {if !empty($ontime) && $ontime == " asc"}style="color:red;";{/if}>新品 ↑</a></li>
-                    <li><a href="http://www.wntp.com/index/shop/list?brand={$brand}&commentcount=2" {if !empty($commentcount) && $commentcount == ' desc'}style="color:red;";{/if}>评价 ↓</a></li>
-                	<li><a href="http://www.wntp.com/index/shop/list?brand={$brand}&commentcount=1" {if !empty($commentcount) && $commentcount == ' asc'}style="color:red;";{/if}>评价 ↑</a></li>
+                    <li><a href="__PUBLIC__/index/shop/shopList?brand={$brand}&salesum=2" {if !empty($salesum) && $salesum == ' desc'}style="color:red;";{/if}>销量 ↓</a></li>
+                	<li><a href="__PUBLIC__/index/shop/shopList?brand={$brand}&salesum=1" {if !empty($salesum) && $salesum == ' asc'}style="color:red;";{/if}>销量 ↑</a></li>
+                    <li><a href="__PUBLIC__/index/shop/shopList?brand={$brand}&ontime=2" {if !empty($ontime) && $ontime == ' desc'}style="color:red;";{/if}>新品 ↓</a></li>
+                	<li><a href="__PUBLIC__/index/shop/shopList?brand={$brand}&ontime=1" {if !empty($ontime) && $ontime == " asc"}style="color:red;";{/if}>新品 ↑</a></li>
+                    <li><a href="__PUBLIC__/index/shop/shopList?brand={$brand}&commentcount=2" {if !empty($commentcount) && $commentcount == ' desc'}style="color:red;";{/if}>评价 ↓</a></li>
+                	<li><a href="__PUBLIC__/index/shop/shopList?brand={$brand}&commentcount=1" {if !empty($commentcount) && $commentcount == ' asc'}style="color:red;";{/if}>评价 ↑</a></li>
                     {/if}
 
                     <div style="clear:both;"></div>
@@ -154,36 +146,28 @@
                 </div>
 
                 {if !empty($cateid)}
-                <button style="float:right;background-color:white;height:30px;margin-top:10px;margin-right:10px;" onclick="window.location.href='http://www.wntp.com/index/shop/list?cateid={$cateid}';">取消选择</button>
+                <button style="float:right;background-color:white;height:30px;margin-top:10px;margin-right:10px;" onclick="window.location.href='__PUBLIC__/index/shop/shopList?cateid={$cateid}';">取消选择</button>
                 {/if}
 
                 {if !empty($brand)}
-                <button style="float:right;background-color:white;height:30px;margin-top:10px;margin-right:10px;" onclick="window.location.href='http://www.wntp.com/index/shop/list?brand={$brand}';">取消选择</button>
+                <button style="float:right;background-color:white;height:30px;margin-top:10px;margin-right:10px;" onclick="window.location.href='__PUBLIC__/index/shop/shopList?brand={$brand}';">取消选择</button>
                 {/if}
                 <div style="clear:both;"></div>
             </div>
             <div class="shop-right-con">
-            	<ul class="shop-ul-tu shop-ul-tu1" style="width:980px;">
+            	<ul class="shop-ul-tu shop-ul-tu1" style="width:985px;">
                     {if !empty($goods)}
                     {foreach $goods as $good}
                 	<li>
                         <div class="li-top">
-                            <a href="http://www.wntp.com/index/shop/details?goodsid={$good['goods_id']}" class="li-top-tu"><img src="{$good['original_img']}" alt="{$good['goods_name']}"/></a>
+                            <a href="__PUBLIC__/index/shop/details?goodsid={$good['goods_id']}" class="li-top-tu"><img src="{$good['original_img']}" alt="{$good['goods_name']}"/></a>
                             <p class="jiage"><span class="sp1">￥{$good['market_price']}</span><span class="sp2">￥{$good['shop_price']}</span></p>
                         </div>
-                        <p class="miaoshu" style="height:50px;overflow:hidden;"><a href="http://www.wntp.com/index/shop/details?goodsid={$good['goods_id']}">{$good['goods_name']}</a></p>
+                        <p class="miaoshu" style="height:50px;overflow:hidden;"><a href="__PUBLIC__/index/shop/details?goodsid={$good['goods_id']}">{$good['goods_name']}</a></p>
                         <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1" onclick="window.location.href='http://www.wntp.com/index/shop/details?goodsid={$good['goods_id']}'">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
+
+                            <div class="md-r f-l" style="margin-left:40px;">
+                                <button style="width:150px;" class="md-l-btn1" onclick="window.location.href='__PUBLIC__/index/shop/details?goodsid={$good['goods_id']}'">立即购买</button>
                             </div>
                             <div style="clear:both;"></div>
                         </div>
@@ -208,7 +192,7 @@
             var priceF = $("#pricefirst").val();
             var priceS = $("#pricesecond").val();
             if (priceF && priceS && parseInt(priceF) != NaN && parseInt(priceS) != NaN && parseInt(priceS) > parseInt(priceF)) {
-                window.location.href="http://www.wntp.com/index/shop/list?cateid="+ cateid +"&priceF="+ priceF +"&priceS="+ priceS;
+                window.location.href="__PUBLIC__/index/shop/shopList?cateid="+ cateid +"&priceF="+ priceF +"&priceS="+ priceS;
                 $("#tipkey").empty();
             } else {
                 $("#tipkey").html("必须以数字开头，且不能为空")
@@ -224,7 +208,7 @@
             var priceF = $("#pricefirst").val();
             var priceS = $("#pricesecond").val();
             if (priceF && priceS && parseInt(priceF) != NaN && parseInt(priceS) != NaN && parseInt(priceS) > parseInt(priceF)) {
-                window.location.href="http://www.wntp.com/index/shop/list?brand="+ brand +"&priceF="+ priceF +"&priceS="+ priceS;
+                window.location.href="__PUBLIC__/index/shop/shopList?brand="+ brand +"&priceF="+ priceF +"&priceS="+ priceS;
                 $("#tipkey").empty();
             } else {
                 $("#tipkey").html("必须以数字开头，且不能为空")

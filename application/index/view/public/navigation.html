@@ -61,6 +61,14 @@
                     {/foreach}
                     {$goodsInfo['goods_name']}
                 {/if}
+                <!-- //搜索条数 -->
+                {if !empty($searchNumber)}
+                {if $searchNumber}
+                    {$searchNumber}
+                {else}
+                    0
+                {/if}
+                {/if}
 
             </p>
             <div class="re-search f-l" style="float:right;margin-right:10px;">

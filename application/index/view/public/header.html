@@ -26,9 +26,25 @@
 <script type = "text/javascript" src="__STATIC__/js/le.jquery.min.js"></script>
 <script type = "text/javascript" src="__STATIC__/js/le.vue.js"></script>
 <script type = "text/javascript" src="__STATIC__/js/le.static.constant.js"></script>
-<script type = "text/javascript" src="__STATIC__/js/autocomplete_new.js"></script>
+<!-- <script type = "text/javascript" src="__STATIC__/js/autocomplete_new.js"></script> -->
 <script type = "text/javascript" src="__STATIC__/js/zhonglin.js"></script>
 <!-- <script type = "text/javascript" src="__STATIC__/js/jquery.js"></script> -->
+
+<!-- 引入jQuery UI的css文件 -->
+<link href="http://code.jquery.com/ui/1.10.4/themes/ui-darkness/jquery-ui.css" />
+<!-- 引入jQuery的js文件 -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js" ></script>
+<!-- 引入jQuery UI的js文件 -->
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js" ></script>
+
+ <style>
+      .ui-helper-hidden-accessible {display:none;}
+.ui-autocomplete { position: absolute; cursor: default; border-radius: 3px; border: 1px solid #c0c0c0;}
+.ui-menu {list-style: none;padding: 0;margin: 0;display: block;outline: none;}
+.ui-menu .ui-menu-item a {text-decoration:none;display:block;padding:.2em .4em;line-height:1.5;zoom:1;}
+
+ .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {background: #ff8a00;border: none;color:#000;border-radius:0;font-weight: normal;}
+</style>
 
 
 
@@ -408,7 +424,7 @@ $(document).ready(function() {
 
               //如果session存在，从数据库中取出信息，展示。
               if (udi) {
-                $.post("{:url('index/shop/querycart')}", {'userid' : udi}, function(data) {
+                $.post("{:url('index/shop/querycart2')}", {'userid' : udi}, function(data) {
                   var userList = JSON.parse(data);
 
                   $('#showcartgoods').empty();
@@ -421,10 +437,10 @@ $(document).ready(function() {
                     totalNumber = totalNumber + userList[p]['goods_num'];
                     totalAmount = totalAmount + userList[p]['goods_num']*userList[p]['goods_price'];
 
-                    $('#showcartgoods').append("<li><div><img src='"+ userList[p].image +"' style='width:30%;' /> <p  id='goodsinfo'>"+ userList[p].goods_name +"<br />"+ userList[p].spec_key_name +"</p><p id='price'>"+ userList[p].goods_price +"元 x "+ userList[p].goods_num +"</p></div></li>")
+                    $('#showcartgoods').append("<li><div><img src='"+ userList[p].image +"' style='width:30%;' /> <p  id='goodsinfo' style='margin-top:10px;width:90px'>"+ userList[p].goods_name.substr(0,10) +"...<br />"+ userList[p].spec_key_name +"</p><p id='price'>"+ userList[p].goods_price +"元 x "+ userList[p].goods_num +"</p></div></li>")
                   }
 
-                  $('#showcartgoods').append("<p id='goodscount'>共 "+ totalNumber +" 件商品</p><p id='sumpirce'>"+ totalAmount +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+                  $('#showcartgoods').append("<div style='padding:18px;'><button class='layui-btn layui-btn-small' id='jiesuan' style='float:right;margin-top:20px;width:130px;font-size:14px;height:40px;background:#ff6700;' onclick='skipto()' >去购物车结算</button><p id='goodscount' style='margin-top:20px'>共 "+ totalNumber +" 件商品</p><p id='sumpirce' >&ensp;<span style='font-size:24px;line-height:40px;color:#ff6700'>"+ totalAmount +"</span><span style='color:#ff6700'>元</span></p></div><div style='clear:both'></div></li></div>");
 
                   $('#productNumInCart').html(totalNumber);
 
@@ -438,14 +454,14 @@ $(document).ready(function() {
 
                   $('#showcartgoods').empty();
                   for (var p in pdtlist) {
-                    $('#showcartgoods').append("<li><div><img src='"+ pdtlist[p].image +"' style='width:30%;' /> <p  id='goodsinfo'>"+ pdtlist[p].name +"<br />"+ pdtlist[p].spec +"</p><p id='price'>"+ pdtlist[p].price +"元 x "+ pdtlist[p].num +"</p></div></li>")
+                    $('#showcartgoods').append("<li><div><img src='"+ pdtlist[p].image +"' style='width:30%;' /> <p  id='goodsinfo' style='margin-top:10px;width:90px'>"+ pdtlist[p].name.substr(0,10) +"...<br />"+ pdtlist[p].spec +"</p><p id='price'>"+ parseInt(pdtlist[p].price) +"元 x "+ pdtlist[p].num +"</p></div></li>")
                   }
-                  $('#showcartgoods').append("<p id='goodscount'>共 "+ orderdetail.totalNumber +" 件商品</p><p id='sumpirce'>"+ f(orderdetail.totalAmount,2) +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+                  $('#showcartgoods').append("<div style='padding:18px;'><button class='layui-btn layui-btn-small' id='jiesuan' style='float:right;margin-top:20px;width:130px;font-size:14px;height:40px;background:#ff6700;' onclick='skipto()' >去购物车结算</button><p id='goodscount' style='margin-top:20px'>共 "+ orderdetail.totalNumber +" 件商品</p><p id='sumpirce' >&ensp;<span style='font-size:24px;line-height:40px;color:#ff6700'>"+ f(orderdetail.totalAmount,2) +"</span><span style='color:#ff6700'>元</span></p></div><div style='clear:both'></div></li></div>")
 
                 } else {
                   $('#productNumInCart').html("0");
                   $('#showcartgoods').empty();
-                  $('#showcartgoods').append("<p id='goodscount'>共 "+ 0 +" 件商品</p><p id='sumpirce'>"+ 0 +"元</p><button id='jiesuan' onclick='skipto()'>去购物车结算</button></div></li>")
+                  $('#showcartgoods').append("<div style='padding:18px;'><button class='layui-btn layui-btn-small' id='jiesuan' style='float:right;margin-top:20px;width:130px;font-size:14px;height:40px;background:#ff6700;' onclick='skipto()' >去购物车结算</button><p id='goodscount' style='margin-top:20px'>共 "+ 0 +" 件商品</p><p id='sumpirce' >&ensp;<span style='font-size:24px;line-height:40px;color:#ff6700'>"+ 0 +"</span><span style='color:#ff6700'>元</span></p></div><div style='clear:both'></div></li></div>")
                 }
               }
 
@@ -500,43 +516,26 @@ $(document).ready(function() {
 
 
 <script type ="text/javascript">
-  //搜索框热词默认词静态化数据暂时放在这里后续应该会调接口动态化
-  var hotkey_list = [{"pc_url":"http://www.wnphp.cn","text":"4元抵100元","phone_url_type":"1","m_url":"http://www.lemall.com/cn/sale/tvzn.html","phone_url":"http://www.lemall.com/cn/sale/tvzn.html"},{"pc_url":"http://www.lemall.com/phone.html","text":"超级手机","phone_url_type":"1","m_url":"http://m.lemall.com/huodong/phone.html","phone_url":"http://m.lemall.com/huodong/phone.html"},{"pc_url":"http://www.lemall.com/tv.html","text":"超级电视","phone_url_type":"1","m_url":"http://m.lemall.com/huodong/tv3xh0929.html","phone_url":"http://m.lemall.com/huodong/tv3xh0929.html"},{"pc_url":"/product/search.html?level=2&cid2=20031","text":"耳ddd机/音箱","phone_url_type":"1","m_url":"http://m.lemall.com/products/index/cid-20031.html","phone_url":"http://m.lemall.com/products/index/cid-20031.html"}];
-  if(hotkey_list == null ||  hotkey_list.length ==  0 ) { hotkey_list =[{text:"",pc_url:""}];}
-  var defaultkey_list =["超4dfdsfX40M","乐Pro3","运动蓝牙耳机","乐视盒子 U4","变形金刚"];
-  var timeOutList = {};
-  $(document).ready(function () {
-      //为搜索框绑定自动补全事件
-      $("#txt_company").autoComplete({ url:sendLink.mallcommon+"prouduct/getSuggest.jsonp", defaultData : defaultkey_list ,defaultKey :hotkey_list[0].text ,defaultUrl:hotkey_list[0].pc_url});
-      $("#txt_company").val(hotkey_list[0].text);
-      initHotKey();
-  });
-   //初始化热词数据
-  function initHotKey(){
-    if(hotkey_list){
-          for (var i = 1; i < hotkey_list.length; i++) {
-            $(".hotwords ").append("<a href='"+hotkey_list[i].pc_url+"' target='_blank'  onclick=\"javascript:letvAlysSendAction(34,83,'module=hot_search&click_area=text&action_code=0&position="+(i+1)+"&query="+hotkey_list[i].text+"');\" >"+hotkey_list[i].text+"</a>");
-          };
-    }
-  }
 
-    //顶托滑动效果
-    function header_links(){
-             $header_links=$("#header_links");
-             $header_links.timer="";
+  $("#txt_company").bind('input propertychange', function () {
+      var searchText = $(this).val();
+      if (searchText.length > 0) {
 
-             $header_links.find("li[type=slide]").mouseenter(function(event) {
-                 var _this = this;
-                  clearTimeout($header_links.timer);
-                  $header_links.timer=setTimeout(function(){
-                      $(_this).addClass('cur');
-                      $(_this).find(".le-tips,dl").slideDown(150);
-                  },250)
-             }).mouseleave(function(event) {
-                  clearTimeout($header_links.timer);
-                  $(this).removeClass('cur');
-                  $(this).find(".le-tips,dl").slideUp(100);
-             })
-    }
-    header_links();
+        $.ajax({
+          'type' : 'post',
+          'url' : "{:url('index/shop/searchInTime')}",
+          'data' : {'searchText' : searchText},
+          'success' : success,
+          'async' : true
+        });
+        function success (data) {
+             $("#txt_company").autocomplete({source : data,messages: {noResults: '', results: function(){ }}});
+    }}})
+
+
+  $("#search_submit").on('click', function () {
+    var searchName = $('#txt_company').val();
+    window.location.href="__PUBLIC__/index/shop/search?searchName="+ searchName;
+  })
+
 </script>

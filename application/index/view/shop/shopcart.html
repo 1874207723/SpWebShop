@@ -12,6 +12,7 @@
             	<input type="checkbox" value="" name="hobby"></input>
 				<span>全选</span>
             </p> -->
+            <input type="checkbox" name="checkA" style="width:30px;height:24px;" onclick="changeCheck(this)" />
             <p class="p2" style="margin-left:40px;margin-right:90px;">商品信息</p>
             <p class="p3" style="width:138px;">规格</p>
             <p class="p4">数量</p>
@@ -62,7 +63,7 @@
         </div>
         <div style="clear:both;"></div>
         <div>
-            <button style="float:right;font-size:1.8em;width:110px;background-color:#c60000;color:white;height:50px;margin-top:10px;font-family:微软雅黑" onclick="orderlist()">提交订单</button>
+            <button style="float:right;font-size:1.8em;width:110px;background-color:#c60000;color:white;height:50px;margin-top:10px;font-family:微软雅黑" onclick="orderlist()">生成订单</button>
         </div>
     </div>
 <script>
@@ -81,7 +82,6 @@
 
    //登录状态下，页面添加实时购物车数据
     function addCart() {
-        alert('1234');
         $.post("{:url('index/shop/querycart')}", {'userid' : udi}, function(data) {
         var userlist = JSON.parse(data);
         userData = userlist;
@@ -93,7 +93,7 @@
                 totalNumber = totalNumber + userlist[i]['goods_num'];
                 totalAmount = totalAmount + userlist[i]['goods_num']*userlist[i]['goods_price'];
 
-                $('.cart-con-info').append("<div class='info-mid' style='padding-top:0px;height:100px;'><div class='mid-tu f-l' style='border:none;margin-left:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ userlist[i]['user_id'] +"'><img src='"+ userlist[i]['image'] +"' style='width:80px;height:80px;margin-top:15px;' /></a></div><div class='mid-font f-l' style='margin-top:25px;width:232px;height:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ userlist[i]['user_id'] +"'>"+ userlist[i]['goods_name'] +"</div><div class='mid-guige f-l' style='border:1px solid white;margin-top:20px;'><p>"+ userlist[i]['spec_key_name'] +"</p></div><div class='mid-sl f-l' style='margin-top:30px;width:40px;'><input style='border:none;' type='text' value='"+ userlist[i]['goods_num'] +"' /></div><p class='mid-dj f-l' style='margin-top:40px;margin-left:30px;width:70px;'>¥ "+ userlist[i]['goods_price'] +"</p><p class='mid-je f-l' style='margin-top:40px;width:60px;'>¥ "+ userlist[i]['goods_num'] * userlist[i]['goods_price'] +"</p><div class='mid-chaozuo f-l' style='margin-top:40px;'><a href='javascript:;' onclick='deleteCart("+ userlist[i]['id'] +")' style='color:#c60000'>删除</a></div><div style='clear:both;'></div></div>");
+                $('.cart-con-info').append("<div class='info-mid' style='padding-top:0px;height:100px;'><div class='mid-tu f-l' style='margin-top:40px;'><input style='width:30px;height:24px;' name='checkB' type='checkbox' value="+ userlist[i]['id'] +"></div><div class='mid-tu f-l' style='border:none;margin-left:20px;'><a href='__PUBLIC__/index/shop/details?goodsid="+ userlist[i]['user_id'] +"'><img src='"+ userlist[i]['image'] +"' style='width:80px;height:80px;margin-top:15px;' /></a></div><div class='mid-font f-l' style='margin-top:25px;width:232px;height:20px;'><a href='__PUBLIC__/index/shop/details?goodsid="+ userlist[i]['goods_id'] +"'>"+ userlist[i]['goods_name'] +"</div><div class='mid-guige f-l' style='border:1px solid white;margin-top:20px;'><p>"+ userlist[i]['spec_key_name'] +"</p></div><div class='mid-sl f-l' style='margin-top:30px;width:40px;'><input style='border:none;' type='text' value='"+ userlist[i]['goods_num'] +"' /></div><p class='mid-dj f-l' style='margin-top:40px;margin-left:30px;width:70px;'>¥ "+ userlist[i]['goods_price'] +"</p><p class='mid-je f-l' style='margin-top:40px;width:60px;'>¥ "+ f(userlist[i]['goods_num'] * userlist[i]['goods_price'],2) +"</p><div class='mid-chaozuo f-l' style='margin-top:40px;'><a href='javascript:;' onclick='deleteCart("+ userlist[i]['id'] +")' style='color:#c60000'>删除</a></div><div style='clear:both;'></div></div>");
             }
             //console.log('1234');
             $('#totalPrice').html("总共￥"+ totalAmount +"元");
@@ -101,6 +101,21 @@
             $('#productNum').html("全部商品   "+ totalNumber);
         })
     }
+
+    //选中状态
+    function changeCheck(obj)
+    {
+        if (obj.checked) {
+            $("input[name='checkB']").each(function() {
+                $(this).prop('checked', true);
+            })
+        } else {
+            $("input[name='checkB']").each(function() {
+                $(this).prop('checked', false);
+            })
+        }
+    }
+
 
     //登录状态下，ajax删除购物车数据
     function deleteCart(data)
@@ -147,7 +162,22 @@
 
     function orderlist()
     {
-        layer.alert("订单提交成功！",{'icon':1});
+        var orderlist = [];
+        var i = 0;
+        $("input[name='checkB']").each(function() {
+            var id = $(this).val();
+            var value = $(this).prop('checked');
+            if (value) {
+                orderlist[i] = id;
+                i++;
+            }
+        })
+        if (orderlist.length > 0) {
+            $.post("{:url('index/shop/toOrder')}", {'id' : orderlist});
+            window.location.href="__PUBLIC__/index/order/checkorder";
+        } else {
+            layer.alert('请先勾选要购买的商品',{'icon':0});
+        }
     }
 
     //用户未登录状态下
@@ -169,7 +199,7 @@
             var glt = cart.getproductlist();
             console.log(glt);
             for(var i in glt) {
-                $('.cart-con-info').append("<div class='info-mid' style='padding-top:0px;height:100px;'><div class='mid-tu f-l' style='border:none;margin-left:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ glt[i]['id'] +"'><img src='"+ glt[i]['image'] +"' style='width:80px;height:80px;margin-top:15px;' /></a></div><div class='mid-font f-l' style='margin-top:25px;width:232px;height:20px;'><a href='http://www.wntp.com/index/shop/details?goodsid="+ glt[i]['id'] +"'>"+ glt[i]['name'] +"</div><div class='mid-guige f-l' style='border:1px solid white;margin-top:20px;'><p>"+ glt[i]['spec'] +"</p></div><div class='mid-sl f-l' style='margin-top:30px;width:40px;'><input style='border:none;' type='text' value='"+ glt[i]['num'] +"' /></div><p class='mid-dj f-l' style='margin-top:40px;margin-left:30px;width:70px;'>¥ "+ glt[i]['price'] +"</p><p class='mid-je f-l' style='margin-top:40px;width:60px;'>¥ "+ f(glt[i]['num'] * glt[i]['price'],2) +"</p><div class='mid-chaozuo f-l' style='margin-top:40px;'><a href='javascript:;' onclick='deleteCart("+ i +")' style='color:#c60000'>删除</a></div><div style='clear:both;'></div></div>");
+                $('.cart-con-info').append("<div class='info-mid' style='padding-top:0px;height:100px;'><div class='mid-tu f-l' style='border:none;margin-left:20px;'><a href='__PUBLIC__/index/shop/details?goodsid="+ glt[i]['id'] +"'><img src='"+ glt[i]['image'] +"' style='width:80px;height:80px;margin-top:15px;' /></a></div><div class='mid-font f-l' style='margin-top:25px;width:232px;height:20px;'><a href='__PUBLIC__/index/shop/details?goodsid="+ glt[i]['id'] +"'>"+ glt[i]['name'] +"</div><div class='mid-guige f-l' style='border:1px solid white;margin-top:20px;'><p>"+ glt[i]['spec'] +"</p></div><div class='mid-sl f-l' style='margin-top:30px;width:40px;'><input style='border:none;' type='text' value='"+ glt[i]['num'] +"' /></div><p class='mid-dj f-l' style='margin-top:40px;margin-left:30px;width:70px;'>¥ "+ glt[i]['price'] +"</p><p class='mid-je f-l' style='margin-top:40px;width:60px;'>¥ "+ f(glt[i]['num'] * glt[i]['price'],2) +"</p><div class='mid-chaozuo f-l' style='margin-top:40px;'><a href='javascript:;' onclick='deleteCart("+ i +")' style='color:#c60000'>删除</a></div><div style='clear:both;'></div></div>");
             }
             //console.log('1234');
             $('#totalPrice').html("总共￥"+ f(orderdetail.totalAmount,2) +"元")
@@ -220,7 +250,7 @@
 
         function orderlist()
         {
-            layer.alert("订单提交失败！请先登录。",{'icon':0});
+            window.location.href="__PUBLIC__/index/user/login";
         }
     }
 

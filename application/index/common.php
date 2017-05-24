@@ -4,28 +4,37 @@
 
 use think\Db;
 
-
-function get_order_status ($order,$shipping,$pay) 
+/**
+ * 获得订单的状态的名称
+ * @param  [type] $order    [order_status]
+ * @param  [type] $shipping [shipping_status]
+ * @param  [type] $pay      [pay_status]
+ * @return [type]           [description]
+ */
+function get_order_status ($order,$shipping,$pay)
 {
-	if ($order == 3) {
-		return '已取消';
-	} elseif ($order == 4) {
-		return '已完成';
-	} elseif ($order == 5) {
-		return '已作废';
-	}
-	$arr = [
-		'000' => '未付款',
-		'101' => '待发货',
-		'111' => '待收货',
-		'211' => '待评价',
-		'121' => '待收货',
-	];
-	if (!empty($arr[$order.$shipping.$pay])){
-		return $arr[$order.$shipping.$pay];
-	} else {
-		return '<font color=red>无效订单</font>';
-	}
+    if ($order == 3) {
+        return '已取消';
+    } elseif ($order == 4) {
+        return '已完成';
+    } elseif ($order == 5) {
+        return '已作废';
+    }elseif ($order == 6) {
+        return '已退货退款';
+    }
+    $arr = [
+        '000' => '未付款',
+        '101' => '待发货',
+        '100' => '未付款',
+        '111' => '待收货',
+        '211' => '待评价',
+        '121' => '部分发货',
+    ];
+    if (!empty($arr[$order.$shipping.$pay])){
+        return $arr[$order.$shipping.$pay];
+    } else {
+        return '<font color=red>无效订单</font>';
+    }
 
 }
 
@@ -36,10 +45,10 @@ function get_order_status ($order,$shipping,$pay)
  * @param type $order     订单数组
  * @return array()
  */
-function orderBtn($order_id = 0, $order = array())
+function order_btn($order_id = 0, $order = array())
 {
     if(empty($order)) {
-        $order = M('Order')->where("order_id", $order_id)->find();
+        $order =Db::name('order')->where("order_id", $order_id)->find();
     }
     /**
      *  订单用户端显示按钮
@@ -70,12 +79,12 @@ function orderBtn($order_id = 0, $order = array())
         {
             $btn_arr['receive_btn'] = 1;  // 确认收货
             $btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
-        }       
+        }
     }
     // 非货到付款
     else
     {
-        if($order['pay_status'] == 0 && $order['order_status'] == 0) // 待支付
+        if($order['pay_status'] == 0 && ($order['order_status'] == 1 || $order['order_status'] == 0)) // 待支付
         {
             $btn_arr['pay_btn'] = 1; // 去支付按钮
             $btn_arr['cancel_btn'] = 1; // 取消按钮
@@ -100,15 +109,55 @@ function orderBtn($order_id = 0, $order = array())
         $btn_arr['shipping_btn'] = 1; // 查看物流
     }
     if($order['shipping_status'] == 2 && $order['order_status'] == 1) // 部分发货
-    {            
+    {
         $btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
     }
-    
+
     return $btn_arr;
 }
 
 
 //根据商品id找到对应的信息
 function get_goodsinfo_by_id ($id){
-	return Db::name('goods')->where('goods_id='.$id)->field('original_img')->find()['original_img'];
+    return Db::name('goods')->where('goods_id='.$id)->field('original_img')->find()['original_img'];
 }
+
+//根据商品id找到对应的信息
+function get_goods_info_by_id ($id,$info){
+    return Db::name('goods')->where('goods_id='.$id)->find()[$info];
+}
+
+/**
+ * 获取头部public/navigation的遍历信息
+ * @param level1  一级分类信息
+ * @param level2  二级分类信息
+ * @param level3  三级分类信息
+ * @param level2Limit  小板块下的二级分类信息
+ * @param hotCate  头部推荐信息
+ */
+function headcate()
+    {
+        //查询板块分类，1,2,3级。
+        $level1 = Db::table('qb_goods_cate')->where('level', 1)->order('sort_order desc')->select();
+        foreach($level1 as $value) {
+            $data = Db::table('qb_goods_cate')->where('parent_id', $value['id'])->select();
+            $dataLimit = Db::table('qb_goods_cate')->where('parent_id', $value['id'])->limit(4)->select();
+            $level2[$value['id']] = $data;
+            $level2Limit[$value['id']] = $dataLimit;
+            foreach($data as $value2) {
+                $data2 = Db::table('qb_goods_cate')->where('parent_id', $value2['id'])->limit(5)->select();
+                $level3[$value2['id']] = $data2;
+            }
+        }
+
+        //查询头部板块推荐。
+        $hotCate = Db::table('qb_goods_cate')->where('is_hot', 1)->where('level', 'in', '2,3')->limit(8)->select();
+
+        return [
+            'level1'=>$level1,
+            'level2' => $level2,
+            'level3' => $level3,
+            'level2Limit' => $level2Limit,
+            'hotCate' => $hotCate
+        ];
+    }

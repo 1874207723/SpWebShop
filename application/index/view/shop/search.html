@@ -16,370 +16,42 @@
     <div class="shop-page-con w1200" style="margin-top:0px;">
 
     	<div class="shop-pg-right f-r" style="width:1200px;">
-        	<div class="shop-right-cmp" style="margin-top:0;width:1200px;">
-            	<ul class="shop-cmp-l f-l">
-                	<li class="current"><a href="#">综合 ↓</a></li>
-                	<li><a href="#">销量 ↓</a></li>
-                	<li><a href="#">新品 ↓</a></li>
-                	<li><a href="#">评价 ↓</a></li>
-                    <div style="clear:both;"></div>
-                </ul>
-                <div class="shop-cmp-m f-l">
-                	<span>价格</span><input type="text" /><span>-</span><input type="text" />
-                </div>
-                <div class="shop-cmp-r f-l">
-                	<ul class="f-l">
-                    	<li>
-                        	<input type="checkbox" name="hobby" value=""></input>
-                            <span>包邮</span>
-                        </li>
-                        <li>
-                        	<input type="checkbox" name="hobby" value=""></input>
-                            <span>进口</span>
-                        </li>
-                        <li>
-                        	<input type="checkbox" name="hobby" value=""></input>
-                            <span>仅显示有货</span>
-                        </li>
-                        <li>
-                        	<input type="checkbox" name="hobby" value=""></input>
-                            <span>满赠</span>
-                        </li>
-                        <li>
-                        	<input type="checkbox" name="hobby" value=""></input>
-                            <span>满减</span>
-                        </li>
-                        <div style="clear:both;"></div>
-                    </ul>
-                    <button>确定</button>
-                </div>
-                <div style="clear:both;"></div>
-            </div>
+
             <div class="shop-right-con" style="width:1200px;">
             	<ul class="shop-ul-tu shop-ul-tu1" style="width:1200px;">
-                	<li>
+
+                    {if !empty($searchValue)}
+                    {foreach $searchValue as $s}
+                	<li style="width:232px;">
                         <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
+                            <a href="{:url('index/shop/details',['goodsid'=>$s['goods_id']])}" class="li-top-tu"><img src="{$s['original_img']}" style="width:100%" /></a>
+                            <p class="jiage"><span class="sp1">￥{$s['shop_price']}</span><span class="sp2">￥{$s['market_price']}</span></p>
                         </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
+                        <p class="miaoshu">{$s['goods_name']|mb_substr=0,10}</p>
                         <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
+
+                            <div class="md-r f-l" style="margin-left:40px;">
+                                <button class="md-l-btn1" style="width:150px;" onclick="window.location.href='__PUBLIC__/index/shop/details?goodsid={$s['goods_id']}'">立即购买</button>
                             </div>
                             <div style="clear:both;"></div>
                         </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
+                        <p class="pingjia">{$s['comment_count']}评价</p>
+                        <p class="weike">快购自营</p>
                     </li>
-                    <li>
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li>
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li style="margin-right:0;">
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li>
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li>
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li>
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li style="margin-right:0;">
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li>
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li>
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li>
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
-                    <li style="margin-right:0;">
-                        <div class="li-top">
-                            <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                            <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                        </div>
-                        <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                        <div class="li-md">
-                            <div class="md-l f-l">
-                                <p class="md-l-l f-l" ap="">1</p>
-                                <div class="md-l-r f-l">
-                                    <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                    <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="md-r f-l">
-                                <button class="md-l-btn1">立即购买</button>
-                                <button class="md-l-btn2">加入购物车</button>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <p class="pingjia">88888评价</p>
-                        <p class="weike">微克宅购自营</p>
-                    </li>
+                    {/foreach}
+                    {/if}
+
                     <div style="clear:both;"></div>
                 </ul>
 
                 <!--分页-->
-                <div class="paging">
-            	<div class="pag-left f-l">
-                	<a href="#" class="about left-r f-l"><</a>
-                    <ul class="left-m f-l">
-                    	<li><a href="#">1</a></li>
-                        <li class="current"><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">6</a></li>
-                        <li><a href="#">...</a></li>
-                        <li><a href="#">100</a></li>
-                        <div style="clear:both;"></div>
-                    </ul>
-                	<a href="#" class="about left-l f-l">></a>
-                    <div style="clear:both;"></div>
-                </div>
-            	<div class="pag-right f-l">
-                	<div class="jump-page f-l">
-                        到第<input type="text" />页
-                    </div>
-                    <button class="f-l">确定</button>
-                    <div style="clear:both;"></div>
-                </div>
+
                 <div style="clear:both;"></div>
-            </div>
-            </div>
+
         </div>
         <div style="clear:both;"></div>
     </div>
+</div>
 
 
 
-{include file="public/footer"}

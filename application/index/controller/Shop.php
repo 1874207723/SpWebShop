@@ -397,6 +397,14 @@ class Shop extends Base
     public function querycart()
     {
         $userId = $_POST['userid'];
+        $userlist = Db::table('qb_cart')->where('user_id', $userId)->select();
+        return json_encode($userlist);
+    }
+
+    //登录状态下，头部限制查询购物车数据
+    public function querycart2()
+    {
+        $userId = $_POST['userid'];
         $userlist = Db::table('qb_cart')->where('user_id', $userId)->limit(5)->select();
         return json_encode($userlist);
     }
@@ -415,6 +423,14 @@ class Shop extends Base
         Db::table('qb_cart')->where('user_id', $userId)->delete();
     }
 
+    //登录状态下改变购物车商品状态，转到订单页面
+    public function toOrder()
+    {
+        $userid = session('userInfo')['id'];
+        Db::table('qb_cart')->where('user_id', $userid)->where('id','in', $_POST['id'])->update(['selected'=>1]);
+
+        Db::table('qb_cart')->where('user_id', $userid)->where('id','not in', $_POST['id'])->update(['selected'=>0]);
+    }
 
     //遍历展示搜索页面
     public function search()
@@ -424,6 +440,14 @@ class Shop extends Base
         $headCate = $this->headcate();
         foreach ($headCate as $h=>$c) {
             $this->assign($h, $c);
+        }
+        $searchName = input('get.searchName');
+        if ($searchName != '') {
+            $searchValue = Db::table('qb_goods')->where('goods_name', 'like', '%'. $searchName .'%')->order('sort asc')->select();
+            $this->assign('searchValue', $searchValue);
+            $this->assign('searchNumber', count($searchValue));
+        } else {
+            $this->assign('searchNumber', false);
         }
 
         $this->assign('title', 'search');
@@ -435,8 +459,11 @@ class Shop extends Base
     public function searchInTime()
     {
         $searchText = $_POST['searchText'];
-        $searchValue = Db::table('qb_goods')->field('goods_name,goods_id')->where('goods_name', 'like', '%'. $searchText. '%')->limit(10)->select();
-        return json($searchValue);
+        $searchValue = Db::table('qb_goods')->field('goods_name')->where('goods_name', 'like', '%'. $searchText. '%')->limit(5)->select();
+        foreach($searchValue as $searKey=>$searValue) {
+            $searchValue[$searKey] = mb_substr($searValue['goods_name'], 0, 40);
+        }
+        return $searchValue;
     }
 
 }
