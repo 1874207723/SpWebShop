@@ -1,0 +1,68 @@
+
+{include file="public/link1" title='个人消息'}
+    <!--内容开始-->
+    <div class="personal w1200">
+        <div class="personal-left f-l" style="margin-top:20px;">
+            <div class="personal-l-tit" style="background-color:#c60000">
+                <h3>个人中心</h3>
+            </div>
+            <ul>
+                <li class="current-li per-li1"><a href="{:url('user/usermessage')}">消息中心<span>></span></a></li>
+                <li class="per-li2"><a href="{:url('user/personaldata')}">个人资料<span>></span></a></li>
+                <li class="per-li3"><a href="{:url('user/orderlist')}">我的订单<span>></span></a></li>
+                <li class="per-li5"><a href="{:url('shop/shopcart')}">购物车<span>></span></a></li>
+                <li class="per-li6"><a href="{:url('user/deliveryaddress')}">管理收货地址<span>></span></a></li>
+                <li class="per-li7"><a href="{:url('user/collectgoods')}">宝贝收藏<span>></span></a></li>
+                <li class="per-li10"><a href="{:url('user/usergrade')}">会员积分<span>></span></a></li>
+            </ul>
+        </div>
+    	<div class="personal-r f-r">
+        	<div class="personal-right" style="margin-top: 20px;">
+                <div class="personal-r-tit">
+                    <h3>消息中心</h3>
+                </div>
+                <div class="theme">
+                    
+                    <p class="th-p2 f-l">
+                        <img src="__STATIC__/images/th-wenjian-tu.gif" />
+                    </p>
+                    <p class="th-p3 f-l">主题</p>
+                    <p class="th-p4 f-l">时间</p>
+                </div>
+                <div class="per-info">
+                    <ul>
+                    {foreach $res as $v}
+                  
+                        <li>  
+                            {if $v['is_read']}
+                            <p class="p-tu f-l"><img src="__STATIC__/images/th-wenjian-tu2.gif" /></p>
+                            {else}
+                            <p class="p-tu f-l"><img src="__STATIC__/images/th-wenjian-tu.gif" /></p>
+                            {/if}
+                            <a href="{:url('user/messageinfo',['id' => $v['message_id']])}" class="p-font f-l">{$v['message']|strip_tags}</a>
+                            <p class="p-time f-l">{if $v['category'] == 0}系统消息：{else}活动消息：{/if}{$v['send_time']|date="m-d H:i:s",###}</p>
+                            <div style="clear:both;"></div>
+                        </li>
+                    
+                    
+                    {/foreach}
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <!--分页-->
+            <style type="text/css">
+                #page .pagination{margin-top: 30px; margin-left: 250px; height: 50px;line-height: 50px;}
+                #page .pagination li { float: left;width: 30px;height: 30px;border: 1px solid #000;line-height: 30px;text-align: center;}
+                #page .pagination a {font-size: 15px;}
+                #page .pagination .active{background: #18f;color: #fff;}  
+            </style>
+                               <!--分页-->
+            <div id="page">{$res->render()}</div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    
+
+{include file="public/footer"}

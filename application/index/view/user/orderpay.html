@@ -1,0 +1,158 @@
+
+{include file="public/link1"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/assets/layui/css/layui.css">
+<script src="__STATIC__/admin/assets/layui/layui.js"></script>
+<script type="text/javascript">
+    document.onkeydown = function (event)   
+    {   
+      if   (event.keyCode==116)   
+      {   
+              event.keyCode   =   0;   
+              event.cancelBubble   =   true;   
+              return   false;   
+      }   
+    } 
+   /* document.oncontextmenu = function ()   
+    {   
+          return   false;   
+    }   */  
+</script>
+    <!--内容开始-->
+    <div class="payment-interface w1200">
+    	<div class="pay-info">
+        	<div class="info-tit">
+            	<h3 style="color: #f00"><i class="layui-icon"> &#xe642;</i>  您可以再次选择支付方式</h3>
+            </div>
+            <ul class="pay-yh">
+            	<li>
+                	<input type="radio" value="cod" name="hobby" ></input>
+                    <img src="__STATIC__/images/huodaofukuan.png" width="230"/>
+                	<div style="clear:both;"></div>
+                </li>
+                <li>
+                	<input type="radio" value="online" name="hobby" checked></input>
+                    <img src="__STATIC__/images/qbuypay.png" width="150" style="margin-top: 5px;" />
+                	<div style="clear:both;"></div>
+                </li>
+                
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    	
+    	<div class="pay-info">
+        	<div class="info-tit">
+            	<h3>请再次确定下订单的信息</h3>
+            </div>
+            <div class="pay-mima">
+            	<p class="mima-p1"> <i class="layui-icon" style="color: #0f0">&#xe618;</i> 你在安全的环境中，请放心使用！</p>
+                <div class="mima-ipt">
+                	<table  class="layui-table" lay-even lay-skin="nob" style="color: #333">
+                      <colgroup>
+                        <col width="120">
+                        <col width="500">
+                        <col>
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          <th>商品image</th>
+                          <th>商品name</th>
+                          <th>商品price</th>
+                        </tr> 
+                      </thead>
+                      <tbody>
+                        {foreach $goods as $v}
+                            <tr>
+                              <td><img src="{$v['goods_id']|get_goodsinfo_by_id}" width="60"></td>
+                              <td>{$v['goods_name']}</td>
+                              <td>单件价格：￥{$v['goods_price']} &ensp;&ensp;X&ensp;&ensp; {$v['goods_num']}&ensp;&ensp;&ensp;&ensp;&ensp; 小计：<font style="color: red">￥{$v['goods_price']*$v['goods_num']}</font> </td>
+                            </tr>
+                        {/foreach}
+                        <tr style="height: 50px;">
+                          <td colspan="3">订单编号:{$res['order_sn']} &ensp;&ensp;订单总价:{$res['total_amount']} &ensp;&ensp; &ensp;&ensp;<font size="4" color="red">实付：￥{$res['order_amount']}</font> 
+                          &ensp;&ensp;
+                          邮费 : <font color="red">{$res['shipping_price']}</font> &ensp;&ensp;
+                          优惠劵抵扣 : <font color="red">{$res['coupon_price']} </font>&ensp;&ensp;
+                          积分抵扣 : <font color="red">{$res['integral_money']}</font></td>
+                        </tr>
+                         <tr style="height: 50px;">
+                          <td colspan="3" style="color: #000">配送地址 : {$res['province']|get_place_name} {$res['city']|get_place_name} {$res['district']|get_place_name} {$res['twon']|get_place_name} {$res['address']}， {$res['consignee']} , {$res['mobile']} , &ensp;邮政编码:{$res['zipcode']} </td>
+                        </tr>  
+                         <tr style="height: 50px;">
+                          <td colspan="3" style="color: #000">收货人 : {$res['consignee']}  收货人电话 : {$res['mobile']}</td>
+                        </tr> 
+                        <tr style="height: 50px;">
+                          <td colspan="3" style="color: #000">用户备注 : {$res['user_note']} </td>
+                        </tr>  
+                        <tr style="height: 50px;">
+                          <td colspan="3" style="color: red;font-size: 13px">注意！！本订单在此无法更改 若想修改订单可以取消订单 返回重新购买！！</td>
+                        </tr> 
+                      </tbody>
+                    </table>
+                </div>
+                <div style="margin:20px 0px 50px 50px">
+                    <button class="layui-btn layui-btn-radius layui-btn-worning" onclick="quxiaoorder({$res['order_id']})">取消订单</button>
+
+                    <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="masterpay({$res['order_id']},'{$token}')">立即支付</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+
+    /*$(function() {
+    　　if (window.history && window.history.pushState) {
+    　　$(window).on('popstate', function () {
+    　　window.history.pushState('forward', null, '#');
+    　　window.history.forward(1);
+    　　});
+    　　}
+    　　window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+    　　window.history.forward(1);
+    　})*/
+
+
+    function quxiaoorder (order_id) {
+        layer.confirm('你确定要取消订单么',{'icon':3},function () {
+            location.href = '/index.php/index/user/quxiaoorder?order_id='+order_id;
+        });
+        
+    }
+
+    var timeout;
+    function masterpay (order_id,token)
+    {
+        var select = $('input[name="hobby"]:checked').val();
+        if (select == 'cod') {
+            location.href = '/index.php/index/user/shippingcodorder?order_id='+order_id;
+        } else {
+            
+            window.open("/index.php/index/user/showpayhtml?order_id="+order_id+"&token="+token ,"","top=100,left=100,width=450,height=400");
+             
+            layer.open({
+                type: 2,
+                closeBtn: 0, //不显示关闭按钮
+                title: '请等待支付完成,支付完成后会自动跳转',
+                shade: 0.5,
+                area: ['680px', '40%'],
+                shadeClose: false, //开启遮罩关闭
+                content: '/index.php/index/user/noticepay?order_id='+order_id //iframe的url
+            });
+        timeout = setInterval(function () {
+            $.get("/index.php/index/user/checkorderispay?order_id="+order_id,function (data) {
+                 if (data == 1) {
+                    clearInterval(timeout);
+                    location.href="/index.php/index/user/paysuccess?order_id="+order_id;
+                 }
+            }); 
+        },2000);
+            
+        }
+    }
+
+
+    </script>
+
+
+  {include file="public/footer"}

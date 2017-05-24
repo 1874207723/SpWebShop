@@ -23,7 +23,7 @@
         <style type="text/css">
           u{text-decoration: none;}
         </style>
-<title>产品列表</title>
+<title>商品列表</title>
 </head>
 <body>
 <div class=" page-content clearfix">
@@ -31,9 +31,9 @@
     <div class="search_style">
      
       <ul class="search_content clearfix">
-       <li><label class="l_f">产品名称</label><input name="" type="text"  class="text_add" placeholder="输入品牌名称"  style=" width:250px"/></li>
+       <li><label class="l_f">商品名称</label><input name="" type="text" id="searchname"  class="text_add" placeholder="输入商品名称"  style=" width:250px"/></li>
        <li><label class="l_f">添加时间</label><input class="inline laydate-icon" id="start" style=" margin-left:10px;"></li>
-       <li style="width:90px;"><button type="button" class="btn_search"><i class="icon-search"></i>查询</button></li>
+       <li style="width:90px;"><button type="button" class="btn_search" onClick="searchgoods()"><i class="icon-search"></i>查询</button></li>
       </ul>
     </div>
      <div class="border clearfix">
@@ -43,14 +43,14 @@
        </span>
        <span class="r_f">共：<b>2334</b>件商品</span>
      </div>
-     <!--产品列表展示-->
+     <!--商品列表展示-->
      <div class="h_products_list clearfix" id="products_list">
        <div id="scrollsidebar" class="left_Treeview">
         <div class="show_btn" id="rightArrow"><span></span></div>
         <div class="widget-box side_content" >
          <div class="side_title"><a title="隐藏" class="close_btn"><span></span></a></div>
 
-         <div class="side_list"><div class="widget-header header-color-green2"><h4 class="lighter smaller">产品类型列表</h4></div>
+         <div class="side_list"><div class="widget-header header-color-green2"><h4 class="lighter smaller">商品类型列表</h4></div>
          <div class="widget-body">
           <div class="widget-main padding-8"><div id="treeDemo" class="ztree"></div></div>
         </div>
@@ -62,8 +62,8 @@
 		<thead>
 		 <tr>
 				<th width="20px"><label><input type="checkbox" class="ace"><span class="lbl"></span></label></th>
-				<th width="100px">产品编号</th>
-				<th width="250px">产品名称</th>
+				<th width="100px">商品编号</th>
+				<th width="250px">商品名称</th>
 				<th width="85px">原价格</th>
 				<th width="85px">现价</th>
 				<th width="75px">库存</th>
@@ -201,6 +201,105 @@ var setting = {
 
 };
 
+
+
+$.ajax({  
+  type: 'POST',    
+  dataType : "json",//返回数据类型  
+  async:true,  
+  url: "{:url('cate/getCateData')}",//请求的action路径  
+  data: {"flag":true},  //同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行   
+ 
+  success:function(data){ //请求成功后处理函数。  取到Json对象data  
+      treeNodes = JSON.parse(data);     
+      $.fn.zTree.init($("#treeDemo"), setting, treeNodes);//初始化树，传入树的Dom<pre name="code" class="html">  
+      demoIframe = $("#testIframe");
+} }); 
+		
+
+/*str += '<td class="text-l"><a onClick="member_stop(this,'+data[i].goods_id+',\'nonews\')"  href="javascript:;" title="新品"  class="btn btn-xs btn-success"><i class="icon-ok bigger-120"></i></a></td>';
+
+str += '<td class="text-l"><a onClick="member_stop(this,'+data[i].goods_id+',\'news\')"  href="javascript:;" title="非新品"  class="btn btn-xs btn-default"><i class="icon-remove bigger-120"></i></a></td>';
+*/
+
+/*商品-停用*/
+function member_stop(obj,id,action){
+	layer.confirm('确认执行么？',function(index){
+		$.get('{:url("goods/dealUpdateShop")}',{'id':id,'action':action},function (data) {
+			$(obj).html('<i class="icon-remove bigger-120"></i>');
+			$(obj).removeClass();
+			$(obj).addClass('btn btn-xs btn-default');
+			var title = $(obj).attr('title');
+			$(obj).attr('title','非'+title);
+			var ss = action.substr(2);
+			$(obj).attr('onClick','member_start(this,'+id+',"'+ss+'")');
+			layer.msg(data,{icon: 1,time:1000});
+		});
+	});
+}
+
+/*商品-启用*/
+function member_start(obj,id,action){
+	layer.confirm('确认执行么？',function(index){
+		$.get('{:url("goods/dealUpdateShop")}',{'id':id,'action':action},function (data) {
+			$(obj).html('<i class="icon-ok bigger-120"></i>');
+			$(obj).removeClass();
+			$(obj).addClass('btn btn-xs btn-success');
+			var title = $(obj).attr('title');
+			$(obj).attr('title',title.substr(1));
+			$(obj).attr('onClick','member_stop(this,'+id+',"no'+action+'")');
+			layer.msg(data,{icon: 1,time:1000});
+		});
+	});
+}
+/*商品-编辑*/
+function member_edit(title,url,id,w,h){
+	layer_show(title,url+'?id='+id,w,h);
+}
+
+/*商品-删除*/
+function member_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		$.get('{:url("goods/dealUpdateShop")}',{'id':id,'action':'delete'},function (data) {
+			$(obj).parents("tr").remove();
+			layer.msg(data,{icon:1,time:1000});	
+		});
+		
+	});
+}
+//面包屑返回值
+var index = parent.layer.getFrameIndex(window.name);
+parent.layer.iframeAuto(index);
+$('.Order_form').on('click', function(){
+	var cname = $(this).attr("title");
+	var chref = $(this).attr("href");
+	var cnames = parent.$('.Current_page').html();
+	var herf = parent.$("#iframe").attr("src");
+    parent.$('#parentIframe').html(cname);
+    parent.$('#iframe').attr("src",chref).ready();;
+	parent.$('#parentIframe').css("display","inline-block");
+	parent.$('.Current_page').attr({"name":herf,"href":"javascript:void(0)"}).css({"color":"#4c8fbd","cursor":"pointer"});
+	//parent.$('.Current_page').html("<a href='javascript:void(0)' name="+herf+" class='iframeurl'>" + cnames + "</a>");
+    parent.layer.close(index);
+	
+});
+
+
+
+
+function searchgoods ()
+{
+	var name = $('#searchname').val();
+	$.get("{:url('cate/getsearchgoods')}",{'name':name},function (data) {
+		if (data.data.length == 0) {
+			layer.alert('未搜索到结果',{'icon':5})
+		} else {
+			success(data.data);
+		}
+	});
+
+}
+
 function success (data)
 {
 	$('#tbodylist').empty();
@@ -248,90 +347,5 @@ function success (data)
     	}
   	}
 }
-
-$.ajax({  
-  type: 'POST',    
-  dataType : "json",//返回数据类型  
-  async:true,  
-  url: "{:url('cate/getCateData')}",//请求的action路径  
-  data: {"flag":true},  //同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行   
- 
-  success:function(data){ //请求成功后处理函数。  取到Json对象data  
-      treeNodes = JSON.parse(data);     
-      $.fn.zTree.init($("#treeDemo"), setting, treeNodes);//初始化树，传入树的Dom<pre name="code" class="html">  
-      demoIframe = $("#testIframe");
-} }); 
-		
-
-/*str += '<td class="text-l"><a onClick="member_stop(this,'+data[i].goods_id+',\'nonews\')"  href="javascript:;" title="新品"  class="btn btn-xs btn-success"><i class="icon-ok bigger-120"></i></a></td>';
-
-str += '<td class="text-l"><a onClick="member_stop(this,'+data[i].goods_id+',\'news\')"  href="javascript:;" title="非新品"  class="btn btn-xs btn-default"><i class="icon-remove bigger-120"></i></a></td>';
-*/
-
-/*产品-停用*/
-function member_stop(obj,id,action){
-	layer.confirm('确认执行么？',function(index){
-		$.get('{:url("goods/dealUpdateShop")}',{'id':id,'action':action},function (data) {
-			$(obj).html('<i class="icon-remove bigger-120"></i>');
-			$(obj).removeClass();
-			$(obj).addClass('btn btn-xs btn-default');
-			var title = $(obj).attr('title');
-			$(obj).attr('title','非'+title);
-			var ss = action.substr(2);
-			$(obj).attr('onClick','member_start(this,'+id+',"'+ss+'")');
-			layer.msg(data,{icon: 1,time:1000});
-		});
-	});
-}
-
-/*产品-启用*/
-function member_start(obj,id,action){
-	layer.confirm('确认执行么？',function(index){
-		$.get('{:url("goods/dealUpdateShop")}',{'id':id,'action':action},function (data) {
-			$(obj).html('<i class="icon-ok bigger-120"></i>');
-			$(obj).removeClass();
-			$(obj).addClass('btn btn-xs btn-success');
-			var title = $(obj).attr('title');
-			$(obj).attr('title',title.substr(1));
-			$(obj).attr('onClick','member_stop(this,'+id+',"no'+action+'")');
-			layer.msg(data,{icon: 1,time:1000});
-		});
-	});
-}
-/*产品-编辑*/
-function member_edit(title,url,id,w,h){
-	layer_show(title,url+'?id='+id,w,h);
-}
-
-/*产品-删除*/
-function member_del(obj,id){
-	layer.confirm('确认要删除吗？',function(index){
-		$.get('{:url("goods/dealUpdateShop")}',{'id':id,'action':'delete'},function (data) {
-			$(obj).parents("tr").remove();
-			layer.msg(data,{icon:1,time:1000});	
-		});
-		
-	});
-}
-//面包屑返回值
-var index = parent.layer.getFrameIndex(window.name);
-parent.layer.iframeAuto(index);
-$('.Order_form').on('click', function(){
-	var cname = $(this).attr("title");
-	var chref = $(this).attr("href");
-	var cnames = parent.$('.Current_page').html();
-	var herf = parent.$("#iframe").attr("src");
-    parent.$('#parentIframe').html(cname);
-    parent.$('#iframe').attr("src",chref).ready();;
-	parent.$('#parentIframe').css("display","inline-block");
-	parent.$('.Current_page').attr({"name":herf,"href":"javascript:void(0)"}).css({"color":"#4c8fbd","cursor":"pointer"});
-	//parent.$('.Current_page').html("<a href='javascript:void(0)' name="+herf+" class='iframeurl'>" + cnames + "</a>");
-    parent.layer.close(index);
-	
-});
-
-
-
-
 
 </script>

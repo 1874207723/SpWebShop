@@ -1,0 +1,168 @@
+
+{include file="public/link1" title='我的订单'}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/assets/layui/css/layui.css">
+                <script src="__STATIC__/admin/assets/layui/layui.js"></script>
+    <!--内容开始-->
+    <div class="personal w1200">
+        <div class="personal-left f-l" style="margin-top:20px;">
+            <div class="personal-l-tit" style="background-color:#c60000">
+                <h3>个人中心</h3>
+            </div>
+            <ul>
+                <li class="per-li1"><a href="{:url('user/usermessage')}">消息中心<span>></span></a></li>
+                <li class="per-li2"><a href="{:url('user/personaldata')}">个人资料<span>></span></a></li>
+                <li class="current-li per-li3"><a href="{:url('user/orderlist')}">我的订单<span>></span></a></li>
+                <li class="per-li5"><a href="{:url('shop/shopcart')}">购物车<span>></span></a></li>
+                <li class="per-li6"><a href="{:url('user/deliveryaddress')}">管理收货地址<span>></span></a></li>
+                <li class="per-li7"><a href="{:url('user/collectgoods')}">宝贝收藏<span>></span></a></li>
+                <li class="per-li10"><a href="{:url('user/usergrade')}">会员积分<span>></span></a></li>
+            </ul>
+        </div>
+    	<div class="f-r">
+            <div class="confirmation" style="margin-top: 20px;">
+            	<div class="in-tit">
+                    <h3>商品信息</h3>
+                </div>
+                {foreach $goods as $v}
+                <div class="commodity" style="border-bottom:1px solid #ccc;">
+                    <div class="matong f-l">
+                        <a href="#"><img src="{$v['goods_id']|get_goods_info='original_img'}" width="130" style="border-radius: 20px;" /></a>
+                    </div>
+                    <div class="com-con f-l">
+                        <h3>{$v['goods_name']}</h3>
+                        <p class="pt">{$v['goods_id']|get_goods_info='goods_remark'|mb_substr=0,50}</p>
+                        <dl>
+                            <dt>规格</dt>
+                            <dd>{$v['spec_key_name']}</dd>
+                            <div style="clear:both;"></div>
+                        </dl>
+                        <dl>
+                            <dt>赠送积分</dt>
+                            <dd><span class="sp1">满赠</span>   {$v['give_integral']}</dd>
+                            <div style="clear:both;"></div>
+                        </dl>
+                        <dl>
+                            <dt>购买数量</dt>
+                            <dd>{$v['goods_num']}</dd>
+                          
+                            <span class="sp2" style="color: #f00;font-size: 17px;">¥588.00</span>
+                            <div style="clear:both;"></div>
+                        </dl>
+                       
+                        {if ($btn['comment_btn'] || $v['is_send'] == 1) && $v['is_comment'] != 1}
+                        <dl>
+                            <button class="layui-btn" onclick="goodscomment({$v['goods_id']},{$v['rec_id']},{$v['order_id']})">
+                                <i class="layui-icon">&#xe600;</i> 去评价
+                            </button>&ensp;&ensp;&ensp;&ensp;
+                        </dl> 
+                        {/if}
+                        {if $v['is_send'] == 2 || $v['is_send'] == 3}
+                        <dl>
+                            <button class="layui-btn layui-btn-disabled" >
+                                <i class="layui-icon">&#xe64f;</i> 已退货/已退款
+                            </button>&ensp;&ensp;&ensp;&ensp;
+                        </dl> 
+                        {/if}
+                       
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                {/foreach}
+            </div>
+            <div class="confirmation">
+            	<div class="in-tit">
+                    <h3>订单信息 </h3>
+                    <span style="float: right;line-height: 44px;margin-right: 20px;font-size: 20px;color: #000">{$res['order_status']|get_order_status=$res['shipping_status'],$res['pay_status']}</span>
+                </div>
+                <div class="odr-cf">
+                	<p>卖家名称：Q-Buy自营商城</p>
+                	<p>收货信息： {$res['province']|get_place_name} {$res['city']|get_place_name} {$res['district']|get_place_name} {$res['twon']|get_place_name} {$res['address']}， {$res['consignee']} , {$res['mobile']} , &ensp;邮政编码:{$res['zipcode']}</p>
+                	<p>下单时间：{$res['add_time']|date="Y-m-d H:i:s",###}</p>
+                    <p>订单号：{$res['order_sn']}</p>
+                    <p>物流名称 : {$res['shipping_name']} &ensp;&ensp;&ensp;&ensp;支付方式 : {$res['pay_name']}</p>
+                	<p>用户备注:{$res['user_note']}</p>
+                    <p>邮费：<span style="color: #f00;font-size: 15px;">+{$res['shipping_price']}</span> &ensp;&ensp;&ensp; 使用优惠卷：<span style="color: #f00;font-size: 15px;">-{$res['coupon_price']}</span> &ensp;&ensp;&ensp; 积分抵扣：<span style="color: #f00;font-size: 15px;">-{$res['integral_money']}</span></p>
+                    <p>订单总价：<span style="color: #f00;font-size: 17px;">{$res['total_amount']}</span> &ensp;&ensp;实付：<span style="color: #f00;font-size: 17px;">{$res['order_amount']}</span></p>
+                </div>
+            </div>
+             <div class="confirmation">
+                <div class="in-tit">
+                    <h3>订单流程 </h3>
+                  
+                </div>
+                <style type="text/css">
+                    #actiontr th{height: 40px;
+                        line-height: 40px;}
+                    #actiontr td{
+                        height:40px;
+                        line-height: 40px;
+                    }
+                </style>
+                <div class="odr-cf">
+                    <table>
+                        <tr id="actiontr">
+                            <th style="width: 200px;">订单状态</th>
+                            <th style="width: 380px;">备注</th>
+                            <th style="width: 280px;">状态时间</th>
+                        </tr> 
+                    {foreach $action as $v}
+                        <tr id="actiontr">
+                            <td style="width: 200px;"><i class="layui-icon" style="color: #5FB878">&#xe617;</i>  {$v['status_desc']}</td>
+                            <td style="width: 380px;">{$v['action_note']}</td>
+                            <td style="width: 280px;">{$v['log_time']|date="Y-m-d H:i:s",###}</td>
+                        </tr>
+                    {/foreach}
+                    </table>
+                </div>
+            </div>
+            <div class="confirmation">
+            	<div class="in-tit">
+                    <h3>用户操作</h3>
+                </div>
+                
+                <div class="odr-sh" style="margin-left: 40px;margin-bottom: 20px;">
+                	<P class="reminder">温馨提示：请收到货后，再确认收货！否则您可能钱货两空！</P>
+                    {if $btn['pay_btn']}
+                        <button class="layui-btn layui-btn-radius layui-btn-primary">去支付</button>
+                    {/if}
+                 
+                    
+                    {if $btn['shipping_btn']}
+                        <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="showshipping({$res['order_id']})">查看物流</button>
+                    {/if}
+                    {if $btn['return_btn']}
+                         <button class="layui-btn layui-btn-radius layui-btn-warm">退货/退款</button>
+                    {/if}
+                      
+                      
+                      
+                     
+              
+                    <!-- <div class="zfb">
+                        <P class="zfmm">支付宝支付密码：</P>
+                        <input type="text" /><input type="text" /><input type="text" /><input type="text" /><input type="text" /><input type="text" style="border-right:1px solid #E5E5E5;"/>
+                        <p class="shuzi">请输入6位数字支付密码</p>
+                        <button class="zfb-btn">确认</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    
+    <script type="text/javascript">
+
+    function goodscomment (goods_id,rec_id,order_id){
+        location.href= "/index.php/index/user/goodscomment?goods_id="+goods_id+"&rec_id="+rec_id+"&order_id="+order_id;
+    }
+
+    function showshipping (order_id)
+    {
+        $.get("{:url('user/showshipping')}",{'order_id':order_id},function (data) {
+             layer.alert(data);
+        });
+    }
+  
+
+    </script>
+  {include file="public/footer"}

@@ -331,10 +331,11 @@ class Order extends Base
 	{
 		$orderid = input('get.id');
 		$order = new OrderModel();
-
+		$shipping = Db::name('shipping')->select();
 		$res = $order->alias('o')->join('qb_order_goods g','g.order_id=o.order_id')->join('qb_goods gg','gg.goods_id=g.goods_id')->field('*,o.goods_price as gpric')->where('g.is_send=0 and o.order_id in ('.$orderid .')')->select();
 		$delivery = Db::name('delivery_doc')->where('order_id='.$orderid)->select();
 		$this->assign([
+				'shipping' => $shipping,
 				'info' => $res,
 				'delivery' => $delivery
 				]);
@@ -349,6 +350,10 @@ class Order extends Base
 		$orderaction = new OrderAction();
 		$ordergoods = new OrderGoods();
 		$data = input('post.');
+		$shipping_id = $data['shipping_id'];
+		$shipping_name = Db::name('shipping')->where('shipping_id='.$shipping_id)->find()['shipping_name']; 
+		$shipping_code = Db::name('shipping')->where('shipping_id='.$shipping_id)->find()['shipping_code']; 
+		Db::name('order')->where('order_id='.$data['order_id'])->update(['shipping_code' => $shipping_code,'shipping_name' => $shipping_name]);
 		if ($data['goodsnum'] == count($data['goods'])) {
 			$shipping_status = 1;
 		} else {
@@ -372,14 +377,16 @@ class Order extends Base
 				'city' => $info->city, 
 				'district' => $info->district, 
 				'address' => $info->address, 
-				'shipping_name' => $info->shipping_name, 
+				'shipping_name' => $shipping_name,
+				'shipping_code' => $shipping_code,
 				'invoice_no' =>$data['invoice_no'], 
 				'note' => $data['note'], 
 				'create_time' => time()
 				]);	
 			$delid = Db::name('delivery_doc')->getLastInsID();
 			$ordergoods->save(['is_send' => 1,'delivery_id' => $delid],['rec_id' => $value]);
-			$orderaction->save(['order_id' => $info->order_id,'shipping_status' =>$shipping_status ,'action_note' => $data['note'],'log_time' => time() ,'status_desc' => '商品发货']);
+			$orderaction->save(['order_id' => $info->order_sn,'shipping_status' =>$shipping_status ,'action_note' => $data['note'],'log_time' => time() ,'status_desc' => '商品发货']);
+			send_user_message('尊敬的客户您好,您的订单'.$info->order_sn.'已经发货,请耐心等待宝贝的到来吧',$uid);
 			$this->setAdminLog($info->order_id.'订单发货');
 			$this->success('发货成功',url('order/waitorder'));
 		}
@@ -420,8 +427,11 @@ class Order extends Base
     public function dealReturnOrder ()
     {
     	$data= input('post.');
+    	$info = Db::name('return_goods')->where('id='.$data['id'])->field('user_id,order_sn,order_id')->find();
     	$result = Db::name('return_goods')->update($data);
+    	send_user_message('尊敬的客户您好,您申请的退款/退货订单'.$info['order_sn'].'已经被处理,快去查看吧<br /><a href="'.url('index/user/orderinfo',['order_id' => $info['order_id']]).'" style="color:#f00;font-size:20px;margin-left:50px;">戳我~查看订单</a>',$info['user_id']);
     	$this->success('修改成功',url('order/returnorder'));
+    	
     }
 
     //进行金额的退款

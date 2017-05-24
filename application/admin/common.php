@@ -24,16 +24,7 @@ function get_admin_name_by_id ($uid)
 	
 }
 
-//根据用户的id找到用户的名字
-function get_username_by_id ($uid)
-{
-	if (!empty($uid)) {
-		return Db::name('user')->where('user_id='.$uid)->find()['username'];		
-	} else {
-		return 'null -> common';
-	}
-	
-}
+
 
 //根据商品的id找到商品的名字
 function get_goods_name_by_id ($uid)

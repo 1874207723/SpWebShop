@@ -50,7 +50,13 @@
                 </div>
                 {foreach $list as $k => $v}
                 <p style="padding-left: 20px;color: #358;" >
-                    <span>{$v['add_time']|date="Y-m-d H:i:s",###} &ensp;&ensp;<font>{$arr[$k]}</font> &ensp;&ensp;订单号：{$v['order_sn']}</span><span style="float: right;margin-right: 50px;color: #f00; font-size: 17px;">￥{$v['order_amount']}</span></p>
+                    <span>
+                    {$v['add_time']|date="Y-m-d H:i:s",###} &ensp;&ensp;
+                    <font>{if $v['pay_code'] == 'cod'}<font color=#00f>货到付款</font>&ensp;&ensp;{/if}</font> &ensp;&ensp;
+                    订单号：<a href="{:url('user/orderinfo',['order_id' => $v['order_id']])}" style="color: #000;font-size: 14px;">{$v['order_sn']}</a>
+                    <span style="margin-left: 40px;font-size: 14px;color: #229;">{$arr[$k]}</span>
+                    </span><span style="float: right;margin-right: 50px;color: #f00; font-size: 17px;">￥{$v['order_amount']}</span>
+                </p>
                   {foreach $goods as $s}
                     {if $s['order_id'] == $v['order_id']}
                     <div class="md-info">
@@ -64,7 +70,7 @@
                                 <div style="clear:both;"></div>
                             </dt>
                             <dd>
-                                <p style="font-size: 13px;"><a href="{:url('index/shop/details',['goodsid'=>$s['goods_id']])}">{$s['goods_name']}</a></p>
+                                <p style="font-size: 13px;"><a href="{:url('index/shop/details',['goodsid'=>$s['goods_id']])} " target="_blank">{$s['goods_name']}</a></p>
                                 <span>X {$s['goods_num']}</span>
                             </dd>
                             <div style="clear:both;"></div>
@@ -74,13 +80,17 @@
                             <p class="d-r-p2">¥ {$s['member_goods_price']}</p>
                             <p class="d-r-p3">¥ {$s['member_goods_price']*$s['goods_num']}</p>
                             {if $arr[$k] == '未付款'}
-                            <p class="d-r-p4"><a href="#">移入收藏夹</a><br /><a href="#">删除</a><br /><a href="#">付款</a></p>
+                            <p class="d-r-p4"><br /><a href="{:url('user/orderpay',['order_id' => $s['order_id']])}" >付款</a><br/><a href="javascript:;" onclick="collectgoods({$s['goods_id']})">移入收藏夹</a></p>
+                            {elseif $arr[$k] == '待收货'}
+                            <p class="d-r-p4"><br /><a href="JavaScript:;" onclick="showshipping({$s['order_id']})" ckwl="">查看物流</a><br /><a href="javascript:;" onclick="trueshipping({$s['goods_id']},{$s['rec_id']},{$s['order_id']})">确认收货</a><br /><br/><a href="javascript:;" onclick="collectgoods({$s['goods_id']})">移入收藏夹</a></p>
+                            {elseif $arr[$k] == '已完成'}
+                            <p class="d-r-p4"><br /><a href="JavaScript:;" onclick="showshipping({$s['order_id']})" ckwl="">查看物流</a><br/><a href="javascript:;" onclick="collectgoods({$s['goods_id']})">移入收藏夹</a></p>  
                             {elseif $arr[$k] == '待发货'}
-                            <p class="d-r-p4"><a href="#">移入收藏夹</a><br /><a href="#">删除</a><br /><a href="#">确认收货</a><br /><a href="JavaScript:;" ckwl="">查看物流</a></p>    
+                             <p class="d-r-p4"><br /><a href="javascript:;" onclick="collectgoods({$s['goods_id']})">移入收藏夹</a></p>
                             {elseif $arr[$k] == '待评价'}
-                                 <p class="d-r-p4"><a href="#">移入收藏夹</a><br /><a href="#">删除</a><br /><a href="#">确认收货</a><br /><a href="JavaScript:;" ckwl="">去评价</a></p>   
+                                 <p class="d-r-p4"><br /><a href="JavaScript:;" onclick="showshipping({$s['order_id']})" ckwl="">查看物流</a><br /><a href="/index.php/index/user/goodscomment?goods_id={$s['goods_id']}&rec_id={$s['rec_id']}&order_id={$s['order_id']}" ckwl="">去评价</a><br/><br/><a href="javascript:;" onclick="collectgoods({$s['goods_id']})">移入收藏夹</a></p>   
                             {else}
-                                <p class="d-r-p4" style="margin-top:20px;"><a href="#">移入收藏夹</a><br /><a href="#">删除</a></p>
+                                <p class="d-r-p4" style="margin-top:20px;"><br /><a href="javascript:;" onclick="collectgoods({$s['goods_id']})">移入收藏夹</a><br /></p>
                             {/if}
                         </div>
 
@@ -110,5 +120,45 @@
         </div>
         <div style="clear:both;"></div>
     </div>
+    <script type="text/javascript">
+    layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        function trueshipping (gid,rid,oid)
+        {
+            
+            layer.prompt({title: '请您输入登陆密码', formType: 1}, function(text, index){
+                $.post("{:url('user/trueshipping')}",{'gid':gid,'rid':rid,'oid':oid,'psd':text},function (data) {
+                    if (data == 1) {
+                        layer.msg('收货成功,评价还有积分奖励呦~',{'time':2000},function () {
+                             location.reload();
+                        });
+                       
+                    } else {
+                        layer.alert(data,{'icon':5},function () {
+                            layer.closeAll();
+                        });
+                    }
+                });
+            });
+        }
 
+    function collectgoods (id)
+    {
+        $.get('{:url("user/setgoodscollect")}',{'id':id},function (data) {
+            if (data == 1) {
+                layer.msg('移动到收藏夹成功',{'icon':6,'time':1200});
+            } else {
+                layer.msg(data,{'icon':5,'time':1200});
+            }
+        });
+    }
+
+    function showshipping (order_id)
+    {
+        $.get("{:url('user/showshipping')}",{'order_id':order_id},function (data) {
+             layer.alert(data);
+        });
+    }
+    </script>
 {include file="public/footer"}

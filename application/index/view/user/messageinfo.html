@@ -1,0 +1,43 @@
+
+{include file="public/link1" title='消息查看'}
+    <!--内容开始-->
+    <div class="personal w1200">
+        <div class="personal-left f-l" style="margin-top:20px;">
+            <div class="personal-l-tit" style="background-color:#c60000">
+                <h3>个人中心</h3>
+            </div>
+            <ul>
+                <li class="current-li per-li1"><a href="{:url('user/usermessage')}">消息中心<span>></span></a></li>
+                <li class="per-li2"><a href="{:url('user/personaldata')}">个人资料<span>></span></a></li>
+                <li class="per-li3"><a href="{:url('user/orderlist')}">我的订单<span>></span></a></li>
+                <li class="per-li5"><a href="{:url('shop/shopcart')}">购物车<span>></span></a></li>
+                <li class="per-li6"><a href="{:url('user/deliveryaddress')}">管理收货地址<span>></span></a></li>
+                <li class="per-li7"><a href="{:url('user/collectgoods')}">宝贝收藏<span>></span></a></li>
+                <li class="per-li10"><a href="{:url('user/usergrade')}">会员积分<span>></span></a></li>
+            </ul>
+        </div>
+    	<div class="personal-r f-r">
+        	<div class="personal-right" style="margin-top: 20px;">
+                <div class="personal-r-tit">
+                    <h3>{if $info['category'] == 1}活动消息{else}系统消息{/if}</h3>
+                </div>
+                <div class="pcm-con">
+                	<div class="pcm-top">
+                    	<h2>{if $info['category'] == 1}活动消息{else}系统消息{/if}</h2>
+                        <p class="time">{$info['send_time']|date="Y-m-d H:i:s",###}</p>
+                        <p class="rq">
+                           
+                            <span>来源： Q-Buy快购官方</span>
+                        </p>
+                    </div>
+                    <div class="pcm-info" style="margin-top: 30px;">
+                    	<p>{$info['message']}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    
+
+{include file="public/footer"}

@@ -281,10 +281,164 @@ class User extends Base
         return $this->fetch();
     }
 
+    //订单详情页面展示
+    public function orderInfo()
+    {
+        $order_id = input()['order_id'];
+        $list = Db::name('order')->where('order_id='.$order_id)->find();
+        $goods = Db::name('order')->alias('o')->join('qb_order_goods g','g.order_id=o.order_id')->where('o.order_id='.$order_id)->select();
+        $action = Db::name('order_action')->order('action_id desc')->where('order_id='.$order_id)->select();
+        $btn = order_btn($list['order_id']);
+        $this->assign([
+                'action' => $action,
+                'btn' => $btn,
+                'title' => '订单查看',
+                'res' => $list,
+                'goods' => $goods
+            ]);
+        return $this->fetch();
+    }
+
+    //商品评价页面
+    public function goodsComment ()
+    {
+        $goods_id = input('get.goods_id');
+        $rec_id = input('get.rec_id');
+        $order_id = input('get.order_id');
+
+         $count = Db::name('comment')->where('goods_id='.$goods_id)->count();
+         $level = Db::name('comment')->where('goods_id='.$goods_id)->sum('goods_rank');
+         $pingfen = round($level/$count,2);
+        $res = Db::name('order_goods')->alias('o')->join('qb_goods g','g.goods_id=o.goods_id')->where('o.rec_id='.$rec_id)->find();
+
+        $othergoods = Db::name('goods')->field('goods_id,goods_name,original_img')->where('brand_id='.$res['brand_id'].' or cat_id='.$res['cat_id'])->limit(5)->select();
+        $this->assign(['order_id'=> $order_id, 'goods_id' => $goods_id,'rec_id' => $rec_id,'other' => $othergoods,'pingfen' => $pingfen,'res' => $res,'title' => '商品评价']);
+        return $this->fetch();
+    }
+
+    //对商品评价进行添加
+    public function dealComment ()
+    {
+        $data = input('post.');
+        $files = request()->file('img');
+        $uid = session('userInfo')['id'];
+        $username = get_username_by_id($uid);
+        $logo_img = '';
+        $is_com = Db::name('order_goods')->where('rec_id='.$data['rec_id'])->find()['is_comment'];
+        if ($is_com == 1) {
+            return '您已经评价过此订单了哦~';
+        }
+        if (!empty($files)) {
+             foreach($files as $file){
+                // 移动到框架应用根目录/public/uploads/ 目录下
+                $info = $file->validate(['size'=>15678,'ext'=>'jpeg,jpg,png,gif'])->move('./static/uploads/comment/'.$data['goods_id']);
+                if($info){
+                     $logo_img .= WEB_PATH.'/static/uploads/comment/'.$data['goods_id'].'/'.$info->getSaveName().'|';
+                }else{
+                    // 上传失败获取错误信息
+                    echo $file->getError();
+                }    
+            }
+        }
+       
+        $result = Db::name('comment')->insert([
+                'goods_id' => $data['goods_id'],
+                'username' => $username,
+                'content' => $data['content'],
+                'deliver_rank' => $data['deliver_rank'],
+                'goods_rank' => $data['goods_rank'],
+                'service_rank' => $data['service_rank'],
+                'order_id' => $data['order_id'],
+                'add_time' => time(),
+                'ip_address' => request()->ip(),
+                'is_show' => 1,
+                'user_id' => $uid,
+                'img' => $logo_img
+            ]);
+        Db::name('order_goods')->where('rec_id='.$data['rec_id'])->update(['is_comment' => 1]);
+        Db::name('goods')->where('goods_id='.$data['goods_id'])->setInc('comment_count');
+        $res = Db::name('order_goods')->where('order_id='.$data['order_id'].' and is_comment=0 and is_send=1')->find();
+        if (empty($res)) {
+            Db::name('order')->where('order_id='.$data['order_id'])->update(['order_status'=>4,'confirm_time' => time()]);
+        }
+        Db::name('order_action')->insert([
+                'order_id' => $data['order_id'],
+                'action_user' => $uid,
+                'action_note' => '您对商品进行了评价',
+                'log_time' => time(),
+                'status_desc' => '评价商品'
+                ]);
+        $give_grade = get_goods_info_by_id($data['goods_id'],'give_integral');
+        $user_grade = Db::name('user')->where('user_id='.$uid)->find()['grade'];
+        Db::name('user')->where('user_id='.$uid)->update(['grade' => $user_grade+$give_grade]);
+        return $result;
+
+    }
+
+
+    //移动商品到收藏夹
+    public function setGoodsCollect ()
+    {
+        $goods_id = input('get.id');
+        $uid = session('userInfo')['id'];
+        $check = Db::name('goods_collect')->where(['user_id' => $uid,'goods_id' => $goods_id])->find();
+        if (empty($check)) {
+            $res = Db::name('goods_collect')->insert(['user_id' => $uid,'goods_id' => $goods_id,'add_time' => time()]);
+            return $res;
+        }
+        return '你已经收藏了该商品..';
+    }
+
+    //商品确认收货
+    public function trueShipping ()
+    {
+        $psd = md5(input('post.psd'));
+        $goods_id = input('post.gid');
+        $rec_id = input('post.rid');
+        $order_id = input('post.oid');
+        $check = Db::name('user')->where(['mobile' => session('userInfo')['mobile'],'password' => $psd])->select();
+        if (empty($check)) {
+            return '你输入的密码不正确';
+        }
+        $res = Db::name('order')->where('order_id='.$order_id)->update(['order_status' => 2,'confirm_time' => time()]);
+        Db::name('order_action')->insert([
+                'order_id' => $order_id,
+                'action_user' => session('userInfo')['id'],
+                'action_note' => '订单已经被收货',
+                'log_time' => time(),
+                'status_desc' => '订单收货'
+                ]);
+        if ($res == 0) {
+            return '你已经收货过了,请不要重复';
+        }
+        return 1;
+    }
+
+    //展示商品的物流的信息
+    public function showshipping ()
+    {
+        $order_id = input('order_id');
+        $delivery = Db::name('order_goods')->where('order_id='.$order_id)->column('delivery_id');
+        $res = Db::name('delivery_doc')->where('id in('.join(',',$delivery).')' )->select();
+        $str = '';
+        if (empty($res)) {
+            return "<p>对不起~暂无物流信息</p>";
+        }
+        foreach ($res as $key => $value) {
+            $time = date('Y-m-d H:i:s',$value['create_time']);
+            $str .= '<p style="margin-top:20px;">第:'.($key+1).'件商品</p>';
+            $str .= '<p>发货单号:'.$value['invoice_no'].'</p>';
+            $str .= '<p>快递名称:'.$value['shipping_name'].'</p>';
+            $str .= '<p>发货时间:'.$time.'</p>';
+        }
+        return $str;
+    }
+
     //商品收藏
     public function collectGoods ()
     {
         $uid = session('userInfo')['id'];
+
         $res = Db::name('goods_collect')->alias('c')->join('qb_goods g','g.goods_id=c.goods_id')->where('user_id='.$uid)->paginate(16);
         $count = Db::name('goods_collect')->where('user_id='.$uid)->count();
         $this->assign(['res' => $res,'title'=>'我的收藏宝贝','count'=>$count]);
@@ -321,6 +475,7 @@ class User extends Base
         if ($lastsign + 60*60*23 <= time()) {
             $res = Db::name('user')->where('user_id='.$uid)->update(['sign_time' => time(),'grade' => 'grade+5']);
             Db::name('user')->where('user_id='.$uid)->setInc('grade', $grade+5);
+            send_user_message('您好,今天签到得了5积分哦~',$uid);
             return $res;
         } else {
             return false;
@@ -330,8 +485,150 @@ class User extends Base
     //查看用户收到的消息
     public function userMessage ()
     {
+        $uid = session('userInfo')['id'];
+       $res = Db::name('message')->where('user_id',$uid)->paginate(15);
+        $this->assign(['title' => '个人消息','res' => $res]);
         return $this->fetch();
     }
+
+    //消息查看
+    public function messageInfo ()
+    {
+        $id = input()['id'];
+        $info = Db::name('message')->where('message_id='.$id)->find();
+        Db::name('message')->update(['is_read' => 1,'message_id' => $id]);
+        $this->assign(['info' => $info,'title' => '消息查看']);
+        return $this->fetch();
+    }
+
+
+
+
+    //支付界面的展示
+    public function orderPay ()
+    {
+        $order_id  = input()['order_id'];
+        $uid = session('userInfo')['id'];
+        $res = Db::name('order')->where(['order_id' => $order_id,'pay_status' => 0])->find();
+        if (empty($res)) {
+            $this->redirect('user/personaldata');
+        }
+        $goods = Db::name('order')->alias('o')->join('qb_order_goods g','g.order_id=o.order_id')->where('o.order_id='.$order_id)->select();
+        $token = md5($order_id.$uid).date('YmdHis',time());
+        $this->assign(['token' => $token,'res' => $res ,'goods' => $goods ,'title' => 'QBUY支付']);
+        return $this->fetch();
+    }
+
+    //取消订单
+    public function quxiaoOrder ()
+    {
+        $order_id = input('get.order_id');
+        $res = Db::name('order')->where('order_id='.$order_id)->update(['order_status' => 3]);
+        Db::name('order_action')->insert([
+                'order_id' => $order_id,
+                'action_user' => session('userInfo')['id'],
+                'action_note' => '用户取消订单',
+                'log_time' => time(),
+                'status_desc' => '订单取消'
+                ]);
+        $this->redirect('user/personaldata');
+    }
+
+    //处理用户订单的 货到付款
+    public function shippingCodOrder ()
+    {
+        $order_id = input('get.order_id');
+        Db::name('order')->where('order_id='.$order_id)->update([
+                'order_status' => 1,
+                'shipping_status' => 0,
+                'pay_status' => 1,
+                'pay_code' => 'cod',
+                'pay_name' => '货到付款',
+                'pay_time' => time()     
+            ]);
+        Db::name('order_action')->insert([
+                'order_id' => $order_id,
+                'action_user' => session('userInfo')['id'],
+                'action_note' => '用户货到付款',
+                'log_time' => time(),
+                'status_desc' => '订单付款（到货）'
+                ]);
+        $this->redirect('/index.php/index/user/paysuccess?order_id='.$order_id);
+    }
+
+    //用户支付成功的页面
+    public function paySuccess ()
+    {
+        if (empty(input('get.order_id'))) {
+           $this->redirect('index/index');
+        }
+        $order_id = input('get.order_id');
+         $othergoods = Db::name('goods')->field('goods_id,goods_name,original_img')->where('is_on_sale=1 and is_recommend=1')->order('sort,goods_id desc')->limit(6)->select();
+        $this->assign(['order_id' => $order_id,'other' => $othergoods,'title' => 'QBUY快购']);
+        return $this->fetch();
+    }
+
+    //提示用户假面
+    public function noticePay ()
+    {
+         $order_id = input('get.order_id');
+        $this->assign(['title' => '注意']);
+        return $this->fetch();
+    }
+
+    public function showPayHtml ()
+    {
+        if (!empty(input('post.'))) {
+            $data = input('post.');
+            $time = substr($data['token'],32);
+            $token = substr($data['token'],0,32);
+            $md = md5($data['order_id'].session('userInfo')['id']);
+            if ($md != $token || $time+30*60 <= date('YmdHis',time())) {
+                $this->error('很抱歉支付失败,原因：超时或非法操作,请您到个人中心订单页面查找订单进行付款');
+            }
+            $res=  Db::name('user')->where(['mobile' => $data['mobile'],'password' => md5($data['password'])])->find();
+            if (empty($res)) {
+                $order_id = $data['order_id'];
+                $token = $data['token'];
+                $res = Db::name('order')->where('order_id='.$order_id)->find();
+                $this->assign(['error' => '手机号密码错误','token' => $token,'res' => $res]);
+                return $this->fetch();die;
+            }
+            $res = Db::name('order')->where('order_id='.$data['order_id'])->update([
+                        'pay_status' => 1,
+                        'order_status' => 1,
+                        'pay_time' => time()
+                ]);
+            Db::name('order_action')->insert([
+                'order_id' => $data['order_id'],
+                'action_user' => session('userInfo')['id'],
+                'action_note' => '用户付款',
+                'log_time' => time(),
+                'status_desc' => '订单付款'
+                ]);
+
+            echo '<script>window.close();</script>'; 
+        } else {
+            $order_id = input('get.order_id');
+            $token = input('get.token');
+            $res = Db::name('order')->where('order_id='.$order_id)->find();
+            $this->assign(['token' => $token,'res' => $res]);
+            return $this->fetch();
+        }
+    }
+
+    //使用ajax每隔2s去调用这个方法查看订单是不是付款了
+    public function checkOrderIsPay ()
+    {
+        $order_id = input('get.order_id');
+        $res = Db::name('order')->where('order_id='.$order_id)->find()['pay_status'];
+        if ($res == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 
 }
 

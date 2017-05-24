@@ -21,9 +21,27 @@ function get_place_name ($id)
 	return Db::name('region')->where('id='.$id)->find()['name'];
 }
 
+//给用户推送系统消息
+function send_user_message ($msg,$uid)
+{
+    Db::name('message')->insert([
+        'message' => $msg,
+        'user_id' => $uid,
+        'send_time' => time(),
+        'is_read' => 0
+        ]);
+}
 
-
-
+//根据用户的id找到用户的名字
+function get_username_by_id ($uid)
+{
+    if (!empty($uid)) {
+        return Db::name('user')->where('user_id='.$uid)->find()['username'];        
+    } else {
+        return 'null -> common';
+    }
+    
+}
 
 /**
  * 获取用户信息
@@ -48,7 +66,20 @@ function get_user_info($user_id_or_name,$type = 0,$oauth=''){
     	$map['unionid'] = $user_id_or_name;
     	$map['oauth'] = $oauth;
     }
-    $user = M('users')->where($map)->find();
+    $user = Db::name('user')->where($map)->find();
+    return $user;
+}
+
+/**
+ * 获取商品信息
+ * @param $user_id_or_name  商品id 邮箱 手机 第三方id
+ * @param int $type  类型 0 user_id查找 1 邮箱查找 2 手机查找 3 第三方唯一标识查找
+ * @param string $oauth  第三方来源
+ * @return mixed
+ */
+function get_goods_info($goods_id,$field = 'goods_name'){
+
+    $user = Db::name('goods')->where('goods_id='.$goods_id)->find()[$field];
     return $user;
 }
 

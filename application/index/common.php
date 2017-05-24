@@ -4,7 +4,13 @@
 
 use think\Db;
 
-
+/**
+ * 获得订单的状态的名称
+ * @param  [type] $order    [order_status]
+ * @param  [type] $shipping [shipping_status]
+ * @param  [type] $pay      [pay_status]
+ * @return [type]           [description]
+ */
 function get_order_status ($order,$shipping,$pay) 
 {
 	if ($order == 3) {
@@ -13,13 +19,16 @@ function get_order_status ($order,$shipping,$pay)
 		return '已完成';
 	} elseif ($order == 5) {
 		return '已作废';
-	}
+	}elseif ($order == 6) {
+        return '已退货退款';
+    }
 	$arr = [
 		'000' => '未付款',
-		'101' => '待发货',
+        '101' => '待发货',
+		'100' => '未付款',
 		'111' => '待收货',
 		'211' => '待评价',
-		'121' => '待收货',
+		'121' => '部分发货',
 	];
 	if (!empty($arr[$order.$shipping.$pay])){
 		return $arr[$order.$shipping.$pay];
@@ -36,10 +45,10 @@ function get_order_status ($order,$shipping,$pay)
  * @param type $order     订单数组
  * @return array()
  */
-function orderBtn($order_id = 0, $order = array())
+function order_btn($order_id = 0, $order = array())
 {
     if(empty($order)) {
-        $order = M('Order')->where("order_id", $order_id)->find();
+        $order =Db::name('order')->where("order_id", $order_id)->find();
     }
     /**
      *  订单用户端显示按钮
@@ -75,7 +84,7 @@ function orderBtn($order_id = 0, $order = array())
     // 非货到付款
     else
     {
-        if($order['pay_status'] == 0 && $order['order_status'] == 0) // 待支付
+        if($order['pay_status'] == 0 && ($order['order_status'] == 1 || $order['order_status'] == 0)) // 待支付
         {
             $btn_arr['pay_btn'] = 1; // 去支付按钮
             $btn_arr['cancel_btn'] = 1; // 取消按钮
@@ -111,4 +120,9 @@ function orderBtn($order_id = 0, $order = array())
 //根据商品id找到对应的信息
 function get_goodsinfo_by_id ($id){
 	return Db::name('goods')->where('goods_id='.$id)->field('original_img')->find()['original_img'];
+}
+
+//根据商品id找到对应的信息
+function get_goods_info_by_id ($id,$info){
+    return Db::name('goods')->where('goods_id='.$id)->find()[$info];
 }

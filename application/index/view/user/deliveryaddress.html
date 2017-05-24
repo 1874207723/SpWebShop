@@ -32,7 +32,7 @@
                             <div class="dz-left f-l">
                                 <select id="place1" name="province">
                                     {foreach $region as $value}
-                                        <option index="{$value.id}">{$value.name}</option>
+                                        <option index="{$value.id}" value="{$value.id}">{$value.name}</option>
                                     {/foreach}
                                 </select>
                                 <select id="place2" name="city">
@@ -90,8 +90,8 @@
                     <ul class="man-ul1">
                         {foreach $address as $value2}
                     	<li id="{$value2.address_id}">
-                        	<p class="p1">{$value2.consignee}</p>
-                        	<p class="p2">{$value2.province}{$value2.city}{$value2.district}{$value2.twon}</p>
+                        	<p class="p1">{$value2.consignee|send_user_message}</p>
+                        	<p class="p2">{$value2.province|send_user_message}{$value2.city|send_user_message}{$value2.district|send_user_message}{$value2.twon|send_user_message}</p>
                         	<p class="p3">{$value2.address}</p>
                         	<p class="p4">{$value2.zipcode}</p>
                         	<p class="p5">{$value2.mobile}</p>
@@ -171,7 +171,7 @@
         {
             $('#place2').empty();
             for (var number in data) {
-                $('#place2').append('<option index=' + data[number].id + '>' + data[number].name + '</option>');
+                $('#place2').append('<option index=' + data[number].id + ' value="'+data[number].id+'">' + data[number].name + '</option>');
             }
         }
         change2();
@@ -193,7 +193,7 @@
         {
             $('#place3').empty();
             for (var number in data) {
-                $('#place3').append('<option index=' + data[number].id + '>' + data[number].name + '</option>');
+                $('#place3').append('<option index=' + data[number].id + ' value="'+data[number].id+'">' + data[number].name + '</option>');
             }
         }
         change3();
@@ -215,7 +215,7 @@
         {
             $('#place4').empty();
             for (var number in data) {
-                $('#place4').append('<option index=' + data[number].id + '>' + data[number].name + '</option>');
+                $('#place4').append('<option index=' + data[number].id + ' value="'+data[number].id+'">' + data[number].name + '</option>');
             }
         }
     }

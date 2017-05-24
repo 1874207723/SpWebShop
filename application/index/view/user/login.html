@@ -135,15 +135,17 @@
 					if (data == 'null') {
 						$("#phone").html("手机号与密码不匹配");
 					} else {
-						var pdtlist = cart.getproductlist();
-						console.log(pdtlist);
-						if (pdtlist.length > 0) {
-							alert('1234');
-							$.post("{:url('shop/addCart')}", {'shoplist' : pdtlist} );
+						if (utils.getParam("ShoppingCart") != null) {
+							var pdtlist = cart.getproductlist();
+							console.log(pdtlist);
+							if (pdtlist.length > 0) {
+								alert('1234');
+								$.post("{:url('shop/addCart')}", {'shoplist' : pdtlist} );
 
-							//添加购物车数据后，清空未登录状态的数据。
-							for (var p in pdtlist) {
-								cart.deleteproduct(pdtlist[p]['id'],pdtlist[p]['spec']);
+								//添加购物车数据后，清空未登录状态的数据。
+								for (var p in pdtlist) {
+									cart.deleteproduct(pdtlist[p]['id'],pdtlist[p]['spec']);
+								}
 							}
 						}
 						window.location.href="{:url('index/index')}";

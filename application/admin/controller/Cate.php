@@ -59,7 +59,17 @@ class Cate extends Base
 	{
 		$goods = new Goods();
 		$id = input('get.id');
-		$result = $goods->field('goods_id,cat_id,goods_sn,store_count,goods_name,market_price,shop_price,is_recommend,is_on_sale,is_hot,is_new,on_time,last_update')->where('cat_id='.$id )->order('sort','asc')->paginate(25);
+		$result = $goods->field('goods_id,cat_id,goods_sn,store_count,goods_name,market_price,shop_price,is_recommend,is_on_sale,is_hot,is_new,on_time,last_update')->where('cat_id='.$id )->order('sort','asc')->paginate(50);
+		$user = Goods::find(1);
+		return json($result);
+	}
+
+	//接受ajax的搜索商品的请求 遍历商品的列表
+	public function getSearchGoods ()
+	{
+		$goods = new Goods();
+		$name = input('get.name');
+		$result = $goods->field('goods_id,cat_id,goods_sn,store_count,goods_name,market_price,shop_price,is_recommend,is_on_sale,is_hot,is_new,on_time,last_update')->where('goods_name like "%'.$name.'%"' )->order('sort','asc')->paginate(50);
 		$user = Goods::find(1);
 		return json($result);
 	}

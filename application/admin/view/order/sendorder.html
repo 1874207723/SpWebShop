@@ -205,7 +205,11 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
 		            <dt>下单时间:&ensp;</dt>
 		            <dd>{$info[0]->add_time}</dd>
 		            <dt>配送方式&ensp;</dt>
-		            <dd>{$info[0]->shipping_name}</dd>
+		            <dd><select name="shipping_id">
+                    {foreach $shipping as $v}
+                      <option value="shipping_id">{$v['shipping_name']}</option>
+                    {/foreach}
+                </select></dd>
 		          </dl>
 	              <dl>
 	              	<dt>配送费用&ensp;</dt>

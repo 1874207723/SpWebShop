@@ -1,0 +1,48 @@
+{include file="public/link1" title='我的订单'}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/assets/layui/css/layui.css">
+<script src="__STATIC__/admin/assets/layui/layui.js"></script>
+    <!--内容开始-->
+    <div class="payment w1200" style="margin-top: 30px;">
+    	<div class="payment-hd">
+        	<p style="font-size: 25px;color: #5FB878"><i class="layui-icon" style="font-size: 28px;">&#x1005;</i> 订单支付成功</p>   
+        </div>
+        <div class="payment-bd">
+        	<dl class="dl-hd">
+            	<dt><a href="#"><img src="__STATIC__/images/kuaigou.png" width="120" /></a></dt>
+                <dd>
+                	<h1><span style="font-size: 20px;color: #000;">订单提交成功,感谢您的购买,您可以继续购物,我们会尽快为您发货</span></h1>
+                    <P style="margin-top: 30px;color: #000;">分享Q-BUY走一走,不迷路<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_huaban" data-cmd="huaban" title="分享到花瓣"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"share":{},"image":{"viewList":["qzone","tsina","sqq","tieba","weixin","huaban","copy"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","sqq","tieba","weixin","huaban","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></P>
+                </dd>
+                <div style="clear:both;"></div>
+            </dl>
+           
+        </div>
+
+         <div class="payment-bd">
+            <dl class="dl-hd">
+                <dt></dt>
+                <dd>
+                    <h1><span style="font-size: 20px;color: #000;">您可能对以下的商品还感兴趣~</span></h1>
+                    <div  style="margin-top: 30px;">
+                    {foreach $other as $v}
+                        <img src="{$v['original_img']}" title="{$v['goods_name']}" width="120" />&ensp;&ensp;
+
+                    {/foreach}
+                    </div>
+                </dd>
+                
+            </dl>
+           
+        </div>
+        <div class="payment-ft" style="margin-top: 200px;">
+        	<button class="btn2" onclick="gotoorderinfo({$order_id})">我的订单</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+            function gotoorderinfo (id){
+                location.href='/index.php/index/user/orderInfo/order_id/'+id;
+            }
+    </script>
+  {include file="public/footer"}
